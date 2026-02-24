@@ -3,12 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Картоходец v0.007</title>
+<title>Картоходец v0.008</title>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;900&family=Crimson+Pro:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
 <style>
 :root{--gold:#c8a96e;--gold-b:#f0d080;--gold-d:#8a6a2e;--blood:#8b1a1a;--blood-b:#c0392b;--bg0:#0a0806;--bg1:#110e09;--bg2:#1a1510;--bg3:#1f1912;--bg4:#241d14;--brd:#3a2e1e;--brd-g:#5a4a2a;--txt:#d4c4a0;--txt-d:#8a7a60;--txt-b:#f0e0b0;--mag:#8888ff;--rare:#f0d060;--uniq:#cc6820;--norm:#b0b0b0;--grn:#4a9a4a;--cyn:#4ab0b0;--red:#c03030;--org:#cc7700;}
 *{margin:0;padding:0;box-sizing:border-box;}
-body{background:var(--bg0);color:var(--txt);font-family:'Crimson Pro',Georgia,serif;font-size:14px;min-height:100vh;overflow-x:hidden;}
+body{background:var(--bg0);color:var(--txt);font-family:'Crimson Pro',Georgia,serif;font-size:16px;font-weight:400;min-height:100vh;overflow-x:hidden;}
 body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;background:radial-gradient(ellipse 80% 50% at 50% 0%,rgba(100,60,10,.15) 0%,transparent 70%);}
 #app{position:relative;z-index:1;max-width:1440px;margin:0 auto;padding:8px;}
 header{text-align:center;padding:12px 0 8px;border-bottom:1px solid var(--brd-g);margin-bottom:10px;position:relative;}
@@ -17,25 +17,25 @@ h1{font-family:'Cinzel',serif;font-size:22px;font-weight:900;color:var(--gold);t
 .ver{font-size:10px;color:var(--gold-d);border:1px solid var(--gold-d);padding:2px 6px;letter-spacing:2px;font-weight:400;}
 .sub{font-size:10px;color:var(--txt-d);letter-spacing:2px;margin-top:2px;font-style:italic;}
 #res-bar{display:flex;gap:5px;margin-bottom:8px;flex-wrap:wrap;}
-.ri{background:var(--bg3);border:1px solid var(--brd);padding:4px 10px;display:flex;align-items:center;gap:6px;font-family:'Cinzel',serif;font-size:11px;clip-path:polygon(6px 0,100% 0,calc(100% - 6px) 100%,0 100%);}
-.ri-ico{font-size:14px;}.ri-lbl{color:var(--txt-d);font-size:8px;letter-spacing:1px;display:block;}.ri-val{color:var(--gold);font-weight:600;}
+.ri{background:var(--bg3);border:1px solid var(--brd);padding:4px 10px;display:flex;align-items:center;gap:6px;font-family:'Cinzel',serif;font-size:13px;clip-path:polygon(6px 0,100% 0,calc(100% - 6px) 100%,0 100%);}
+.ri-ico{font-size:17px;}.ri-lbl{color:var(--txt-d);font-size:11px;letter-spacing:1px;display:block;}.ri-val{color:var(--gold);font-weight:600;}
 #atlas-bar{background:var(--bg3);border:1px solid var(--brd-g);padding:5px 12px;margin-bottom:8px;display:flex;align-items:center;gap:8px;font-size:11px;flex-wrap:wrap;}
-.pt-lbl{font-family:'Cinzel',serif;color:var(--gold-d);letter-spacing:1px;font-size:9px;white-space:nowrap;}
+.pt-lbl{font-family:'Cinzel',serif;color:var(--gold-d);letter-spacing:1px;font-size:11px;white-space:nowrap;}
 .pt-tiers{display:flex;gap:2px;flex-wrap:wrap;}
 .pt-t{width:16px;height:10px;background:var(--bg2);border:1px solid var(--brd);font-size:7px;display:flex;align-items:center;justify-content:center;color:var(--txt-d);}
 .pt-t.done{background:var(--gold-d);border-color:var(--gold);color:var(--bg0);}
 #layout{display:grid;grid-template-columns:310px 1fr 285px;gap:8px;align-items:start;}
 .panel{background:var(--bg3);border:1px solid var(--brd);padding:10px;position:relative;}
 .panel::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold-d),transparent);}
-.ptitle{font-family:'Cinzel',serif;font-size:11px;color:var(--gold);letter-spacing:2px;margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid var(--brd);display:flex;align-items:center;justify-content:space-between;gap:6px;}
+.ptitle{font-family:'Cinzel',serif;font-size:13px;color:var(--gold);letter-spacing:2px;margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid var(--brd);display:flex;align-items:center;justify-content:space-between;gap:6px;}
 .tabs{display:flex;gap:1px;margin-bottom:8px;border-bottom:1px solid var(--brd);flex-wrap:wrap;}
-.tab-btn{background:transparent;border:none;color:var(--txt-d);font-family:'Cinzel',serif;font-size:8px;letter-spacing:1px;padding:4px 7px;cursor:pointer;transition:all .2s;border-bottom:2px solid transparent;margin-bottom:-1px;}
+.tab-btn{background:transparent;border:none;color:var(--txt-d);font-family:'Cinzel',serif;font-size:11px;letter-spacing:1px;padding:5px 9px;cursor:pointer;transition:all .2s;border-bottom:2px solid transparent;margin-bottom:-1px;}
 .tab-btn:hover{color:var(--txt);}.tab-btn.active{color:var(--gold);border-bottom-color:var(--gold);}
 .tabpanel{display:none;}.tabpanel.active{display:block;}
 .mcard{background:var(--bg4);border:1px solid var(--brd);padding:6px 9px;margin-bottom:4px;cursor:pointer;transition:all .15s;display:flex;align-items:center;gap:6px;}
 .mcard:hover{border-color:var(--gold-d);}.mcard.sel{border-color:var(--gold);box-shadow:0 0 7px rgba(200,169,110,.2);}.mcard.cursed{border-color:#9944cc;}
-.mtier{font-family:'Cinzel',serif;font-size:9px;font-weight:900;width:22px;text-align:center;}.mname{flex:1;font-size:11px;color:var(--txt-b);}.mcnt{background:var(--bg2);border:1px solid var(--brd);padding:1px 5px;font-size:10px;font-family:'Cinzel',serif;}
-.mch-wrap{display:flex;align-items:center;gap:3px;margin-top:2px;}.mch-bg{flex:1;height:2px;background:var(--bg2);}.mch-fill{height:100%;}.mch-pct{font-size:8px;font-family:'Cinzel',serif;min-width:26px;text-align:right;}
+.mtier{font-family:'Cinzel',serif;font-size:9px;font-weight:900;width:22px;text-align:center;}.mname{flex:1;font-size:13px;color:var(--txt-b);}.mcnt{background:var(--bg2);border:1px solid var(--brd);padding:1px 5px;font-size:10px;font-family:'Cinzel',serif;}
+.mch-wrap{display:flex;align-items:center;gap:3px;margin-top:2px;}.mch-bg{flex:1;height:2px;background:var(--bg2);}.mch-fill{height:100%;}.mch-pct{font-size:11px;font-family:'Cinzel',serif;min-width:26px;text-align:right;}
 .run-vis{background:var(--bg4);border:1px solid var(--brd);min-height:140px;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;}
 .run-bg{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 80%,rgba(80,20,0,.3) 0%,transparent 70%);}
 .run-con{position:relative;z-index:1;text-align:center;padding:8px;}.run-nm{font-family:'Cinzel',serif;font-size:17px;color:var(--gold);margin-bottom:4px;}
@@ -43,36 +43,36 @@ h1{font-family:'Cinzel',serif;font-size:22px;font-weight:900;color:var(--gold);t
 .prog-bar{height:6px;background:var(--bg2);border:1px solid var(--brd);overflow:hidden;position:relative;}
 .prog-fill{height:100%;background:linear-gradient(90deg,var(--gold-d),var(--gold));transition:width .1s linear;}
 .prog-fill.red{background:linear-gradient(90deg,#882200,#ff4400);}.prog-fill.grn{background:linear-gradient(90deg,#1a5a1a,#4a9a4a);}.prog-fill.purple{background:linear-gradient(90deg,#330066,#9900ff);}
-.btn{background:linear-gradient(180deg,rgba(200,169,110,.15),rgba(200,169,110,.05));border:1px solid var(--gold-d);color:var(--gold);font-family:'Cinzel',serif;font-size:10px;letter-spacing:1px;padding:6px 12px;cursor:pointer;transition:all .2s;clip-path:polygon(4px 0,100% 0,calc(100% - 4px) 100%,0 100%);}
+.btn{background:linear-gradient(180deg,rgba(200,169,110,.15),rgba(200,169,110,.05));border:1px solid var(--gold-d);color:var(--gold);font-family:'Cinzel',serif;font-size:12px;letter-spacing:1px;padding:8px 14px;cursor:pointer;transition:all .2s;clip-path:polygon(4px 0,100% 0,calc(100% - 4px) 100%,0 100%);}
 .btn:hover:not(:disabled){background:linear-gradient(180deg,rgba(200,169,110,.3),rgba(200,169,110,.1));border-color:var(--gold);box-shadow:0 0 10px rgba(200,169,110,.2);}
 .btn:disabled{opacity:.35;cursor:not-allowed;}
 .btn-r{border-color:var(--blood);color:#ff6666;background:linear-gradient(180deg,rgba(139,26,26,.2),rgba(139,26,26,.05));}.btn-r:hover:not(:disabled){border-color:var(--blood-b);}
 .btn-g{border-color:#2a6a2a;color:#6acf6a;background:linear-gradient(180deg,rgba(26,80,26,.2),rgba(26,80,26,.05));}.btn-g:hover:not(:disabled){border-color:#4a9a4a;}
 .btn-p{border-color:#553388;color:#bb66ff;background:linear-gradient(180deg,rgba(85,51,136,.2),rgba(85,51,136,.05));}.btn-p:hover:not(:disabled){border-color:#aa66ff;}
-.btn-sm{padding:2px 8px;font-size:8px;}
+.btn-sm{padding:4px 11px;font-size:11px;}
 .wslot{background:var(--bg4);border:1px solid var(--brd);padding:8px 9px;margin-bottom:4px;display:flex;align-items:center;gap:8px;}
 .wavat{width:32px;height:32px;border-radius:50%;border:2px solid var(--brd);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;}
-.winfo{flex:1;min-width:0;}.wname{font-size:12px;color:var(--txt-b);}.wcls{font-size:8px;color:var(--txt-d);letter-spacing:1px;}
-.wst{font-size:8px;padding:1px 5px;border:1px solid;letter-spacing:1px;font-family:'Cinzel',serif;}
+.winfo{flex:1;min-width:0;}.wname{font-size:14px;color:var(--txt-b);}.wcls{font-size:10px;color:var(--txt-d);letter-spacing:1px;}
+.wst{font-size:10px;padding:1px 5px;border:1px solid;letter-spacing:1px;font-family:'Cinzel',serif;}
 .st-idle{color:var(--txt-d);border-color:var(--brd);}.st-run{color:var(--grn);border-color:var(--grn);animation:pg 2s infinite;}.st-cap{color:var(--red);border-color:var(--red);animation:pr 1.5s infinite;}.st-inj{color:var(--org);border-color:var(--org);}.st-exp{color:#bb66ff;border-color:#553388;animation:pg 2s infinite;}
 @keyframes pg{0%,100%{opacity:1}50%{opacity:.6}}@keyframes pr{0%,100%{opacity:1;box-shadow:0 0 4px rgba(200,50,50,.3)}50%{opacity:.7;box-shadow:none}}
 .wxp{height:2px;background:var(--bg2);margin-top:3px;}.wxp-f{height:100%;background:linear-gradient(90deg,#553388,#aa66ff);}
-.lvl-b{display:inline-block;background:rgba(170,100,255,.15);border:1px solid #553388;color:#aa66ff;font-family:'Cinzel',serif;font-size:8px;padding:1px 4px;margin-left:3px;}
-#loot-log{background:var(--bg4);border:1px solid var(--brd);height:130px;overflow-y:auto;padding:4px 8px;font-size:10px;display:flex;flex-direction:column-reverse;gap:1px;}
+.lvl-b{display:inline-block;background:rgba(170,100,255,.15);border:1px solid #553388;color:#aa66ff;font-family:'Cinzel',serif;font-size:11px;padding:1px 4px;margin-left:3px;}
+#loot-log{background:var(--bg4);border:1px solid var(--brd);height:150px;overflow-y:auto;padding:4px 8px;font-size:13px;display:flex;flex-direction:column-reverse;gap:1px;}
 #loot-log::-webkit-scrollbar{width:3px;}#loot-log::-webkit-scrollbar-thumb{background:var(--gold-d);}
 .le{padding:1px 0;border-bottom:1px solid rgba(255,255,255,.03);}
 .ge{color:var(--gold);}.i-n{color:var(--norm);}.i-m{color:var(--mag);}.i-r{color:var(--rare);}.i-u{color:var(--uniq);}.ev{color:#ff8844;font-style:italic;}.info{color:var(--cyn);}.lt{color:var(--txt-d);margin-right:3px;font-size:8px;}
 .igrid{display:grid;grid-template-columns:repeat(5,1fr);gap:3px;max-height:300px;overflow-y:auto;}
 .igrid::-webkit-scrollbar{width:3px;}
-.iico{background:var(--bg4);border:1px solid var(--brd);aspect-ratio:1;display:flex;align-items:center;justify-content:center;font-size:22px;cursor:pointer;transition:all .15s;position:relative;}
+.iico{background:var(--bg4);border:1px solid var(--brd);aspect-ratio:1;display:flex;align-items:center;justify-content:center;font-size:26px;cursor:pointer;transition:all .15s;position:relative;}
 .iico:hover{transform:scale(1.08);}
 .iico.n{border-color:#444;}.iico.m{border-color:#5555aa;}.iico.r{border-color:#aaaa00;}.iico.u{border-color:#803000;}
 .isp{position:absolute;bottom:1px;right:2px;font-size:8px;color:var(--gold-d);font-family:'Cinzel',serif;}
 #tt{position:fixed;background:var(--bg1);border:1px solid var(--gold-d);padding:8px 12px;max-width:260px;pointer-events:none;z-index:9999;display:none;font-size:11px;box-shadow:0 0 18px rgba(0,0,0,.9);}
-.tt-nm{font-family:'Cinzel',serif;font-size:14px;margin-bottom:4px;}.tt-ty{font-size:8px;color:var(--txt-d);margin-bottom:4px;letter-spacing:1px;border-bottom:1px solid var(--brd);padding-bottom:3px;}
-.tt-st{color:var(--mag);padding:2px 0;font-size:12px;}.tt-dv{border:none;border-top:1px solid var(--brd);margin:4px 0;}.tt-sm{font-size:11px;color:var(--txt-d);line-height:1.7;}.tt-sv{color:var(--gold-d);font-size:9px;margin-top:2px;}
+.tt-nm{font-family:'Cinzel',serif;font-size:16px;margin-bottom:4px;}.tt-ty{font-size:8px;color:var(--txt-d);margin-bottom:4px;letter-spacing:1px;border-bottom:1px solid var(--brd);padding-bottom:3px;}
+.tt-st{color:var(--mag);padding:2px 0;font-size:14px;}.tt-dv{border:none;border-top:1px solid var(--brd);margin:4px 0;}.tt-sm{font-size:11px;color:var(--txt-d);line-height:1.7;}.tt-sv{color:var(--gold-d);font-size:9px;margin-top:2px;}
 .srow{background:var(--bg4);border:1px solid var(--brd);padding:7px 9px;margin-bottom:3px;display:flex;align-items:center;gap:7px;}
-.si{flex:1;}.snm{font-size:12px;color:var(--txt-b);}.sds{font-size:9px;color:var(--txt-d);margin-top:1px;}.spr{color:var(--gold);font-family:'Cinzel',serif;font-size:10px;white-space:nowrap;}
+.si{flex:1;}.snm{font-size:14px;color:var(--txt-b);}.sds{font-size:11px;color:var(--txt-d);margin-top:1px;}.spr{color:var(--gold);font-family:'Cinzel',serif;font-size:12px;white-space:nowrap;}
 #notif-area{position:fixed;top:70px;right:14px;z-index:9500;display:flex;flex-direction:column;gap:4px;max-width:270px;}
 .notif{background:var(--bg1);border:1px solid var(--gold-d);padding:7px 11px;font-size:10px;animation:sli .3s ease,fao .5s ease 2.5s forwards;}
 .notif.red{border-color:var(--blood-b);color:#ff8888;}.notif.grn{border-color:var(--grn);color:#88ff88;}.notif.pur{border-color:#aa66ff;color:#cc99ff;}
@@ -87,7 +87,7 @@ h1{font-family:'Cinzel',serif;font-size:22px;font-weight:900;color:var(--gold);t
 .mtl{font-family:'Cinzel',serif;font-size:14px;color:var(--gold);margin-bottom:10px;padding-bottom:7px;border-bottom:1px solid var(--brd);}
 @keyframes fup{0%{transform:translateY(0);opacity:1}100%{transform:translateY(-50px);opacity:0}}
 .fl{position:fixed;pointer-events:none;font-family:'Cinzel',serif;font-size:12px;z-index:9999;animation:fup 1.2s ease forwards;}
-.sep{border:none;border-top:1px solid var(--brd);margin:6px 0;}.dim{color:var(--txt-d);}.gt{color:var(--gold);}.rt{color:var(--red);}.grnt{color:var(--grn);}.tiny{font-size:9px;color:var(--txt-d);}.dp{color:var(--mag);}.dn{color:var(--red);}
+.sep{border:none;border-top:1px solid var(--brd);margin:6px 0;}.dim{color:var(--txt-d);}.gt{color:var(--gold);}.rt{color:var(--red);}.grnt{color:var(--grn);}.tiny{font-size:11px;color:var(--txt-d);}.dp{color:var(--mag);}.dn{color:var(--red);}
 #self-sec{background:var(--bg4);border:1px solid var(--brd-g);padding:8px;margin-bottom:8px;}
 .act-card{background:var(--bg4);border:1px solid var(--brd);padding:8px 9px;margin-bottom:4px;display:flex;align-items:center;gap:8px;}
 .act-pg{height:3px;background:var(--bg2);margin-top:3px;}.act-pgf{height:100%;background:var(--grn);transition:width .1s;}
@@ -97,18 +97,17 @@ h1{font-family:'Cinzel',serif;font-size:22px;font-weight:900;color:var(--gold);t
 .ach-row{background:var(--bg4);border:1px solid var(--brd);padding:7px 9px;margin-bottom:3px;display:flex;align-items:center;gap:8px;}
 .ach-row.done{border-color:var(--gold-d);background:rgba(200,169,110,.06);}
 .ach-ico{font-size:20px;width:28px;text-align:center;flex-shrink:0;}
-.ach-nm{font-size:11px;color:var(--txt-b);}.ach-ds{font-size:9px;color:var(--txt-d);}.ach-rw{font-size:9px;color:var(--gold-d);}
+.ach-nm{font-size:13px;color:var(--txt-b);}.ach-ds{font-size:11px;color:var(--txt-d);}.ach-rw{font-size:11px;color:var(--gold-d);}
 #dbg-out{background:var(--bg0);border:1px solid #333;padding:8px;font-family:monospace;font-size:9px;color:#88ff88;max-height:400px;overflow-y:auto;line-height:1.6;}
 </style>
 </head>
 <body>
 <div id="app">
 <header>
-  <h1>КАРТОХОДЕЦ <span class="ver">v0.007</span></h1>
-  <div class="sub">Лига Поселенцев Кальгура — Машина Картоходца</div>
+  <h1>КАРТОХОДЕЦ <span class="ver">v0.008</span></h1>
 </header>
 <div id="res-bar">
-  <div class="ri"><span class="ri-ico">🪙</span><div><span class="ri-lbl">ЗОЛОТО</span><span class="ri-val" id="r-gold">0</span></div></div>
+  <div class="ri"><span class="ri-ico">💰</span><div><span class="ri-lbl">ЗОЛОТО</span><span class="ri-val" id="r-gold">0</span></div></div>
   <div class="ri"><span class="ri-ico">🗺</span><div><span class="ri-lbl">КАРТЫ</span><span class="ri-val" id="r-maps">0</span></div></div>
   <div class="ri"><span class="ri-ico">⚔️</span><div><span class="ri-lbl">ПРЕДМЕТЫ</span><span class="ri-val" id="r-items">0</span></div></div>
   <div class="ri"><span class="ri-ico">👥</span><div><span class="ri-lbl">РАБОТНИКИ</span><span class="ri-val" id="r-workers">0</span></div></div>
@@ -143,12 +142,20 @@ h1{font-family:'Cinzel',serif;font-size:22px;font-weight:900;color:var(--gold);t
 <!-- CENTER -->
 <div>
   <div id="self-sec">
-    <div class="ptitle">🧙 ВЫ — ИЗГНАННИК</div>
-    <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+    <div class="ptitle">🧙 ВЫ — ИЗГНАННИК <span id="self-cls-badge" style="font-size:10px;color:var(--txt-d)"></span></div>
+    <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:6px">
+      <div><div class="tiny">КЛАСС</div><div style="display:flex;gap:4px;margin-top:2px" id="cls-btns">
+        <button class="btn btn-sm" data-cls="warrior" id="cls-warrior">⚔️ Воин</button>
+        <button class="btn btn-sm" data-cls="mage" id="cls-mage">🔮 Маг</button>
+        <button class="btn btn-sm" data-cls="ranger" id="cls-ranger">🏹 Следопыт</button>
+      </div></div>
+      <div style="margin-left:auto"><button class="btn btn-sm" id="btn-self-eq">🎒 Снаряжение</button></div>
+    </div>
+    <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap">
       <div><div class="tiny">⚔️ УРОН</div><div class="gt" style="font-family:'Cinzel',serif;font-size:16px" id="s-dmg">5</div></div>
       <div><div class="tiny">🛡 ВЫЖИВАЕМОСТЬ</div><div class="grnt" style="font-family:'Cinzel',serif;font-size:16px" id="s-surv">10</div></div>
-      <div><div class="tiny">✅ ШАНС (выбр. карта)</div><div style="font-family:'Cinzel',serif;font-size:12px" id="s-ch">—</div></div>
-      <div style="margin-left:auto"><button class="btn btn-sm" id="btn-self-eq">🎒 Снаряжение</button></div>
+      <div><div class="tiny">✅ ШАНС</div><div style="font-family:'Cinzel',serif;font-size:13px" id="s-ch">—</div></div>
+      <div><div class="tiny">⭐ УРОВЕНЬ</div><div style="display:flex;align-items:center;gap:4px"><span class="gt" style="font-family:'Cinzel',serif;font-size:16px" id="s-lvl">0</span><button class="btn btn-sm btn-p" id="btn-self-lvlup" style="display:none;padding:1px 6px;font-size:11px">+</button></div></div>
     </div>
   </div>
   <div class="panel">
@@ -255,17 +262,17 @@ const IBASES=[
 const NPFX={warrior:['Кровавый','Стальной','Железный','Яростный','Боевой','Каменный'],mage:['Тёмный','Мистический','Вечный','Призрачный','Сумеречный','Звёздный'],ranger:['Точный','Быстрый','Лесной','Теневой','Ветреный','Скрытый'],generic:['Древний','Проклятый','Легендарный','Великий','Могучий','Зловещий']};
 const NSFX={warrior:['Берсеркера','Паладина','Защитника','Воителя','Крестоносца'],mage:['Архимага','Чародея','Некроманта','Провидца','Повелителя'],ranger:['Ассасина','Следопыта','Охотника','Разведчика','Стрелка'],generic:['Рока','Гибели','Судьбы','Вечности','Забвения']};
 const ACHDEFS=[
-  {id:'first_run', ico:'🗺',nm:'Первые шаги',      ds:'Пройти первую карту',            rw:'+30🪙'},
-  {id:'t5_clear',  ico:'🌲',nm:'Проклятый лес',    ds:'Пройти карту T5',                rw:'+50🪙'},
-  {id:'t10_clear', ico:'💀',nm:'Некромант',         ds:'Пройти карту T10',               rw:'+150🪙'},
-  {id:'t16_clear', ico:'💫',nm:'Картоходец',        ds:'Пройти карту T16',               rw:'+500🪙'},
-  {id:'hire3',     ico:'👥',nm:'Команда',           ds:'Нанять 3 работников',            rw:'+100🪙'},
-  {id:'runs50',    ico:'🔄',nm:'Ветеран',           ds:'Пройти 50 карт',                 rw:'+200🪙'},
-  {id:'runs200',   ico:'⚔️',nm:'Мастер',           ds:'Пройти 200 карт',                rw:'+1000🪙'},
-  {id:'items20',   ico:'🎒',nm:'Коллекционер',     ds:'Найти 20 предметов',             rw:'+80🪙'},
-  {id:'rare_item', ico:'🌟',nm:'Первая редкость',  ds:'Найти редкий предмет',           rw:'+60🪙'},
-  {id:'uniq_item', ico:'💎',nm:'Уникальность',     ds:'Найти уникальный предмет',       rw:'+250🪙'},
-  {id:'sell500',   ico:'💰',nm:'Торговец',          ds:'Продать предметов на 500🪙',     rw:'+100🪙'},
+  {id:'first_run', ico:'🗺',nm:'Первые шаги',      ds:'Пройти первую карту',            rw:'+30💰'},
+  {id:'t5_clear',  ico:'🌲',nm:'Проклятый лес',    ds:'Пройти карту T5',                rw:'+50💰'},
+  {id:'t10_clear', ico:'💀',nm:'Некромант',         ds:'Пройти карту T10',               rw:'+150💰'},
+  {id:'t16_clear', ico:'💫',nm:'Картоходец',        ds:'Пройти карту T16',               rw:'+500💰'},
+  {id:'hire3',     ico:'👥',nm:'Команда',           ds:'Нанять 3 работников',            rw:'+100💰'},
+  {id:'runs50',    ico:'🔄',nm:'Ветеран',           ds:'Пройти 50 карт',                 rw:'+200💰'},
+  {id:'runs200',   ico:'⚔️',nm:'Мастер',           ds:'Пройти 200 карт',                rw:'+1000💰'},
+  {id:'items20',   ico:'🎒',nm:'Коллекционер',     ds:'Найти 20 предметов',             rw:'+80💰'},
+  {id:'rare_item', ico:'🌟',nm:'Первая редкость',  ds:'Найти редкий предмет',           rw:'+60💰'},
+  {id:'uniq_item', ico:'💎',nm:'Уникальность',     ds:'Найти уникальный предмет',       rw:'+250💰'},
+  {id:'sell500',   ico:'💰',nm:'Торговец',          ds:'Продать предметов на 500💰',     rw:'+100💰'},
   {id:'all16',     ico:'🌐',nm:'Атлас завершён',   ds:'Пройти все 16 тиров',            rw:'Открывает Престиж'},
 ];
 
@@ -275,6 +282,7 @@ function freshG(){
     ups:{slots:0,rescue:0,heal:0},selfEq:{weapon:null,armor:null,helmet:null,ring:null},
     selfRun:null,actRun:null,selMap:null,maxTier:2,
     cleared:{},achs:{},prestige:0,prestigeBonus:0,
+    selfCls:null,selfXp:0,selfLevel:0,selfLevelUp:false,clsLocked:false,
     stats:{ge:0,fi:0,mr:0,ar:0,sold:0,sg:0,cap:0,inj:0},
     gt:0,iid:0,wid:0};
 }
@@ -290,12 +298,15 @@ const calcCh=(power,tier)=>{const d=MAP_TIERS[tier-1].dgr;return Math.max(0.03,M
 const chcol=ch=>ch>=0.8?'#4acf4a':ch>=0.5?'#cfcf4a':ch>=0.25?'#cf8040':'#cf4040';
 const iDmg=(it,cls)=>{const r=CDMG[cls]||[];return Math.floor(it.mods.reduce((s,m)=>s+(r.includes(m.stat)?m.value:m.value*.08),0));};
 const iSurv=(it,cls)=>{const r=CSURV[cls]||[];return Math.floor(it.mods.reduce((s,m)=>s+(r.includes(m.stat)?m.value:m.value*.08),0));};
-const sDmg=()=>{let v=5;SLOTS.forEach(s=>{if(G.selfEq[s])v+=iDmg(G.selfEq[s],'warrior');});return v;};
-const sSurv=()=>{let v=10;SLOTS.forEach(s=>{if(G.selfEq[s])v+=iSurv(G.selfEq[s],'warrior');});return v;};
+const sDmg=()=>{let v=5+G.selfLevel*3;SLOTS.forEach(s=>{if(G.selfEq[s])v+=iDmg(G.selfEq[s],G.selfCls||'warrior');});return v;};
+const sSurv=()=>{let v=10+G.selfLevel*3;SLOTS.forEach(s=>{if(G.selfEq[s])v+=iSurv(G.selfEq[s],G.selfCls||'warrior');});return v;};
 function recalcW(w){let d=5+w.level*3,s=5+w.level*3;SLOTS.forEach(sl=>{if(w.eq[sl]){d+=iDmg(w.eq[sl],w.cls);s+=iSurv(w.eq[sl],w.cls);}});w.dmg=d;w.surv=s;}
 function addXP(w,amt){w.xp+=amt;const mx=WLVLS.length-1;while(w.level<mx&&w.xp>=WLVLS[w.level+1]){w.level++;recalcW(w);log('⭐ '+w.name+' — Ур.'+w.level+'!','info');showN(w.name+' — Ур.'+w.level+'!','pur');}}
 const xpAmt=tier=>tier*8+12;
-const goldReward=(md,power)=>Math.floor(ri(md.g[0],md.g[1])*(1+(power*.007)*(1+G.prestigeBonus*.01)));
+const goldReward=(md,power,mapCost=0)=>{
+  const base=Math.max(mapCost, ri(md.g[0],md.g[1]));
+  return Math.floor(base*(1+(power*.007)*(1+G.prestigeBonus*.01)));
+};
 const canPrestige=()=>[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16].every(t=>G.cleared[t]);
 
 function genItem(tier,workerCls){
@@ -327,7 +338,9 @@ function selfRun(){
   if(!(G.maps[key]>0)){showN('Нет карт!');return;}
   G.maps[key]--;
   const md=MAP_TIERS[tier-1];
-  G.selfRun={md,tier,cursed,elapsed:0};
+  const mapCostTbl={1:15,2:35,3:65,4:100,5:140,6:185,7:240,8:310,9:400,10:510,11:640,12:800,13:990,14:1220,15:1500,16:1850};
+  G.clsLocked=true;if(!G.selfCls)G.selfCls='warrior';
+  G.selfRun={md,tier,cursed,elapsed:0,cost:mapCostTbl[tier]||0};
   document.getElementById('rpw').style.display='block';
   document.getElementById('btn-cancel-run').style.display='inline-block';
   document.getElementById('btn-self-run').disabled=true;
@@ -353,7 +366,7 @@ function completeSelfRun(){
     const lm=cursed?3:1;
     const g=goldReward(md,power);G.gold+=g;G.stats.ge+=g;
     G.cleared[tier]=true;if(tier>G.maxTier)G.maxTier=tier;
-    log('🪙 Пройдено!+'+(g)+'🪙'+(cursed?' (x3 лут!)':''),'ge');floatT('+'+g+'🪙','#f0d080');
+    log('💰 Пройдено!+'+(g)+'💰'+(cursed?' (x3 лут!)':''),'ge');floatT('+'+g+'💰','#f0d080');
     for(let i=0;i<lm;i++)tryItem(md,null,1);tryMap(md);
     checkAchs();renderAtlasBar();renderShop();
   }else{log('💀 Вы пали в T'+tier+(cursed?' [ЗАРАЖЁННАЯ]':'')+'!','ev');showN('Вы погибли!','red');}
@@ -377,7 +390,7 @@ function startAct(id){
 }
 function completeAct(){
   const act=G.actRun.act;const g=ri(act.g[0],act.g[1]);G.gold+=g;G.stats.ge+=g;G.stats.ar++;G.actRun=null;
-  log('🏕 '+act.nm+' завершён — +'+g+'🪙','ge');floatT('+'+g+'🪙','#c8a96e');
+  log('🏕 '+act.nm+' завершён — +'+g+'💰','ge');floatT('+'+g+'💰','#c8a96e');
   const btn=document.getElementById('abtn-'+act.id);if(btn)btn.disabled=false;
   const fill=document.getElementById('apf-'+act.id);if(fill)fill.style.width='0%';
   updateRes();
@@ -386,7 +399,7 @@ function sendWorker(id){
   if(!G.selMap){showN('Выберите карту!');return;}
   const w=G.workers.find(x=>x.id===id);if(!w||w.status!=='idle')return;
   const running=G.workers.filter(x=>x.status==='running'||x.status==='exp').length;
-  const maxS=1+G.ups.slots;if(running>=maxS){showN('Все слоты заняты!');return;}
+  const maxS=2+G.ups.slots;if(running>=maxS){showN('Все слоты заняты! ('+maxS+')');return;}
   const cursed=String(G.selMap).startsWith('c');
   const tier=cursed?parseInt(String(G.selMap).slice(1)):parseInt(G.selMap);
   const key=cursed?'c'+tier:tier;
@@ -402,15 +415,20 @@ function resolveWorker(w,md){
     if(Math.random()<.45){w.status='captured';w.capturedAt=G.gt;G.stats.cap++;log('⛓️ '+w.name+' захвачен на T'+w.curMap+'!','ev');showN(w.name+' захвачен!','red');return;}
     else{w.status='injured';w.injuredAt=G.gt;G.stats.inj++;log('💔 '+w.name+' ранен на T'+w.curMap+'!','ev');}
   }else w.status='idle';
-  const lm=w.cursed?3:1;const g=goldReward(md,power);G.gold+=g;G.stats.ge+=g;
+  const mapCostTbl2={1:15,2:35,3:65,4:100,5:140,6:185,7:240,8:310,9:400,10:510,11:640,12:800,13:990,14:1220,15:1500,16:1850};
+  const lm=w.cursed?3:1;const g=goldReward(md,power,mapCostTbl2[md.t]||0);G.gold+=g;G.stats.ge+=g;
   G.cleared[md.t]=true;if(md.t>G.maxTier)G.maxTier=md.t;
-  log('🪙 '+w.name+' T'+md.t+(w.cursed?' 💜':'')+(lm>1?' x'+lm:'')+' +'+g+'🪙','ge');floatT('+'+g+'🪙','#f0d080');
+  log('💰 '+w.name+' T'+md.t+(w.cursed?' 💜':'')+(lm>1?' x'+lm:'')+' +'+g+'💰','ge');floatT('+'+g+'💰','#f0d080');
   for(let i=0;i<lm;i++)tryItem(md,w.cls,1);tryMap(md);addXP(w,xpAmt(md.t));
   w.prog=0;w.elapsed=0;checkAchs();renderAtlasBar();renderShop();renderWorkers();renderInv();updateRes();
 }
 function resolveExpStep(w){
   const tier=w.expTiers[w.expIdx];const md=MAP_TIERS[tier-1];const power=w.dmg+w.surv;
-  const ch=Math.max(.03,calcCh(power,tier)-.1);const ok=Math.random()<ch;
+  // Risk = based on hardest tier's fail chance * 1.5 (not flat -10% per step)
+  const hardestTier=Math.max(...w.expTiers);
+  const failChHardest=1-calcCh(power,hardestTier);
+  const expFailCh=Math.min(0.6, failChHardest*1.5);
+  const ch=Math.max(.03, 1-expFailCh);const ok=Math.random()<ch;
   G.stats.mr++;G.totalRuns++;
   if(!ok){
     if(Math.random()<.5){w.status='captured';w.capturedAt=G.gt;G.stats.cap++;log('⛓️ '+w.name+' захвачен в экспедиции T'+tier+'!','ev');showN(w.name+' захвачен!','red');}
@@ -419,7 +437,7 @@ function resolveExpStep(w){
   }
   const g=goldReward(md,power);G.gold+=g;G.stats.ge+=g;
   G.cleared[tier]=true;if(tier>G.maxTier)G.maxTier=tier;
-  log('🪙 '+w.name+' экспед. T'+tier+' +'+g+'🪙','ge');tryItem(md,w.cls,1.5);tryMap(md);addXP(w,xpAmt(tier));
+  log('💰 '+w.name+' экспед. T'+tier+' +'+g+'💰','ge');tryItem(md,w.cls,1.5);tryMap(md);addXP(w,xpAmt(tier));
   checkAchs();renderAtlasBar();renderShop();
   w.expIdx++;w.elapsed=0;w.prog=0;
   if(w.expIdx>=w.expTiers.length){w.status='idle';w.expTiers=[];w.expIdx=0;log('🎉 '+w.name+' завершил экспедицию!','info');showN(w.name+' завершил экспедицию!','pur');}
@@ -428,20 +446,20 @@ function resolveExpStep(w){
 function rescueW(id){
   const w=G.workers.find(x=>x.id===id);if(!w||w.status!=='captured')return;
   const cost=Math.floor((30+(w.curMap||1)*12)*(1-G.ups.rescue*.15));
-  if(G.gold<cost){showN('Нужно '+cost+'🪙!');return;}
-  G.gold-=cost;w.status='idle';log('🔓 '+w.name+' выкуплен за '+cost+'🪙','info');showN(w.name+' освобождён!','grn');renderWorkers();updateRes();
+  if(G.gold<cost){showN('Нужно '+cost+'💰!');return;}
+  G.gold-=cost;w.status='idle';log('🔓 '+w.name+' выкуплен за '+cost+'💰','info');showN(w.name+' освобождён!','grn');renderWorkers();updateRes();
 }
 function sellItem(id){
   const it=G.inv.find(x=>x.id===id);if(!it)return;
   G.gold+=it.sellPrice;G.stats.sg+=it.sellPrice;G.stats.sold++;G.inv=G.inv.filter(x=>x.id!==id);
-  log('💰 '+it.em+' '+it.name+' +'+it.sellPrice+'🪙','ge');floatT('+'+it.sellPrice+'🪙','#c8a96e');
+  log('💰 '+it.em+' '+it.name+' +'+it.sellPrice+'💰','ge');floatT('+'+it.sellPrice+'💰','#c8a96e');
   checkAchs();closeM();renderInv();updateRes();
 }
 function sellAllNormal(){
   const ns=G.inv.filter(x=>x.quality==='normal');if(!ns.length){showN('Нет обычных!');return;}
   const tot=ns.reduce((s,x)=>s+x.sellPrice,0);G.inv=G.inv.filter(x=>x.quality!=='normal');
   G.gold+=tot;G.stats.sg+=tot;G.stats.sold+=ns.length;
-  log('💰 Продано '+ns.length+'x обычных +'+tot+'🪙','ge');floatT('+'+tot+'🪙','#c8a96e');checkAchs();renderInv();updateRes();
+  log('💰 Продано '+ns.length+'x обычных +'+tot+'💰','ge');floatT('+'+tot+'💰','#c8a96e');checkAchs();renderInv();updateRes();
 }
 
 // ════════ ACHIEVEMENTS ════════
@@ -583,13 +601,14 @@ function renderShop(){
     {id:'s16',nm:'Карта T16',  cost:1850,mt:14,fn:()=>{G.maps[16]=(G.maps[16]||0)+1;}},
   ];
   window._shopItems=all;
+  if(G.clsLocked){all.push({id:'respec',nm:'Смена класса',cost:200,mt:-1,fn:()=>{G.clsLocked=false;log('Смена класса доступна!','info');showN('Выберите новый класс!','pur');updateSelfStats();}});}
   const unlocked=all.filter(it=>G.maxTier>=it.mt);const locked=all.filter(it=>G.maxTier<it.mt);
   const t=id=>{const n=parseInt(id.slice(1));const md=MAP_TIERS[n-1];return md?' · 💰'+md.g[0]+'–'+md.g[1]+'+предметы':'';};
   let html=unlocked.map(it=>'<div class="srow"><span style="font-size:16px">🗺</span>'+
     '<div class="si"><div class="snm">'+it.nm+'</div><div class="sds">'+t(it.id)+'</div></div>'+
-    '<div style="text-align:right"><div class="spr">🪙'+it.cost+'</div>'+
+    '<div style="text-align:right"><div class="spr">💰'+it.cost+'</div>'+
     '<button class="btn btn-sm" style="margin-top:2px" data-shop="'+it.id+'">Купить</button></div></div>').join('');
-  if(locked.length){const nx=locked[0];html+='<div class="srow" style="opacity:.4;pointer-events:none"><span>🔒</span><div class="si"><div class="snm">'+nx.nm+'</div><div class="sds">После T'+(nx.mt+1)+'</div></div><div class="spr">🪙'+nx.cost+'</div></div>';}
+  if(locked.length){const nx=locked[0];html+='<div class="srow" style="opacity:.4;pointer-events:none"><span>🔒</span><div class="si"><div class="snm">'+nx.nm+'</div><div class="sds">После T'+(nx.mt+1)+'</div></div><div class="spr">💰'+nx.cost+'</div></div>';}
   document.getElementById('tab-shop').innerHTML=html;
 }
 function buyShop(id){
@@ -602,8 +621,8 @@ function renderInv(){
   const el=document.getElementById('tab-inv');if(!el)return;
   if(!G.inv.length){el.innerHTML='<div class="dim" style="text-align:center;padding:14px;font-style:italic">Склад пуст</div>';return;}
   const ns=G.inv.filter(x=>x.quality==='normal');
-  let html=ns.length?'<button class="btn btn-sm" style="margin-bottom:6px;width:100%" id="btn-sell-all">💰 Продать обычные ('+ns.length+'шт = '+ns.reduce((s,x)=>s+x.sellPrice,0)+'🪙)</button>':'';
-  html+='<div class="igrid">'+G.inv.map(it=>'<div class="iico '+it.quality[0]+'" style="border-color:'+qcol(it.quality)+'55" data-iid="'+it.id+'" data-tip="'+it.id+'">'+it.em+'<span class="isp">'+it.sellPrice+'🪙</span></div>').join('')+'</div>';
+  let html=ns.length?'<button class="btn btn-sm" style="margin-bottom:6px;width:100%" id="btn-sell-all">💰 Продать обычные ('+ns.length+'шт = '+ns.reduce((s,x)=>s+x.sellPrice,0)+'💰)</button>':'';
+  html+='<div class="igrid">'+G.inv.map(it=>'<div class="iico '+it.quality[0]+'" style="border-color:'+qcol(it.quality)+'55" data-iid="'+it.id+'" data-tip="'+it.id+'">'+it.em+'<span class="isp">'+it.sellPrice+'💰</span></div>').join('')+'</div>';
   el.innerHTML=html;updateRes();
 }
 
@@ -611,7 +630,7 @@ function renderActs(){
   document.getElementById('tab-acts').innerHTML='<div class="dim" style="font-size:10px;margin-bottom:7px;font-style:italic">⚠️ Используйте если совсем нет карт и золота.</div>'+
     ACTS.map(a=>'<div class="act-card"><span style="font-size:17px">'+a.em+'</span>'+
       '<div style="flex:1"><div style="font-size:11px;color:var(--txt-b)">'+a.nm+'</div>'+
-      '<div class="tiny">💰'+a.g[0]+'–'+a.g[1]+'🪙 · ⏱'+a.time+'с</div>'+
+      '<div class="tiny">💰'+a.g[0]+'–'+a.g[1]+'💰 · ⏱'+a.time+'с</div>'+
       '<div class="act-pg"><div class="act-pgf" id="apf-'+a.id+'" style="width:0%"></div></div>'+
       '<div class="tiny" id="apct-'+a.id+'"></div></div>'+
       '<button class="btn btn-sm btn-g" id="abtn-'+a.id+'" data-act="'+a.id+'">▶ Идти</button></div>').join('');
@@ -620,7 +639,7 @@ function renderActs(){
 function renderWorkers(){
   const el=document.getElementById('workers-list');if(!el)return;
   if(!G.workers.length){el.innerHTML='<div class="dim" style="text-align:center;padding:8px;font-style:italic">Наймите первого работника!</div>';return;}
-  const maxS=1+G.ups.slots;const running=G.workers.filter(x=>x.status==='running'||x.status==='exp').length;
+  const maxS=2+G.ups.slots;const running=G.workers.filter(x=>x.status==='running'||x.status==='exp').length;
   el.innerHTML=G.workers.map(w=>{
     const cls=WCLS[w.cls];
     const xpp=w.level>=WLVLS.length-1?1:Math.min(1,Math.max(0,w.xp-WLVLS[w.level])/(WLVLS[w.level+1]-WLVLS[w.level]));
@@ -640,7 +659,7 @@ function renderWorkers(){
     }else if(w.status==='captured'){
       const cost=Math.floor((30+(w.curMap||1)*12)*(1-G.ups.rescue*.15));
       sEl='<span class="wst st-cap">⛓ ПЛЕН</span>';
-      aEl='<button class="btn btn-sm btn-r" data-rescue="'+w.id+'">🔓'+cost+'🪙</button>';
+      aEl='<button class="btn btn-sm btn-r" data-rescue="'+w.id+'">🔓'+cost+'💰</button>';
     }else if(w.status==='injured'){
       sEl='<span class="wst st-inj">💔 ЛЕЧИТСЯ</span>';
       aEl='<div class="prog-bar" style="width:60px;height:3px"><div class="prog-fill red" id="hp-'+w.id+'" style="width:0%"></div></div>';
@@ -661,7 +680,7 @@ function renderWorkers(){
 
 function renderUpgrades(){
   const defs=[
-    {id:'slots', nm:'⚙ Слот машины',  max:5,desc:()=>'Работников: '+(1+G.ups.slots),   cost:()=>Math.floor(200*Math.pow(2.2,G.ups.slots))},
+    {id:'slots', nm:'⚙ Слот машины',  max:5,desc:()=>'Работников одновременно: '+(2+G.ups.slots),   cost:()=>Math.floor(200*Math.pow(2.2,G.ups.slots))},
     {id:'rescue',nm:'🤝 Переговорщик',max:3,desc:()=>'Скидка выкупа: '+(G.ups.rescue*15)+'%',cost:()=>Math.floor(250*Math.pow(2,G.ups.rescue))},
     {id:'heal',  nm:'💊 Лазарет',     max:3,desc:()=>'Лечение быстрее: '+(G.ups.heal*20)+'%', cost:()=>Math.floor(220*Math.pow(2,G.ups.heal))},
   ];
@@ -671,7 +690,7 @@ function renderUpgrades(){
     return '<div class="srow"><div style="flex:1"><div class="snm">'+u.nm+'</div><div class="sds">'+u.desc()+'</div>'+
       '<div style="display:flex;justify-content:space-between;align-items:center;margin-top:3px">'+
       (maxed?'<span class="gt" style="font-size:9px">✓ MAX</span>':
-       '<span class="spr">🪙'+cost+'</span><button class="btn btn-sm" data-up="'+u.id+'">Улучшить</button>')+
+       '<span class="spr">💰'+cost+'</span><button class="btn btn-sm" data-up="'+u.id+'">Улучшить</button>')+
       '</div></div></div>';
   }).join('');
   if(canPrestige())html+='<div style="margin-top:8px;padding:8px;border:1px solid #553388;background:rgba(85,51,136,.15);text-align:center"><div style="font-family:Cinzel,serif;color:#ffaa00;font-size:11px;margin-bottom:6px">✨ ВЫ ПРОШЛИ ВСЕ 16 ТИРОВ!</div><button class="btn btn-p" id="btn-prestige">✨ Престиж — сброс с бонусом</button></div>';
@@ -722,18 +741,26 @@ function updateRes(){
 function updateStats(){
   const el=document.getElementById('stats-p');if(!el)return;
   el.innerHTML='<div>💰 Заработано: <span class="gt">'+fN(G.stats.ge)+'</span></div>'+
-    '<div>💎 Продано: <span class="gt">'+G.stats.sold+'шт ('+fN(G.stats.sg)+'🪙)</span></div>'+
+    '<div>💎 Продано: <span class="gt">'+G.stats.sold+'шт ('+fN(G.stats.sg)+'💰)</span></div>'+
     '<div>🗺 Карт пройдено: <span class="gt">'+G.stats.mr+'</span></div>'+
     '<div>🏕 Актов: <span class="gt">'+G.stats.ar+'</span></div>'+
     '<div>⚔️ Предметов найдено: <span class="gt">'+G.stats.fi+'</span></div>'+
     '<div>⛓ Захвачено: <span style="color:var(--red)">'+G.stats.cap+'</span></div>'+
     '<div>💔 Ранений: <span style="color:var(--org)">'+G.stats.inj+'</span></div>'+
-    (G.prestige?'<div>✨ Престиж: <span style="color:#ffaa00">'+G.prestige+'x (+'+G.prestigeBonus+'%🪙)</span></div>':'');
+    (G.prestige?'<div>✨ Престиж: <span style="color:#ffaa00">'+G.prestige+'x (+'+G.prestigeBonus+'%💰)</span></div>':'');
 }
 function updateSelfStats(){
   const d=sDmg(),s=sSurv();
   const set=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=v;};
-  set('s-dmg',d);set('s-surv',s);
+  set('s-dmg',d);set('s-surv',s);set('s-lvl',G.selfLevel);
+  // Level up button
+  const lvlBtn=document.getElementById('btn-self-lvlup');
+  if(lvlBtn)lvlBtn.style.display=G.selfLevelUp?'inline-block':'none';
+  // Class buttons highlight
+  ['warrior','mage','ranger'].forEach(c=>{
+    const b=document.getElementById('cls-'+c);
+    if(b)b.style.borderColor=c===(G.selfCls||'warrior')?'var(--gold)':'var(--gold-d)';
+  });
   const ec=document.getElementById('s-ch');
   if(ec){
     if(G.selMap){const t=parseInt(String(G.selMap).startsWith('c')?String(G.selMap).slice(1):G.selMap);const ch=calcCh(d+s,t);ec.innerHTML='<span style="color:'+chcol(ch)+'">'+Math.round(ch*100)+'% T'+t+'</span>';}
@@ -747,7 +774,7 @@ function closeM(){document.getElementById('moverlay').classList.remove('on');}
 
 function openHire(){
   const cost=80+G.workers.length*60;
-  let html='<div class="dim" style="margin-bottom:8px;font-size:10px">Стоимость: <span class="gt">'+cost+'🪙</span></div>';
+  let html='<div class="dim" style="margin-bottom:8px;font-size:10px">Стоимость: <span class="gt">'+cost+'💰</span></div>';
   Object.entries(WCLS).forEach(([cls,c])=>{
     html+='<div class="srow" style="margin-bottom:4px"><div class="wavat" style="border-color:'+c.col+'">'+c.em+'</div>'+
       '<div class="si"><div class="snm">'+c.nm+'</div><div class="sds">'+c.desc+'</div></div>'+
@@ -757,7 +784,7 @@ function openHire(){
   openM('Нанять работника',html);
 }
 function hireWorker(cls){
-  const cost=80+G.workers.length*60;if(G.gold<cost){showN('Мало золота! Нужно '+cost+'🪙');return;}
+  const cost=80+G.workers.length*60;if(G.gold<cost){showN('Мало золота! Нужно '+cost+'💰');return;}
   G.gold-=cost;
   const name=WNAMES[Math.floor(Math.random()*WNAMES.length)];
   const w={id:++G.wid,name,cls,status:'idle',curMap:1,cursed:false,elapsed:0,prog:0,runsCompleted:0,
@@ -788,7 +815,7 @@ function openWorkerEq(id){
   openM(WCLS[w.cls].em+' '+w.name,html);
 }
 function openSelfEq(){
-  const d=sDmg(),s=sSurv();
+  const cls=G.selfCls||'warrior';const d=sDmg(),s=sSurv();
   let html='<div style="display:flex;gap:10px;margin-bottom:8px;font-size:11px">'+
     '<div>⚔️<span class="gt">'+d+'</span></div><div>🛡<span style="color:var(--grn)">'+s+'</span></div></div>'+
     '<div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-bottom:8px">';
@@ -797,7 +824,7 @@ function openSelfEq(){
     html+='<div class="eqsl '+(eq?'filled':'')+'" data-pick-w="0" data-pick-sl="'+sl+'">'+
       '<span class="eqlbl">'+SLOTNM[sl]+'</span>'+
       (eq?'<span style="color:'+qcol(eq.quality)+';font-size:9px">'+eq.em+' '+eq.name+'</span>'+
-          '<span class="tiny">⚔️+'+iDmg(eq,'warrior')+' 🛡+'+iSurv(eq,'warrior')+'</span>':
+          '<span class="tiny">⚔️+'+iDmg(eq,cls)+' 🛡+'+iSurv(eq,cls)+'</span>':
        '<span class="dim" style="font-size:9px">Пусто</span>')+
     '</div>';
   });
@@ -805,7 +832,7 @@ function openSelfEq(){
   openM('🧙 Ваше снаряжение',html);
 }
 function openSlotPick(ownerId,slot,isWorker){
-  const cls=isWorker?(G.workers.find(x=>x.id===ownerId)||{cls:'warrior'}).cls:'warrior';
+  const cls=isWorker?(G.workers.find(x=>x.id===ownerId)||{cls:'warrior'}).cls:(G.selfCls||'warrior');
   const owner=isWorker?G.workers.find(x=>x.id===ownerId):null;
   const cur=isWorker?(owner?owner.eq[slot]:null):G.selfEq[slot];
   const compat=G.inv.filter(it=>it.slot===slot);
@@ -813,7 +840,7 @@ function openSlotPick(ownerId,slot,isWorker){
   if(cur){
     html+='<div class="srow" style="border-color:'+qcol(cur.quality)+'44;margin-bottom:6px"><span style="font-size:17px">'+cur.em+'</span>'+
       '<div class="si"><div style="color:'+qcol(cur.quality)+';font-size:11px">'+cur.name+'</div>'+
-      '<div class="tiny">⚔️'+iDmg(cur,cls)+' 🛡'+iSurv(cur,cls)+' · '+cur.sellPrice+'🪙</div></div>'+
+      '<div class="tiny">⚔️'+iDmg(cur,cls)+' 🛡'+iSurv(cur,cls)+' · '+cur.sellPrice+'💰</div></div>'+
       '<button class="btn btn-sm btn-r" data-uneq-slot="'+slot+'" data-uneq-owner="'+ownerId+'" data-uneq-isw="'+(isWorker?1:0)+'">Снять</button></div>';
   }
   if(!compat.length){html+='<div class="dim" style="padding:8px;font-style:italic">Нет подходящих предметов</div>';}
@@ -826,7 +853,7 @@ function openSlotPick(ownerId,slot,isWorker){
       const c=qcol(it.quality);
       return '<div class="srow" style="cursor:pointer;border-color:'+c+'33" data-equip-item="'+it.id+'" data-equip-slot="'+slot+'" data-equip-owner="'+ownerId+'" data-equip-isw="'+(isWorker?1:0)+'" data-tip="'+it.id+'">'+
         '<span style="font-size:17px">'+it.em+'</span><div class="si"><div style="color:'+c+';font-size:11px">'+it.name+'</div>'+
-        '<div class="tiny">⚔️'+d+'('+dds+') 🛡'+s+'('+dss+') · '+it.sellPrice+'🪙</div></div>'+
+        '<div class="tiny">⚔️'+d+'('+dds+') 🛡'+s+'('+dss+') · '+it.sellPrice+'💰</div></div>'+
         '<button class="btn btn-sm">Надеть</button></div>';
     }).join('');
   }
@@ -859,7 +886,7 @@ function openItemM(id){
   openM(it.em+' '+it.name,
     '<div class="tiny" style="margin-bottom:6px">'+qlbl(it.quality).toUpperCase()+' · Тира '+it.tier+' · '+SLOTNM[it.slot]+'</div>'+
     it.mods.map(m=>'<div style="color:var(--mag);padding:2px 0;font-size:13px">+ '+m.value+' '+STATNM[m.stat]+'</div>').join('')+
-    '<hr class="sep"><div style="font-size:11px;margin-bottom:6px">Продажа: <span class="gt">'+it.sellPrice+'🪙</span></div>'+
+    '<hr class="sep"><div style="font-size:11px;margin-bottom:6px">Продажа: <span class="gt">'+it.sellPrice+'💰</span></div>'+
     '<div style="display:flex;gap:4px"><button class="btn btn-sm btn-g" data-sell-id="'+id+'">💰 Продать</button>'+
     '<button class="btn btn-sm btn-r" data-discard-id="'+id+'">🗑 Выбросить</button>'+
     '<button class="btn btn-sm btn-r" id="btn-close-m">✕</button></div>');
@@ -868,7 +895,7 @@ function discardItem(id){G.inv=G.inv.filter(x=>x.id!==id);closeM();renderInv();u
 
 function openDebug(){
   const sp=sDmg()+sSurv();
-  const rows=[['version','v0.007'],['gold',G.gold],['totalRuns',G.totalRuns],['prestige',G.prestige],['bonus',G.prestigeBonus+'%'],
+  const rows=[['version','v0.008'],['gold',G.gold],['totalRuns',G.totalRuns],['prestige',G.prestige],['bonus',G.prestigeBonus+'%'],
     ['selfPower',sp],['chances',[1,3,5,8,10,12,16].map(t=>'T'+t+':'+Math.round(calcCh(sp,t)*100)+'%').join(' ')],
     ['cleared',Object.keys(G.cleared).sort((a,b)=>a-b).join(',')],
     ['maps',Object.keys(G.maps).filter(k=>G.maps[k]>0).map(k=>k+':'+G.maps[k]).join(',')],
@@ -894,7 +921,11 @@ function doReset(){
   if(window._tickId){clearInterval(window._tickId);window._tickId=null;}
   if(window._saveId){clearInterval(window._saveId);window._saveId=null;}
   try{localStorage.removeItem('kartahodec_save');}catch(e){}
-  document.getElementById('app').innerHTML=
+  G=freshG();
+  const ov=document.getElementById('moverlay');
+  if(ov)ov.style.display='none';
+  const app=document.getElementById('app');
+  if(app)app.innerHTML=
     '<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:80vh;text-align:center;gap:14px">'+
     '<div style="font-size:60px">💀</div>'+
     '<div style="font-family:Cinzel,serif;font-size:24px;color:var(--red);text-shadow:0 0 25px rgba(200,50,50,.6)">СМЕРТЬ В НИЩЕТЕ</div>'+
@@ -913,7 +944,7 @@ function showTip(e,id){
     '<div class="tt-ty">'+qlbl(item.quality).toUpperCase()+' · Т'+item.tier+' · '+SLOTNM[item.slot]+'</div>'+
     item.mods.map(m=>'<div class="tt-st">+ '+m.value+' '+STATNM[m.stat]+'</div>').join('')+
     '<hr class="tt-dv"><div class="tt-sm">Воин: ⚔️'+iDmg(item,'warrior')+' 🛡'+iSurv(item,'warrior')+'<br>Маг: ⚔️'+iDmg(item,'mage')+' 🛡'+iSurv(item,'mage')+'<br>Следопыт: ⚔️'+iDmg(item,'ranger')+' 🛡'+iSurv(item,'ranger')+'</div>'+
-    '<div class="tt-sv">💰 Продажа: '+item.sellPrice+'🪙</div>';
+    '<div class="tt-sv">💰 Продажа: '+item.sellPrice+'💰</div>';
   const tt=document.getElementById('tt');tt.style.display='block';
   let x=e.clientX+14,y=e.clientY+14;
   if(x+270>window.innerWidth)x=e.clientX-270;if(y+tt.offsetHeight>window.innerHeight)y=e.clientY-tt.offsetHeight-8;
@@ -943,8 +974,8 @@ function floatT(txt,color){
 // ════════ SAVE / LOAD ════════
 function save(){
   try{localStorage.setItem('kartahodec_save',JSON.stringify({
-    v:7,gold:G.gold,totalRuns:G.totalRuns,maps:G.maps,inv:G.inv,workers:G.workers,
-    ups:G.ups,selfEq:G.selfEq,stats:G.stats,iid:G.iid,wid:G.wid,
+    v:8,gold:G.gold,totalRuns:G.totalRuns,maps:G.maps,inv:G.inv,workers:G.workers,
+    ups:G.ups,selfEq:G.selfEq,selfCls:G.selfCls,clsLocked:G.clsLocked,selfXp:G.selfXp,selfLevel:G.selfLevel,stats:G.stats,iid:G.iid,wid:G.wid,
     maxTier:G.maxTier,cleared:G.cleared,achs:G.achs,prestige:G.prestige,prestigeBonus:G.prestigeBonus,
   }));}catch(e){}
 }
@@ -952,9 +983,10 @@ function load(){
   try{
     const raw=localStorage.getItem('kartahodec_save');if(!raw)return;
     const s=JSON.parse(raw);
-    if(!s.v||s.v<7){localStorage.removeItem('kartahodec_save');log('⚠ Старый сейв — начинаем заново','ev');return;}
+    if(!s.v||s.v<8){localStorage.removeItem('kartahodec_save');log('⚠ Старый сейв — начинаем заново','ev');return;}
     Object.assign(G,s);
     if(!G.cleared)G.cleared={};if(!G.achs)G.achs={};if(!G.prestige)G.prestige=0;if(!G.prestigeBonus)G.prestigeBonus=0;
+    if(!G.selfCls)G.selfCls='warrior';if(!G.selfXp)G.selfXp=0;if(!G.selfLevel)G.selfLevel=0;if(G.selfLevelUp===undefined)G.selfLevelUp=false;
     G.workers.forEach(w=>{
       if(w.status==='running'||w.status==='exp'){w.status='idle';w.prog=0;w.elapsed=0;}
       if(!w.xp)w.xp=0;if(!w.level)w.level=0;if(!w.expTiers)w.expTiers=[];if(!w.expIdx)w.expIdx=0;
@@ -983,6 +1015,10 @@ document.addEventListener('click',function(e){
   // Map select
   const mc=cl('.mcard');if(mc&&mc.dataset.mapkey){selectMap(mc.dataset.mapkey);return;}
   // Fixed buttons
+  // Self class selection
+  if(t.dataset.cls){G.selfCls=t.dataset.cls;updateSelfStats();renderWorkers();log('Выбран класс: '+WCLS[t.dataset.cls].nm,'info');return;}
+  // Self level up
+  if(t.id==='btn-self-lvlup'){G.selfLevelUp=false;log('⭐ Вы прокачали уровень '+G.selfLevel+'! +3⚔️ +3🛡','info');showN('Уровень '+G.selfLevel+' применён!','pur');updateSelfStats();return;}
   if(t.id==='btn-self-run'){selfRun();return;}
   if(t.id==='btn-cancel-run'){cancelRun();return;}
   if(t.id==='btn-self-eq'){openSelfEq();return;}
@@ -1049,7 +1085,7 @@ function init(){
   load();renderAll();
   window._tickId=setInterval(tick,200);
   window._saveId=setInterval(save,8000);
-  log('🌟 Добро пожаловать! Картоходец v0.007','info');
+  log('🌟 Добро пожаловать! Картоходец v0.008','info');
 }
 init();
 </script>
