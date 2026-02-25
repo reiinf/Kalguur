@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Картоходец v0.014</title>
+<title>Картоходец v0.015</title>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;900&family=Crimson+Pro:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
 <style>
 :root{--gold:#c8a96e;--gold-b:#f0d080;--gold-d:#8a6a2e;--blood:#8b1a1a;--blood-b:#c0392b;--bg0:#0a0806;--bg1:#110e09;--bg2:#1a1510;--bg3:#1f1912;--bg4:#241d14;--brd:#3a2e1e;--brd-g:#5a4a2a;--txt:#d4c4a0;--txt-d:#8a7a60;--txt-b:#f0e0b0;--mag:#8888ff;--rare:#f0d060;--uniq:#e87020;--norm:#b0b0b0;--grn:#4a9a4a;--cyn:#4ab0b0;--red:#c03030;--org:#cc7700;}
@@ -64,7 +64,7 @@ h1{font-family:'Cinzel',serif;font-size:22px;font-weight:900;color:var(--gold);t
 .ge{color:var(--gold);}.i-n{color:var(--norm);}.i-m{color:var(--mag);}.i-r{color:var(--rare);}.i-u{color:var(--uniq);}.ev{color:#ff8844;font-style:italic;}.info{color:var(--cyn);}.lt{color:var(--txt-d);margin-right:3px;font-size:8px;}
 .igrid{display:grid;grid-template-columns:repeat(5,1fr);gap:3px;max-height:300px;overflow-y:auto;}
 .igrid::-webkit-scrollbar{width:3px;}
-.iico{background:var(--bg4);border:1px solid var(--brd);aspect-ratio:1;display:flex;align-items:center;justify-content:center;font-size:26px;cursor:pointer;transition:all .15s;position:relative;}
+.iico{background:var(--bg4);border:1px solid var(--brd);aspect-ratio:1;display:flex;align-items:center;justify-content:center;font-size:32px;cursor:pointer;transition:all .15s;position:relative;}
 .iico:hover{transform:scale(1.08);}
 .iico.n{border-color:#444;}.iico.m{border-color:#5555aa;}.iico.r{border-color:#aaaa00;}.iico.u{border-color:#cc5500;}
 .isp{position:absolute;bottom:1px;right:2px;font-size:12px;font-weight:bold;color:var(--gold-d);font-family:'Cinzel',serif;}
@@ -104,7 +104,7 @@ h1{font-family:'Cinzel',serif;font-size:22px;font-weight:900;color:var(--gold);t
 <body>
 <div id="app">
 <header>
-  <h1>КАРТОХОДЕЦ <span class="ver">v0.014</span></h1>
+  <h1>КАРТОХОДЕЦ <span class="ver">v0.015</span></h1>
 </header>
 <div id="res-bar">
   <div class="ri"><span class="ri-ico">💰</span><div><span class="ri-lbl">ЗОЛОТО</span><span class="ri-val" id="r-gold">0</span></div></div>
@@ -239,8 +239,8 @@ const WLVLS=[0,50,150,350,750,1500,3000,5500,9000,14000,21000];
 const SLOTS=['weapon','armor','helmet','ring'];
 const SLOTNM={weapon:'⚔️ Оружие',armor:'🛡️ Броня',helmet:'⛑️ Шлем',ring:'💍 Кольцо'};
 const STATNM={dmgPhys:'Физ. урон',dmgSpell:'Урон заклин.',dmgArea:'Урон по области',minionDmg:'Урон призывов',critChance:'Шанс крита',critMult:'Множитель крита',critSpell:'Крит заклин.',castSpd:'Скорость каста',atkSpd:'Скорость атаки',str:'Сила',int:'Интеллект',dex:'Ловкость',hp:'Очки здоровья',energyShield:'Энергощит',armor:'Броня',evasion:'Уклонение',blockChance:'Шанс блока',allRes:'Все сопр.',fireRes:'Огн. сопр.',coldRes:'Хол. сопр.',moveSpd:'Скор. движения'};
-const CDMG={warrior:['dmgPhys','dmgArea','critChance','critMult','atkSpd','str'],mage:['dmgSpell','minionDmg','critSpell','castSpd','int'],ranger:['dmgPhys','critChance','critMult','atkSpd','dex'],noble:['dmgPhys','dmgSpell','dmgArea','critChance','critMult','atkSpd','str','int','dex','castSpd']};
-const CSURV={warrior:['armor','hp','blockChance','str','allRes','fireRes'],mage:['energyShield','int','allRes'],ranger:['evasion','hp','dex','allRes','coldRes'],noble:['armor','energyShield','evasion','hp','blockChance','allRes','str','int','dex']};
+const CDMG={warrior:['dmgPhys','dmgArea','critChance','critMult','atkSpd','str'],mage:['dmgSpell','minionDmg','critSpell','castSpd','int'],ranger:['dmgPhys','critChance','critMult','atkSpd','dex'],noble:['dmgPhys','dmgSpell','dmgArea','minionDmg','critChance','critMult','critSpell','atkSpd','str','int','dex','castSpd']};
+const CSURV={warrior:['armor','hp','blockChance','str','allRes','fireRes'],mage:['energyShield','int','allRes'],ranger:['evasion','hp','dex','allRes','coldRes'],noble:['armor','energyShield','evasion','hp','blockChance','allRes','fireRes','coldRes','moveSpd','str','int','dex']};
 const IBASES=[
   {nm:'Длинный меч',      em:'🗡️',cls:'warrior',slot:'weapon',mods:['dmgPhys','critChance','atkSpd','str']},
   {nm:'Боевой топор',     em:'🪓',cls:'warrior',slot:'weapon',mods:['dmgPhys','dmgArea','str','atkSpd']},
@@ -275,7 +275,7 @@ const UNIQ_MAPS=[
   {t:11,nm:'Машинариум Дориани',     em:'⚙️',desc:'Боссы усилены выбором игрока',       bonus:'x2 лут'},
   {t:12,nm:'Смерть и Налоги',        em:'☠️',desc:'Босс: +12-20 валюты · мгновенно',    bonus:'x4 золото'},
   {t:13,nm:'Кортекс',                em:'🧬',desc:'Синтез · уровень 83 · 5 модов',       bonus:'x2 лут + XP'},
-  {t:14,nm:'Лабиринт Миnotавра',     em:'🐂',desc:'Заряженный Лабиринт · уник. дроп',   bonus:'+2 уника'},
+  {t:14,nm:'Усыпальница Ваала',        em:'🏺',desc:'Заряженный Лабиринт · уник. дроп',   bonus:'+2 уника'},
   {t:15,nm:'Логово Волчьей Стаи',    em:'🐺',desc:'+150%IIQ · +4 карты от босса',       bonus:'+4 карты'},
   {t:16,nm:'Заражённый Плацдарм',    em:'💫',desc:'Харбинджеры · +20 особых врагов',    bonus:'x3 лут'},
 ];
@@ -283,10 +283,10 @@ const UNIQ_MAP_NAMES=UNIQ_MAPS.map(m=>m.nm); // compat
 
 // ── ENDGAME BOSSES ──────────────────────────────────────────────
 const GUARDIAN_MAPS=[
-  {id:'g_hydra',    nm:'Логово Гидры',          em:'🐍',boss:'Гидра',       type:'shaper',dgr:820,time:50,g:[900,1400]},
-  {id:'g_minotaur', nm:'Лабиринт Минотавра',    em:'🐂',boss:'Минотавр',    type:'shaper',dgr:820,time:50,g:[900,1400]},
-  {id:'g_phoenix',  nm:'Горнило Феникса',        em:'🔥',boss:'Феникс',      type:'shaper',dgr:820,time:50,g:[900,1400]},
-  {id:'g_chimera',  nm:'Яма Химеры',             em:'🦁',boss:'Химера',      type:'shaper',dgr:820,time:50,g:[900,1400]},
+  {id:'g_hydra',    nm:'Логово Гидры',       em:'🐍',boss:'Гидра',    type:'shaper',t:16,dgr:820,time:50,g:[900,1400],md:0,mx:16},
+  {id:'g_minotaur', nm:'Лабиринт Минотавра', em:'🐂',boss:'Минотавр', type:'shaper',t:16,dgr:820,time:50,g:[900,1400],md:0,mx:16},
+  {id:'g_phoenix',  nm:'Горнило Феникса',    em:'🔥',boss:'Феникс',   type:'shaper',t:16,dgr:820,time:50,g:[900,1400],md:0,mx:16},
+  {id:'g_chimera',  nm:'Яма Химеры',         em:'🦁',boss:'Химера',   type:'shaper',t:16,dgr:820,time:50,g:[900,1400],md:0,mx:16},
 ];
 const BOSSES=[
   {id:'shaper', nm:'Создатель',      em:'💠',desc:'Страж картографии. Требует 4 фрагмента стражников.',
@@ -328,9 +328,9 @@ const fN=n=>n>=1e6?(n/1e6).toFixed(1)+'M':n>=1e3?(n/1e3).toFixed(1)+'K':Math.flo
 const qcol=q=>({normal:'#b0b0b0',magic:'#8888ff',rare:'#f0d060',unique:'#e87020'}[q]||'#fff');
 const qlbl=q=>({normal:'Обычный',magic:'Магический',rare:'Редкий',unique:'Уникальный'}[q]||q);
 const tcol=t=>t<=3?'#aaa':t<=6?'#5599ff':t<=10?'#bb55ff':t<=14?'#ff8844':'#ff4422';
-const calcCh=(power,tier)=>{
+const calcCh=(power,tier,dgrOverride)=>{
   const t=Math.max(1,Math.min(16,tier||1));
-  const d=MAP_TIERS[t-1].dgr;
+  const d=dgrOverride||MAP_TIERS[t-1].dgr;
   return Math.max(0.03,Math.min(0.97,(power/d-0.2)/0.7));
 };
 // Parse any map key (normal "5", cursed "c5", uniq "u5", guardian "grd_g_hydra") → tier int
@@ -347,8 +347,8 @@ const getMd=k=>{
   return MAP_TIERS[(parseMapKey(k)-1)]||MAP_TIERS[0];
 };
 const chcol=ch=>ch>=0.8?'#4acf4a':ch>=0.5?'#cfcf4a':ch>=0.25?'#cf8040':'#cf4040';
-const iDmg=(it,cls)=>{const r=CDMG[cls]||[];return Math.floor(it.mods.reduce((s,m)=>s+(r.includes(m.stat)?m.value:m.value*.08),0));};
-const iSurv=(it,cls)=>{const r=CSURV[cls]||[];return Math.floor(it.mods.reduce((s,m)=>s+(r.includes(m.stat)?m.value:m.value*.08),0));};
+const iDmg=(it,cls)=>{if(!it||!it.mods)return 0;const r=CDMG[cls]||[];return Math.floor(it.mods.reduce((s,m)=>s+(r.includes(m.stat)?m.value*1:m.value*.08),0));};
+const iSurv=(it,cls)=>{if(!it||!it.mods)return 0;const r=CSURV[cls]||[];return Math.floor(it.mods.reduce((s,m)=>s+(r.includes(m.stat)?m.value*1:m.value*.08),0));};
 const sDmg=()=>{const sc=G.selfCls||'warrior';let v=3+G.selfLevel*2;SLOTS.forEach(s=>{if(G.selfEq[s])v+=iDmg(G.selfEq[s],sc);});return v;};
 const sSurv=()=>{const sc=G.selfCls||'warrior';let v=5+G.selfLevel*2;SLOTS.forEach(s=>{if(G.selfEq[s])v+=iSurv(G.selfEq[s],sc);});return v;};
 function recalcW(w){let d=4+w.level*2,s=4+w.level*2;SLOTS.forEach(sl=>{if(w.eq[sl]){d+=iDmg(w.eq[sl],w.cls);s+=iSurv(w.eq[sl],w.cls);}});w.dmg=d;w.surv=s;}
@@ -391,8 +391,9 @@ function tryItem(md,cls,mult=1){
   checkAchs();
 }
 function tryMap(md){
-  if(Math.random()>md.md)return;
-  const dt=Math.max(1,Math.min(16,md.t+ri(0,Math.min(3,md.mx-md.t))));
+  if(!md||!md.t)return; // guardian/boss maps have no .md drop field
+  if(Math.random()>(md.md||0))return;
+  const dt=Math.max(1,Math.min(16,(md.t||16)+ri(0,Math.min(3,(md.mx||16)-(md.t||16)))));
   // Guardian maps drop from T16
   if(md.t>=14&&Math.random()<.15){
     const gm=GUARDIAN_MAPS[Math.floor(Math.random()*GUARDIAN_MAPS.length)];
@@ -421,16 +422,22 @@ function selfRun(){
   const cursed=key.startsWith('c');
   const uniq=key.startsWith('u');
   const isGrd=key.startsWith('grd_');
-  const tier=cursed||uniq?parseInt(key.slice(1)):isGrd?16:parseInt(key);
+  const isBoss=key.startsWith('boss_');
+  const tier=cursed||uniq?parseInt(key.slice(1)):(isGrd||isBoss)?16:parseInt(key);
   const grdMapData=isGrd?GUARDIAN_MAPS.find(g=>'grd_'+g.id===key):null;
+  const bossData=isBoss?BOSSES.find(b=>'boss_'+b.id===key):null;
+  if(isBoss){
+    const pieces=G.guardianPieces.shaper||0;
+    if(pieces<4){showN('Нужно 4 фрагмента стражников!');return;}
+  }
   if(!(G.maps[key]>0)){showN('Нет карт!');return;}
   G.maps[key]--;
   // Lock class on first run
   G.clsLocked=true;
   if(!G.selfCls)G.selfCls='warrior';
-  const md=isGrd?(grdMapData||MAP_TIERS[15]):MAP_TIERS[tier-1];
-  const cost=isGrd?0:SHOP_COSTS[tier]||0;
-  G.selfRun={md,tier,cursed,uniq,isGrd,grdId:isGrd?key.slice(4):null,elapsed:0,cost};
+  const md=isGrd?(grdMapData||MAP_TIERS[15]):isBoss?(bossData||BOSSES[0]):MAP_TIERS[tier-1];
+  const cost=(isGrd||isBoss)?0:SHOP_COSTS[tier]||0;
+  G.selfRun={md,tier,cursed,uniq,isGrd,isBoss,grdId:isGrd?key.slice(4):null,bossId:isBoss?key.slice(5):null,elapsed:0,cost};
   document.getElementById('rpw').style.display='block';
   document.getElementById('btn-cancel-run').style.display='inline-block';
   document.getElementById('btn-self-run').disabled=true;
@@ -448,11 +455,13 @@ function resetRunUI(){
 }
 function completeSelfRun(){
   // Save everything from selfRun BEFORE nulling it
-  const {md,tier,cursed,uniq,isGrd,grdId,cost}=G.selfRun;
+  const {md,tier,cursed,uniq,isGrd,isBoss,grdId,bossId,cost}=G.selfRun;
   const grdMapData=grdId?GUARDIAN_MAPS.find(g=>g.id===grdId):null;
+  const bossMapData=bossId?BOSSES.find(b=>b.id===bossId):null;
   const power=sDmg()+sSurv();
-  const chMod=(cursed?-.2:0)+(uniq?-.1:0)+(isGrd?-.15:0);
-  const ch=Math.max(.03,calcCh(power,tier)+chMod);
+  const chMod=(cursed?-.2:0)+(uniq?-.1:0)+(isGrd?-.15:0)+(isBoss?-.1:0);
+  const bossDgr=isBoss&&bossMapData?bossMapData.dgr:null;
+  const ch=Math.max(.03,calcCh(power,tier,bossDgr)+chMod);
   const ok=Math.random()<ch;
   G.stats.mr++;G.totalRuns++;
   if(!G.stats.tierRuns)G.stats.tierRuns={};
@@ -460,8 +469,30 @@ function completeSelfRun(){
   G.selfRun=null;resetRunUI();  // null AFTER extracting all data
   if(ok){
     const lm=cursed?3:uniq?2:1;
-    const g=goldReward(md,power,cost);G.gold+=g;G.stats.ge+=g;
-    if(!isGrd){G.cleared[tier]=true;if(tier>G.maxTier)G.maxTier=tier;}
+    if(!isGrd&&!isBoss){G.cleared[tier]=true;if(tier>G.maxTier)G.maxTier=tier;}
+    if(isBoss&&bossMapData){
+      G.bossKills[bossId]=(G.bossKills[bossId]||0)+1;
+      // Deduct fragments
+      Object.entries(bossMapData.req).forEach(([k,v])=>{G.guardianPieces[k]=Math.max(0,(G.guardianPieces[k]||0)-v);});
+      // Drop boss unique item
+      const bossUniqPool2=[
+        {nm:'Клинок Катиной',      em:'⚔️',slot:'weapon',mods:[{stat:'dmgPhys',value:280},{stat:'critChance',value:60},{stat:'atkSpd',value:40},{stat:'str',value:80}]},
+        {nm:'Скипетр Шейпера',     em:'🔮',slot:'weapon',mods:[{stat:'dmgSpell',value:260},{stat:'critSpell',value:55},{stat:'castSpd',value:50},{stat:'int',value:90}]},
+        {nm:'Орб Созидания',       em:'💠',slot:'weapon',mods:[{stat:'minionDmg',value:300},{stat:'dmgSpell',value:200},{stat:'int',value:100},{stat:'energyShield',value:150}]},
+        {nm:'Броня Создателя',     em:'🛡',slot:'armor', mods:[{stat:'armor',value:350},{stat:'energyShield',value:200},{stat:'hp',value:250},{stat:'allRes',value:80}]},
+        {nm:'Диадема Атзири',      em:'👑',slot:'helmet',mods:[{stat:'hp',value:300},{stat:'allRes',value:70},{stat:'dmgSpell',value:150},{stat:'critChance',value:40}]},
+        {nm:'Кольцо Созидания',    em:'💍',slot:'ring',  mods:[{stat:'allRes',value:80},{stat:'hp',value:200},{stat:'dmgPhys',value:120},{stat:'str',value:60}]},
+        {nm:'Тюрьма Создателя',    em:'⛓️',slot:'ring',  mods:[{stat:'allRes',value:90},{stat:'int',value:80},{stat:'dmgSpell',value:140},{stat:'critSpell',value:50}]},
+      ];
+      const bUI2=bossUniqPool2[Math.floor(Math.random()*bossUniqPool2.length)];
+      const bItem={id:++G.iid,name:bUI2.nm,em:bUI2.em,cls:'warrior',slot:bUI2.slot,
+        quality:'unique',mods:bUI2.mods,tier:16,sellPrice:5000};
+      G.inv.push(bItem);G.stats.fi++;
+      const bossGold=goldReward(bossMapData,power,0);G.gold+=bossGold;G.stats.ge+=bossGold;
+      log('💠 '+bossMapData.nm+' повержен! +'+bossGold+'💰 + 💠 '+bUI2.nm,'ev');
+      floatT('+'+bossGold+'💰','#44aaff');showN('💠 '+bossMapData.nm+' убит!','pur');
+      renderMaps();
+    }
     if(isGrd){
       const gtype=(grdMapData&&grdMapData.type)||'shaper';
       G.guardianPieces[gtype]=(G.guardianPieces[gtype]||0)+1;
@@ -470,28 +501,36 @@ function completeSelfRun(){
       showN('🔷 Фрагмент Создателя '+pieces+'/4','pur');
       checkBossUnlocks();
     }
-    const suffix=cursed?' (x3 лут)':uniq?' (x2 лут)':isGrd?' [Стражник]':'';
-    log('✅ Пройдено! +'+g+'💰'+suffix,'ge');
-    floatT('+'+g+'💰','#f0d080');
-    for(let i=0;i<lm;i++)tryItem(md,G.selfCls,1);tryMap(md);
+    const suffix=cursed?' (x3 лут)':uniq?' (x2 лут)':isGrd?' [Стражник]':isBoss?'':'';
+    if(!isBoss){const g=goldReward(md,power,cost);G.gold+=g;G.stats.ge+=g;log('✅ Пройдено! +'+g+'💰'+suffix,'ge');floatT('+'+g+'💰','#f0d080');}
+    if(!isBoss){for(let i=0;i<lm;i++)tryItem(md,G.selfCls,1);tryMap(md);}
     addXPSelf(xpAmt(tier));
     checkAchs();renderAtlasBar();renderShop();
   }else{
     log('💀 Вы пали в T'+tier+(cursed?' [ЗАРАЖЁННАЯ]':uniq?' [УНИКАЛЬНАЯ]':isGrd?' [СТРАЖНИК]':'')+'!','ev');
     showN('Вы погибли!','red');
   }
-  if(G.selMap){const selMd=getMd(G.selMap);updateRunVis(selMd,true,String(G.selMap).startsWith('grd_'));}else updateRunVis(null);
+  const isBossCard=G.selMap&&String(G.selMap).startsWith('boss_');
+  if(G.selMap&&!isBossCard){const selMd=getMd(G.selMap);updateRunVis(selMd,true,String(G.selMap).startsWith('grd_'));}else updateRunVis(null);
   renderMaps();renderInv();updateRes();
 }
 function updateRunVis(md,idle,isGrd){
   const el=document.getElementById('run-con');if(!el)return;
-  if(!md){el.innerHTML='<div class="dim" style="font-style:italic">Выберите карту слева</div>';return;}
+  if(!md){
+    const showActHint=G.selfLevel<2;
+    el.innerHTML=showActHint
+      ?'<div style="text-align:center;padding:8px"><div style="font-size:20px;margin-bottom:6px">🏕</div>'+
+        '<div style="font-size:13px;color:var(--gold);font-weight:600;margin-bottom:4px">Сначала пройдите Акты!</div>'+
+        '<div style="font-size:12px;color:var(--txt-d)">Вкладка 🏕 АКТЫ → получите уровни перед картами.<br>Без прокачки на картах будет ~30% шанс.</div></div>'
+      :'<div class="dim" style="font-style:italic">Выберите карту слева</div>';
+    return;
+  }
   const col=isGrd?'#44aaff':tcol(md.t);
   let ch='';if(idle){const cv=calcCh(sDmg()+sSurv(),md.t);ch='<div style="margin-top:4px;font-size:12px;color:'+chcol(cv)+'">Ваш шанс: '+Math.round(cv*100)+'%</div>';}
   const cost=SHOP_COSTS[md.t]||0;
   el.innerHTML='<div class="run-nm" style="color:'+col+'">'+md.em+' '+(isGrd&&md.boss?md.boss:md.nm)+'</div>'+
     '<div class="dim" style="font-size:10px;letter-spacing:2px;margin-bottom:4px">'+(isGrd?'КАРТА СТРАЖНИКА':'КАРТА ТИРА '+md.t)+'</div>'+
-    '<div style="font-size:12px;color:var(--txt-d)">⏱ ~'+md.time+'с &nbsp; 💰'+md.g[0]+'-'+md.g[1]+'</div>'+ch;
+    '<div style="font-size:12px;color:var(--txt-d)">⏱ ~'+md.time+'с &nbsp; 💰'+(goldReward(md,sDmg()+sSurv(),cost))+' (макс.)</div>'+ch;
 }
 function startAct(id){
   if(G.actRun){showN('Уже в акте!');return;}if(G.selfRun){showN('Уже в походе!');return;}
@@ -518,6 +557,8 @@ function sendWorker(id){
   const cursed=key.startsWith('c');
   const uniq=key.startsWith('u');
   const isGrd=key.startsWith('grd_');
+  const isBossW=key.startsWith('boss_');
+  if(isBossW){showN('Работники не могут идти к боссу!');return;}
   const tier=cursed||uniq?parseInt(key.slice(1)):isGrd?16:parseInt(key);
   const grdMapData=isGrd?GUARDIAN_MAPS.find(g=>'grd_'+g.id===key):null;
   if(!(G.maps[key]>0)){showN('Нет карт!');return;}
@@ -584,14 +625,14 @@ function rescueW(id){
 }
 function sellItem(id){
   const it=G.inv.find(x=>x.id===id);if(!it)return;
-  G.gold+=it.sellPrice;G.stats.sg+=it.sellPrice;G.stats.sold++;
+  const sp=parseInt(it.sellPrice)||0;G.gold+=sp;G.stats.sg+=sp;G.stats.sold++;
   G.inv=G.inv.filter(x=>x.id!==id);
   log('💰 '+it.em+' '+it.name+' +'+it.sellPrice+'💰','ge');floatT('+'+it.sellPrice+'💰','#c8a96e');
   checkAchs();closeM();renderInv();updateRes();
 }
 function sellAllNormal(){
   const ns=G.inv.filter(x=>x.quality==='normal');if(!ns.length){showN('Нет обычных!');return;}
-  const tot=ns.reduce((s,x)=>s+x.sellPrice,0);G.inv=G.inv.filter(x=>x.quality!=='normal');
+  const tot=ns.reduce((s,x)=>s+(parseInt(x.sellPrice)||0),0);G.inv=G.inv.filter(x=>x.quality!=='normal');
   G.gold+=tot;G.stats.sg+=tot;G.stats.sold+=ns.length;
   log('💰 Продано '+ns.length+'x обычных +'+tot+'💰','ge');floatT('+'+tot+'💰','#c8a96e');
   checkAchs();renderInv();updateRes();
@@ -622,10 +663,19 @@ function tryBoss(id){
     G.bossKills[id]=(G.bossKills[id]||0)+1;
     const g=Math.floor(Math.random()*(b.g[1]-b.g[0])+b.g[0]);G.gold+=g;G.stats.ge+=g;
     // Guaranteed unique item
-    const uniqNm=b.uniqPool[Math.floor(Math.random()*b.uniqPool.length)];
-    const uniqIt={id:++G.iid,name:uniqNm,em:'💠',cls:'warrior',slot:['weapon','armor','helmet','ring'][Math.floor(Math.random()*4)],
-      quality:'unique',mods:[{stat:'dmgPhys',value:200},{stat:'hp',value:300},{stat:'allRes',value:50},{stat:'critChance',value:30}],
-      tier:16,sellPrice:2500};
+    // Boss unique item — proper slot based on item name, high power mods
+    const bossUniqPool=[
+      {nm:'Клинок Катиной',      em:'⚔️',slot:'weapon',mods:[{stat:'dmgPhys',value:280},{stat:'critChance',value:60},{stat:'atkSpd',value:40},{stat:'str',value:80}]},
+      {nm:'Скипетр Шейпера',     em:'🔮',slot:'weapon',mods:[{stat:'dmgSpell',value:260},{stat:'critSpell',value:55},{stat:'castSpd',value:50},{stat:'int',value:90}]},
+      {nm:'Орб Созидания',       em:'💠',slot:'weapon',mods:[{stat:'minionDmg',value:300},{stat:'dmgSpell',value:200},{stat:'int',value:100},{stat:'energyShield',value:150}]},
+      {nm:'Броня Создателя',     em:'🛡',slot:'armor', mods:[{stat:'armor',value:350},{stat:'energyShield',value:200},{stat:'hp',value:250},{stat:'allRes',value:80}]},
+      {nm:'Диадема Атзири',      em:'👑',slot:'helmet',mods:[{stat:'hp',value:300},{stat:'allRes',value:70},{stat:'dmgSpell',value:150},{stat:'critChance',value:40}]},
+      {nm:'Кольцо Созидания',    em:'💍',slot:'ring',  mods:[{stat:'allRes',value:80},{stat:'hp',value:200},{stat:'dmgPhys',value:120},{stat:'str',value:60}]},
+      {nm:'Тюрьма Создателя',    em:'⛓️',slot:'ring',  mods:[{stat:'allRes',value:90},{stat:'int',value:80},{stat:'dmgSpell',value:140},{stat:'critSpell',value:50}]},
+    ];
+    const bUI=bossUniqPool[Math.floor(Math.random()*bossUniqPool.length)];
+    const uniqIt={id:++G.iid,name:bUI.nm,em:bUI.em,cls:'warrior',slot:bUI.slot,
+      quality:'unique',mods:bUI.mods,tier:16,sellPrice:5000};
     G.inv.push(uniqIt);G.stats.fi++;
     log('💠 '+b.nm+' повержен! +'+g+'💰 + 💠 '+uniqNm,'ev');showN('💠 '+b.nm+' убит!','pur');
     renderInv();checkAchs();
@@ -769,7 +819,9 @@ function startExpedition(wid){
   G.lastExpSlots=[...slots];
   w.status='exp';w.expTiers=[...slots];w.expIdx=0;w.elapsed=0;w.prog=0;w.curMap=slots[0];
   log('🗺 '+w.name+' — экспедиция: T'+slots.join(', T'),'info');
-  closeM();renderWorkers();renderMaps();
+  renderWorkers();renderMaps();
+  // Reopen expedition modal with fresh state (don't close)
+  setTimeout(()=>openExpedition(),50);
 }
 
 // ══════════ TICK ══════════════════════════════════════════════
@@ -825,14 +877,39 @@ function renderMaps(){
   const cursed=allKeys.filter(k=>String(k).startsWith('c')).map(k=>parseInt(k.slice(1))).sort((a,b)=>a-b);
   const uniqs=allKeys.filter(k=>String(k).startsWith('u')).map(k=>parseInt(k.slice(1))).sort((a,b)=>a-b);
   const grdKeys=Object.keys(G.maps).filter(k=>k.startsWith('grd_')&&G.maps[k]>0);
+  // Boss portal cards
+  const bossCards=BOSSES.filter(b=>{
+    const pieces=G.guardianPieces[b.id.replace('shaper','shaper')]||G.guardianPieces.shaper||0;
+    const everSeen=pieces>0||(G.bossAttempts[b.id]||0)>0||(G.bossKills[b.id]||0)>0;
+    return everSeen;
+  }).map(b=>({t:17,k:'boss_'+b.id,type:'boss'}));
   const items=[
     ...normal.map(t=>({t,k:String(t),type:'normal'})),
     ...cursed.map(t=>({t,k:'c'+t,type:'cursed'})),
     ...uniqs.map(t=>({t,k:'u'+t,type:'uniq'})),
     ...grdKeys.map(k=>({t:16,k,type:'guardian'})),
+    ...bossCards,
   ];
   let html='';
   items.forEach(({t,k,type})=>{
+    // Boss card rendering
+    if(type==='boss'){
+      const bid=k.slice(5);const b=BOSSES.find(x=>x.id===bid);if(!b)return;
+      const pieces=G.guardianPieces.shaper||0;const maxP=4;
+      const ready=pieces>=maxP;
+      const isSel=String(G.selMap)===k;
+      html+='<div class="mcard '+(isSel?'sel':'')+'" style="border-color:'+(ready?'#0088cc':'#335566')+';cursor:'+(ready?'pointer':'default')+'" '+(ready?'data-mapkey="'+k+'"':'')+'>'+
+        '<div class="mtier" style="color:#44aaff">💠</div>'+
+        '<div style="flex:1">'+
+          '<div class="mname" style="color:'+(ready?'#44aaff':'#6699bb')+'">'+b.em+' '+b.nm+
+            (ready?'':' <span style="font-size:10px;color:var(--txt-d)">['+pieces+'/'+maxP+' фрагментов]</span>')+'</div>'+
+          '<div class="mreward">💰3000-6000 + уникальный предмет</div>'+
+          (ready?'<div style="font-size:11px;color:#44aaff;margin-top:2px">✨ Портал открыт!</div>':
+                  '<div style="font-size:11px;color:var(--txt-d);margin-top:2px">Убейте 4 стражников на T16</div>')+
+        '</div></div>';
+      return;
+    }
+    if(!(G.maps[k]>0))return;
     if(!(G.maps[k]>0))return;
     const md=MAP_TIERS[t-1];
     const chMod=type==='cursed'?-.2:type==='uniq'?-.1:0;
@@ -848,7 +925,7 @@ function renderMaps(){
       '<div class="mtier" style="color:'+tcol(t)+'">'+prefix+'T'+t+'</div>'+
       '<div style="flex:1">'+
         '<div class="mname">'+(type==='guardian'?'🔷 <span style="color:#44aaff">'+(grdData?grdData.nm:'Гвардейская')+'</span> <span style="color:#44aaff;font-size:10px">[СТРАЖ]</span>':type==='uniq'?(()=>{const ud=G.uniqMapData&&G.uniqMapData[k];return (ud?ud.em:md.em)+' <span style="color:#e87020">'+(ud?ud.nm:md.nm)+'</span>';})():md.em+' '+md.nm)+' '+badge+'</div>'+
-        '<div style="font-size:11px;color:var(--txt-d)">💰'+md.g[0]+'-'+md.g[1]+'+ предметы</div>'+
+        '<div style="font-size:11px;color:var(--txt-d)">💰'+(goldReward(md,sDmg()+sSurv(),SHOP_COSTS[md.t]||0))+' (база '+md.g[0]+'-'+md.g[1]+')</div>'+
         '<div class="mch-wrap"><div class="mch-bg"><div class="mch-fill" style="width:'+(Math.min(1,ch)*100)+'%;background:'+cc+'"></div></div>'+
         '<div class="mch-pct" style="color:'+cc+'">'+Math.round(Math.min(1,ch)*100)+'%</div></div>'+
       '</div>'+
@@ -997,28 +1074,14 @@ function renderUpgrades(){
        '<span class="spr">💰'+cost+'</span><button class="btn btn-sm" data-up="'+u.id+'">Улучшить</button>')+
       '</div></div></div>';
   }).join('');
-  // Boss buttons — only show when player has ever had a fragment
-  BOSSES.forEach(b=>{
-    const pieces=b.id==='shaper'?G.guardianPieces.shaper||0:0;
-    const maxPieces=Object.values(b.req).reduce((s,v)=>s+v,0);
-    const everSeen=pieces>0||(G.bossAttempts[b.id]||0)>0||(G.bossKills[b.id]||0)>0;
-    if(!everSeen)return;
-    const ready=pieces>=maxPieces;
-    html+='<div style="margin-top:8px;padding:8px;border:1px solid '+(ready?'#0088cc':'#335566')+';background:rgba(0,80,140,'+(ready?'.2':'.08')+')">'+
-      '<div style="display:flex;align-items:center;gap:8px;margin-bottom:5px">'+
-        '<span style="font-size:22px">'+b.em+'</span>'+
-        '<div><div style="font-family:Cinzel,serif;color:'+(ready?'#44aaff':'#6699bb')+';font-size:13px">'+b.nm+'</div>'+
-        '<div style="font-size:12px;color:var(--txt-d)">Фрагменты стражников: <b style="color:'+(ready?'#44aaff':'#aabbcc')+'">'+pieces+'/'+maxPieces+'</b></div></div></div>'+
-      (ready
-        ?'<button class="btn btn-sm" style="border-color:#0088cc;color:#44aaff;width:100%" data-boss="'+b.id+'">💠 Войти в портал Создателя</button>'
-        :'<div style="font-size:12px;color:var(--txt-d)">Убейте всех 4 стражников для доступа.</div>')+
-    '</div>';
-  })
+  // Boss is now shown in the Maps tab as a card
   if(canPrestige())html+=
     '<div style="margin-top:8px;padding:8px;border:1px solid #553388;background:rgba(85,51,136,.15);text-align:center">'+
     '<div style="font-family:Cinzel,serif;color:#ffaa00;font-size:12px;margin-bottom:6px">✨ ВЫ ПРОШЛИ ВСЕ 16 ТИРОВ!</div>'+
     '<button class="btn btn-p" id="btn-prestige">✨ Престиж — сброс с бонусом</button></div>';
   document.getElementById('upgrades').innerHTML=html;
+  // Sync atlas bar prestige button
+  renderAtlasBar();
 }
 
 function renderAtlasBar(){
@@ -1037,13 +1100,28 @@ function renderAtlasTab(){
   let html='<div style="font-size:12px;color:var(--txt-d);margin-bottom:8px">Зелёный = пройден. Пройдите все 16 для Престижа.</div><div id="atlas-grid">';
   for(let t=1;t<=16;t++){
     const md=MAP_TIERS[t-1];const done=!!G.cleared[t];
+    const runs=(G.stats.tierRuns&&G.stats.tierRuns[t])||0;
     html+='<div class="at-cell '+(done?'done':'locked')+'">'+
       '<div style="font-size:20px">'+md.em+'</div>'+
       '<div style="font-family:Cinzel,serif;font-size:9px;margin-top:2px">T'+t+'</div>'+
-      '<div style="font-size:9px;color:var(--txt-d)">'+md.nm.slice(0,9)+'</div>'+
-      (done?'<div style="color:var(--grn);font-size:12px">✓</div>':'<div style="font-size:10px">—</div>')+
+      '<div style="font-size:9px;color:var(--txt-d)">'+md.nm.slice(0,10)+'</div>'+
+      (done?'<div style="color:var(--grn);font-size:10px">✓ '+runs+'x</div>':'<div style="font-size:10px">—</div>')+
     '</div>';
   }
+  html+='</div>';
+  // Guardians section
+  html+='<div style="margin-top:12px;font-family:Cinzel,serif;font-size:11px;color:var(--gold-d);margin-bottom:6px;letter-spacing:2px">🔷 СТРАЖНИКИ</div>';
+  GUARDIAN_MAPS.forEach(gm=>{
+    const key='grd_'+gm.id;const runs=G.stats.tierRuns&&G.stats.tierRuns[key]||0;
+    const killed=(G.guardianPieces&&G.guardianPieces.shaper)||0;
+    html+='<div style="display:flex;align-items:center;gap:8px;padding:5px 8px;background:var(--bg4);border:1px solid var(--brd);margin-bottom:3px">'+
+      '<span style="font-size:18px">'+gm.em+'</span>'+
+      '<div style="flex:1"><div style="font-size:13px">'+gm.nm+'</div>'+
+      '<div style="font-size:11px;color:var(--txt-d)">'+gm.boss+'</div></div>'+
+      '<div style="text-align:right;font-size:11px;color:var(--txt-d)">'+(G.maps[key]>0?'<span style="color:#44aaff">'+G.maps[key]+'x в наличии</span>':'нет')+'</div></div>';
+  });
+  const bk=G.bossKills&&G.bossKills.shaper||0;
+  if(bk>0)html+='<div style="margin-top:8px;padding:8px;background:rgba(0,80,140,.15);border:1px solid #335566;font-size:13px;color:#44aaff">💠 Создатель повержен: <b>'+bk+'x</b></div>';
   html+='</div>';el.innerHTML=html;
 }
 function renderAchs(){
@@ -1083,7 +1161,7 @@ function claimAch(id){
 function updateRes(){
   const tm=Object.keys(G.maps).reduce((s,k)=>s+(G.maps[k]||0),0);
   const set=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=v;};
-  set('r-gold',fN(G.gold));set('r-maps',tm);set('r-items',G.inv.length);set('r-workers',G.workers.length);set('r-runs',G.totalRuns);
+  if(isNaN(G.gold))G.gold=0;  set('r-gold',fN(G.gold));set('r-maps',tm);set('r-items',G.inv.length);set('r-workers',G.workers.length);set('r-runs',G.totalRuns);
 }
 function updateStats(){
   const el=document.getElementById('stats-p');if(!el)return;
@@ -1184,7 +1262,7 @@ function openWorkerEq(id){
     const eq=w.eq[sl];
     html+='<div class="eqsl '+(eq?'filled':'')+'" data-pick-w="'+id+'" data-pick-sl="'+sl+'">'+
       '<span class="eqlbl">'+SLOTNM[sl]+'</span>'+
-      (eq?'<span style="color:'+qcol(eq.quality)+';font-size:11px">'+eq.em+' '+eq.name+'</span>'+
+      (eq?'<span style="color:'+qcol(eq.quality)+';font-size:14px">'+eq.em+' '+eq.name+'</span>'+
           '<span class="tiny">⚔️+'+iDmg(eq,w.cls)+' 🛡+'+iSurv(eq,w.cls)+'</span>':
        '<span class="dim" style="font-size:11px">Пусто</span>')+
     '</div>';
@@ -1202,7 +1280,7 @@ function openSelfEq(){
     const eq=G.selfEq[sl];
     html+='<div class="eqsl '+(eq?'filled':'')+'" data-pick-w="0" data-pick-sl="'+sl+'">'+
       '<span class="eqlbl">'+SLOTNM[sl]+'</span>'+
-      (eq?'<span style="color:'+qcol(eq.quality)+';font-size:11px">'+eq.em+' '+eq.name+'</span>'+
+      (eq?'<span style="color:'+qcol(eq.quality)+';font-size:14px">'+eq.em+' '+eq.name+'</span>'+
           '<span class="tiny">⚔️+'+iDmg(eq,cls)+' 🛡+'+iSurv(eq,cls)+'</span>':
        '<span class="dim" style="font-size:11px">Пусто</span>')+
     '</div>';
@@ -1285,7 +1363,7 @@ function openDebug(){
     return 'T'+m.t+':'+(Math.floor(base*mult));
   }).join(' ');
   const rows=[
-    ['version','v0.014'],['gold',G.gold],['totalRuns',G.totalRuns],['prestige',G.prestige],['bonus',G.prestigeBonus+'%'],
+    ['version','v0.015'],['gold',G.gold],['totalRuns',G.totalRuns],['prestige',G.prestige],['bonus',G.prestigeBonus+'%'],
     ['selfPower',sp],['chances',[1,3,5,8,10,12,16].map(t=>'T'+t+':'+Math.round(calcCh(sp,t)*100)+'%').join(' ')],
     ['cleared',Object.keys(G.cleared).sort((a,b)=>a-b).join(',')],
     ['maps',Object.keys(G.maps).filter(k=>G.maps[k]>0).map(k=>k+':'+G.maps[k]).join(',')],
@@ -1448,34 +1526,57 @@ document.addEventListener('click',function(e){
   if(t.id==='btn-sell-all'){sellAllNormal();return;}
   if(t.id==='btn-sell-magic'){
     const ms=G.inv.filter(x=>x.quality==='magic');if(!ms.length){showN('Нет волшебных!');return;}
-    const tot=ms.reduce((s,x)=>s+x.sellPrice,0);G.inv=G.inv.filter(x=>x.quality!=='magic');
+    const tot=ms.reduce((s,x)=>s+(parseInt(x.sellPrice)||0),0);G.inv=G.inv.filter(x=>x.quality!=='magic');
     G.gold+=tot;G.stats.sg+=tot;G.stats.sold+=ms.length;
     log('💰 Продано '+ms.length+'x волшебных +'+tot+'💰','ge');floatT('+'+tot+'💰','#c8a96e');
     checkAchs();renderInv();updateRes();return;
+  }
+  if(t.id==='btn-sell-rare'){
+    const rs=G.inv.filter(x=>x.quality==='rare');if(!rs.length){showN('Нет редких!');return;}
+    const tot=rs.reduce((s,x)=>s+(parseInt(x.sellPrice)||0),0);
+    openM('⚠️ Продать редкие?',
+      '<div style="font-size:14px;margin-bottom:12px">Продать <b style="color:var(--rare)">'+rs.length+'</b> редких предметов за <span class="gt">'+tot+'💰</span>?<br>'+
+      '<span style="font-size:12px;color:var(--txt-d)">Это действие необратимо!</span></div>'+
+      '<div style="display:flex;gap:6px">'+
+        '<button class="btn btn-g" id="btn-confirm-sell-rare">💰 Продать</button>'+
+        '<button class="btn btn-r btn-sm" id="btn-close-m">Отмена</button></div>');
+    window._pendingRareSell=rs;return;
+  }
+  if(t.id==='btn-confirm-sell-rare'){
+    const rs=window._pendingRareSell||[];const tot=rs.reduce((s,x)=>s+(parseInt(x.sellPrice)||0),0);
+    const ids=new Set(rs.map(x=>x.id));G.inv=G.inv.filter(x=>!ids.has(x.id));
+    G.gold+=tot;G.stats.sg+=tot;G.stats.sold+=rs.length;
+    log('💰 Продано '+rs.length+'x редких +'+tot+'💰','ge');floatT('+'+tot+'💰','#f0d060');
+    window._pendingRareSell=null;closeM();checkAchs();renderInv();updateRes();return;
   }
   if(t.id==='btn-sell-magic'){
     const ms=G.inv.filter(x=>x.quality==='magic');if(!ms.length){showN('Нет волшебных!');return;}
-    const tot=ms.reduce((s,x)=>s+x.sellPrice,0);G.inv=G.inv.filter(x=>x.quality!=='magic');
+    const tot=ms.reduce((s,x)=>s+(parseInt(x.sellPrice)||0),0);G.inv=G.inv.filter(x=>x.quality!=='magic');
     G.gold+=tot;G.stats.sg+=tot;G.stats.sold+=ms.length;
     log('💰 Продано '+ms.length+'x волшебных +'+tot+'💰','ge');floatT('+'+tot+'💰','#c8a96e');
     checkAchs();renderInv();updateRes();return;
   }
+  if(t.id==='btn-sell-rare'){
+    const rs=G.inv.filter(x=>x.quality==='rare');if(!rs.length){showN('Нет редких!');return;}
+    const tot=rs.reduce((s,x)=>s+(parseInt(x.sellPrice)||0),0);
+    openM('⚠️ Продать редкие?',
+      '<div style="font-size:14px;margin-bottom:12px">Продать <b style="color:var(--rare)">'+rs.length+'</b> редких предметов за <span class="gt">'+tot+'💰</span>?<br>'+
+      '<span style="font-size:12px;color:var(--txt-d)">Это действие необратимо!</span></div>'+
+      '<div style="display:flex;gap:6px">'+
+        '<button class="btn btn-g" id="btn-confirm-sell-rare">💰 Продать</button>'+
+        '<button class="btn btn-r btn-sm" id="btn-close-m">Отмена</button></div>');
+    window._pendingRareSell=rs;return;
+  }
+  if(t.id==='btn-confirm-sell-rare'){
+    const rs=window._pendingRareSell||[];const tot=rs.reduce((s,x)=>s+(parseInt(x.sellPrice)||0),0);
+    const ids=new Set(rs.map(x=>x.id));G.inv=G.inv.filter(x=>!ids.has(x.id));
+    G.gold+=tot;G.stats.sg+=tot;G.stats.sold+=rs.length;
+    log('💰 Продано '+rs.length+'x редких +'+tot+'💰','ge');floatT('+'+tot+'💰','#f0d060');
+    window._pendingRareSell=null;closeM();checkAchs();renderInv();updateRes();return;
+  }
   if(t.id==='btn-copy-debug'){try{navigator.clipboard.writeText(window._debugStr||'');}catch(ex){}showN('Скопировано!');return;}
   // Prestige
-  // Boss
-  if(t.dataset.boss){
-    const b=BOSSES.find(x=>x.id===t.dataset.boss);if(!b)return;
-    const power=sDmg()+sSurv();const ch=Math.max(.03,calcCh(power,16)*.6);
-    openM('💠 '+b.nm,
-      '<div style="margin-bottom:10px;font-size:14px">'+b.desc+'<br><br>'+
-      '<span style="color:var(--txt-d)">Ваш шанс: </span><b style="color:'+chcol(ch)+'">'+Math.round(ch*100)+'%</b><br>'+
-      '<span style="font-size:12px;color:var(--txt-d)">Награда: 💰3000-6000 + гарантированный уникальный предмет</span></div>'+
-      '<div style="display:flex;gap:6px">'+
-        '<button class="btn" style="border-color:#0088cc;color:#44aaff" data-do-boss="'+b.id+'">💠 Войти!</button>'+
-        '<button class="btn btn-r btn-sm" id="btn-close-m">Отмена</button></div>');
-    return;
-  }
-  if(t.dataset.doBoss){tryBoss(t.dataset.doBoss);return;}
+  // Boss is now handled via map card click
   if(t.id==='btn-prestige'||t.id==='btn-prestige-bar'){
     openM('✨ ПРЕСТИЖ',
       '<div style="margin-bottom:12px;font-size:14px">Вы прошли все 16 тиров!<br><br>'+
@@ -1543,7 +1644,7 @@ function init(){
   load();renderAll();
   window._tickId=setInterval(tick,200);
   window._saveId=setInterval(save,8000);
-  log('🌟 Добро пожаловать! Картоходец v0.014','info');
+  log('🌟 Добро пожаловать! Картоходец v0.015','info');
 }
 init();
 </script>
