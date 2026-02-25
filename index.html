@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Картоходец v0.008</title>
+<title>Картоходец v0.010</title>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;900&family=Crimson+Pro:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
 <style>
-:root{--gold:#c8a96e;--gold-b:#f0d080;--gold-d:#8a6a2e;--blood:#8b1a1a;--blood-b:#c0392b;--bg0:#0a0806;--bg1:#110e09;--bg2:#1a1510;--bg3:#1f1912;--bg4:#241d14;--brd:#3a2e1e;--brd-g:#5a4a2a;--txt:#d4c4a0;--txt-d:#8a7a60;--txt-b:#f0e0b0;--mag:#8888ff;--rare:#f0d060;--uniq:#cc6820;--norm:#b0b0b0;--grn:#4a9a4a;--cyn:#4ab0b0;--red:#c03030;--org:#cc7700;}
+:root{--gold:#c8a96e;--gold-b:#f0d080;--gold-d:#8a6a2e;--blood:#8b1a1a;--blood-b:#c0392b;--bg0:#0a0806;--bg1:#110e09;--bg2:#1a1510;--bg3:#1f1912;--bg4:#241d14;--brd:#3a2e1e;--brd-g:#5a4a2a;--txt:#d4c4a0;--txt-d:#8a7a60;--txt-b:#f0e0b0;--mag:#8888ff;--rare:#f0d060;--uniq:#e87020;--norm:#b0b0b0;--grn:#4a9a4a;--cyn:#4ab0b0;--red:#c03030;--org:#cc7700;}
 *{margin:0;padding:0;box-sizing:border-box;}
 body{background:var(--bg0);color:var(--txt);font-family:'Crimson Pro',Georgia,serif;font-size:16px;font-weight:400;min-height:100vh;overflow-x:hidden;}
 body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;background:radial-gradient(ellipse 80% 50% at 50% 0%,rgba(100,60,10,.15) 0%,transparent 70%);}
@@ -22,7 +22,7 @@ h1{font-family:'Cinzel',serif;font-size:22px;font-weight:900;color:var(--gold);t
 #atlas-bar{background:var(--bg3);border:1px solid var(--brd-g);padding:5px 12px;margin-bottom:8px;display:flex;align-items:center;gap:8px;font-size:11px;flex-wrap:wrap;}
 .pt-lbl{font-family:'Cinzel',serif;color:var(--gold-d);letter-spacing:1px;font-size:11px;white-space:nowrap;}
 .pt-tiers{display:flex;gap:2px;flex-wrap:wrap;}
-.pt-t{width:16px;height:10px;background:var(--bg2);border:1px solid var(--brd);font-size:7px;display:flex;align-items:center;justify-content:center;color:var(--txt-d);}
+.pt-t{width:18px;height:12px;background:var(--bg2);border:1px solid var(--brd);font-size:9px;display:flex;align-items:center;justify-content:center;color:var(--txt-d);}
 .pt-t.done{background:var(--gold-d);border-color:var(--gold);color:var(--bg0);}
 #layout{display:grid;grid-template-columns:310px 1fr 285px;gap:8px;align-items:start;}
 .panel{background:var(--bg3);border:1px solid var(--brd);padding:10px;position:relative;}
@@ -66,8 +66,8 @@ h1{font-family:'Cinzel',serif;font-size:22px;font-weight:900;color:var(--gold);t
 .igrid::-webkit-scrollbar{width:3px;}
 .iico{background:var(--bg4);border:1px solid var(--brd);aspect-ratio:1;display:flex;align-items:center;justify-content:center;font-size:26px;cursor:pointer;transition:all .15s;position:relative;}
 .iico:hover{transform:scale(1.08);}
-.iico.n{border-color:#444;}.iico.m{border-color:#5555aa;}.iico.r{border-color:#aaaa00;}.iico.u{border-color:#803000;}
-.isp{position:absolute;bottom:1px;right:2px;font-size:8px;color:var(--gold-d);font-family:'Cinzel',serif;}
+.iico.n{border-color:#444;}.iico.m{border-color:#5555aa;}.iico.r{border-color:#aaaa00;}.iico.u{border-color:#cc5500;}
+.isp{position:absolute;bottom:1px;right:2px;font-size:11px;color:var(--gold-d);font-family:'Cinzel',serif;}
 #tt{position:fixed;background:var(--bg1);border:1px solid var(--gold-d);padding:8px 12px;max-width:260px;pointer-events:none;z-index:9999;display:none;font-size:11px;box-shadow:0 0 18px rgba(0,0,0,.9);}
 .tt-nm{font-family:'Cinzel',serif;font-size:16px;margin-bottom:4px;}.tt-ty{font-size:8px;color:var(--txt-d);margin-bottom:4px;letter-spacing:1px;border-bottom:1px solid var(--brd);padding-bottom:3px;}
 .tt-st{color:var(--mag);padding:2px 0;font-size:14px;}.tt-dv{border:none;border-top:1px solid var(--brd);margin:4px 0;}.tt-sm{font-size:11px;color:var(--txt-d);line-height:1.7;}.tt-sv{color:var(--gold-d);font-size:9px;margin-top:2px;}
@@ -95,7 +95,7 @@ h1{font-family:'Cinzel',serif;font-size:22px;font-weight:900;color:var(--gold);t
 .at-cell{background:var(--bg4);border:1px solid var(--brd);padding:6px 4px;text-align:center;}
 .at-cell.done{border-color:var(--gold-d);background:rgba(200,169,110,.08);}.at-cell.locked{opacity:.4;}
 .ach-row{background:var(--bg4);border:1px solid var(--brd);padding:7px 9px;margin-bottom:3px;display:flex;align-items:center;gap:8px;}
-.ach-row.done{border-color:var(--gold-d);background:rgba(200,169,110,.06);}
+.ach-row.done{border-color:var(--gold-d);background:rgba(200,169,110,.06);}.ach-row.pending{border-color:#cc7700;background:rgba(170,90,0,.1);animation:pr 2s infinite;}
 .ach-ico{font-size:20px;width:28px;text-align:center;flex-shrink:0;}
 .ach-nm{font-size:13px;color:var(--txt-b);}.ach-ds{font-size:11px;color:var(--txt-d);}.ach-rw{font-size:11px;color:var(--gold-d);}
 #dbg-out{background:var(--bg0);border:1px solid #333;padding:8px;font-family:monospace;font-size:9px;color:#88ff88;max-height:400px;overflow-y:auto;line-height:1.6;}
@@ -104,7 +104,7 @@ h1{font-family:'Cinzel',serif;font-size:22px;font-weight:900;color:var(--gold);t
 <body>
 <div id="app">
 <header>
-  <h1>КАРТОХОДЕЦ <span class="ver">v0.008</span></h1>
+  <h1>КАРТОХОДЕЦ <span class="ver">v0.010</span></h1>
 </header>
 <div id="res-bar">
   <div class="ri"><span class="ri-ico">💰</span><div><span class="ri-lbl">ЗОЛОТО</span><span class="ri-val" id="r-gold">0</span></div></div>
@@ -144,10 +144,11 @@ h1{font-family:'Cinzel',serif;font-size:22px;font-weight:900;color:var(--gold);t
   <div id="self-sec">
     <div class="ptitle">🧙 ВЫ — ИЗГНАННИК <span id="self-cls-badge" style="font-size:10px;color:var(--txt-d)"></span></div>
     <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:6px">
-      <div><div class="tiny">КЛАСС</div><div style="display:flex;gap:4px;margin-top:2px" id="cls-btns">
-        <button class="btn btn-sm" data-cls="warrior" id="cls-warrior">⚔️ Воин</button>
-        <button class="btn btn-sm" data-cls="mage" id="cls-mage">🔮 Маг</button>
-        <button class="btn btn-sm" data-cls="ranger" id="cls-ranger">🏹 Следопыт</button>
+      <div><div class="tiny">КЛАСС</div><div style="display:flex;gap:4px;margin-top:2px" id="cls-btns" style="font-size:13px">
+        <button class="btn btn-sm" data-cls="warrior" id="cls-warrior">⚔️ Дикарь</button>
+        <button class="btn btn-sm" data-cls="mage" id="cls-mage">🔮 Ведьма</button>
+        <button class="btn btn-sm" data-cls="ranger" id="cls-ranger">🏹 Охотница</button>
+        <button class="btn btn-sm" data-cls="noble" id="cls-noble" style="display:none;border-color:#e8c020;color:#e8c020">👸 Дворянка</button>
       </div></div>
       <div style="margin-left:auto"><button class="btn btn-sm" id="btn-self-eq">🎒 Снаряжение</button></div>
     </div>
@@ -155,7 +156,7 @@ h1{font-family:'Cinzel',serif;font-size:22px;font-weight:900;color:var(--gold);t
       <div><div class="tiny">⚔️ УРОН</div><div class="gt" style="font-family:'Cinzel',serif;font-size:16px" id="s-dmg">5</div></div>
       <div><div class="tiny">🛡 ВЫЖИВАЕМОСТЬ</div><div class="grnt" style="font-family:'Cinzel',serif;font-size:16px" id="s-surv">10</div></div>
       <div><div class="tiny">✅ ШАНС</div><div style="font-family:'Cinzel',serif;font-size:13px" id="s-ch">—</div></div>
-      <div><div class="tiny">⭐ УРОВЕНЬ</div><div style="display:flex;align-items:center;gap:4px"><span class="gt" style="font-family:'Cinzel',serif;font-size:16px" id="s-lvl">0</span><button class="btn btn-sm btn-p" id="btn-self-lvlup" style="display:none;padding:1px 6px;font-size:11px">+</button></div></div>
+      <div style="flex:1;min-width:120px"><div class="tiny">⭐ УРОВЕНЬ <span id="s-lvl-xp" style="color:var(--mag)"></span></div><div style="display:flex;align-items:center;gap:6px;margin-top:2px"><span class="gt" style="font-family:'Cinzel',serif;font-size:16px" id="s-lvl">0</span><button class="btn btn-sm btn-p" id="btn-self-lvlup" style="display:none;padding:2px 8px;font-size:12px">+ Применить</button></div><div style="height:3px;background:var(--bg2);border:1px solid var(--brd);margin-top:3px;width:100%"><div id="s-xp-bar" style="height:100%;background:linear-gradient(90deg,#553388,#aa66ff);width:0%"></div></div></div>
     </div>
   </div>
   <div class="panel">
@@ -188,7 +189,7 @@ h1{font-family:'Cinzel',serif;font-size:22px;font-weight:900;color:var(--gold);t
   </div>
   <div class="panel" style="margin-top:8px">
     <div class="ptitle">📊 СТАТИСТИКА <button class="btn btn-sm" id="btn-debug" style="font-size:7px">🔧 ДЕБАГ</button></div>
-    <div id="stats-p" style="font-size:10px;line-height:2.1"></div>
+    <div id="stats-p" style="font-size:13px;line-height:2.1"></div>
   </div>
   <div class="panel" style="margin-top:8px">
     <div class="ptitle">⚠️ ОПАСНО</div>
@@ -202,29 +203,31 @@ h1{font-family:'Cinzel',serif;font-size:22px;font-weight:900;color:var(--gold);t
 <div id="notif-area"></div>
 <script>
 'use strict';
-// ════════ CONSTANTS ════════
+// ══════════ CONSTANTS ══════════════════════════════════════════
 const MAP_TIERS=[
-  {t:1,nm:'Равнины Кальгура',    em:'🌾',time:8, g:[12,28],  drop:.28,md:.08,mx:2, dgr:22},
-  {t:2,nm:'Туманный берег',      em:'🌊',time:9, g:[18,38],  drop:.30,md:.09,mx:3, dgr:35},
-  {t:3,nm:'Гнилые болота',       em:'🌿',time:10,g:[25,55],  drop:.32,md:.10,mx:4, dgr:52},
-  {t:4,nm:'Каменные шахты',      em:'⛏️',time:12,g:[34,72],  drop:.34,md:.11,mx:5, dgr:73},
-  {t:5,nm:'Проклятый лес',       em:'🌲',time:13,g:[46,92],  drop:.36,md:.12,mx:6, dgr:98},
-  {t:6,nm:'Руины Сарнат',        em:'🏛️',time:15,g:[60,120], drop:.38,md:.13,mx:7, dgr:128},
-  {t:7,nm:'Цитадель теней',      em:'🏰',time:17,g:[78,150], drop:.40,md:.14,mx:8, dgr:163},
-  {t:8,nm:'Ледяные пустоши',     em:'❄️',time:18,g:[100,190],drop:.42,md:.15,mx:9, dgr:203},
-  {t:9,nm:'Вулкан Кальгура',     em:'🌋',time:20,g:[130,240],drop:.44,md:.16,mx:10,dgr:248},
-  {t:10,nm:'Некрополь Вааса',    em:'💀',time:22,g:[165,290],drop:.46,md:.16,mx:11,dgr:298},
-  {t:11,nm:'Храм Луны',          em:'🌙',time:25,g:[210,360],drop:.48,md:.17,mx:12,dgr:354},
-  {t:12,nm:'Астральная плоскость',em:'✨',time:28,g:[265,440],drop:.50,md:.18,mx:13,dgr:416},
-  {t:13,nm:'Лабиринт Забвения',  em:'🌀',time:30,g:[330,540],drop:.52,md:.19,mx:14,dgr:484},
-  {t:14,nm:'Бездна Хаоса',       em:'🔥',time:33,g:[405,660],drop:.55,md:.20,mx:15,dgr:558},
-  {t:15,nm:'Сердце Катаклизма',  em:'⚡',time:36,g:[500,810],drop:.58,md:.22,mx:16,dgr:638},
-  {t:16,nm:'ШЕЙПЕРЗ REALM',      em:'💫',time:40,g:[630,1000],drop:.62,md:.25,mx:16,dgr:725},
+  {t:1, nm:'Равнины Кальгура',     em:'🌾',time:8, g:[15,35],   drop:.28,md:.08,mx:2, dgr:22},
+  {t:2, nm:'Туманный берег',       em:'🌊',time:9, g:[22,48],   drop:.30,md:.09,mx:3, dgr:35},
+  {t:3, nm:'Гнилые болота',        em:'🌿',time:10,g:[32,68],   drop:.32,md:.10,mx:4, dgr:52},
+  {t:4, nm:'Каменные шахты',       em:'⛏️',time:12,g:[45,90],   drop:.34,md:.11,mx:5, dgr:73},
+  {t:5, nm:'Проклятый лес',        em:'🌲',time:13,g:[60,115],  drop:.36,md:.12,mx:6, dgr:98},
+  {t:6, nm:'Руины Сарнат',         em:'🏛️',time:15,g:[80,150],  drop:.38,md:.13,mx:7, dgr:128},
+  {t:7, nm:'Цитадель теней',       em:'🏰',time:17,g:[100,185], drop:.40,md:.14,mx:8, dgr:163},
+  {t:8, nm:'Ледяные пустоши',      em:'❄️',time:18,g:[125,230], drop:.42,md:.15,mx:9, dgr:203},
+  {t:9, nm:'Вулкан Кальгура',      em:'🌋',time:20,g:[155,285], drop:.44,md:.16,mx:10,dgr:248},
+  {t:10,nm:'Некрополь Вааса',      em:'💀',time:22,g:[195,345], drop:.46,md:.16,mx:11,dgr:298},
+  {t:11,nm:'Храм Луны',            em:'🌙',time:25,g:[240,410], drop:.48,md:.17,mx:12,dgr:354},
+  {t:12,nm:'Астральная плоскость', em:'✨',time:28,g:[290,480], drop:.50,md:.18,mx:13,dgr:416},
+  {t:13,nm:'Лабиринт Забвения',    em:'🌀',time:30,g:[350,570], drop:.52,md:.19,mx:14,dgr:484},
+  {t:14,nm:'Бездна Хаоса',         em:'🔥',time:33,g:[420,670], drop:.55,md:.20,mx:15,dgr:558},
+  {t:15,nm:'Сердце Катаклизма',    em:'⚡',time:36,g:[500,790], drop:.58,md:.22,mx:16,dgr:638},
+  {t:16,nm:'Шейперз Рилм',         em:'💫',time:40,g:[600,900], drop:.62,md:.25,mx:16,dgr:725},
 ];
+const SHOP_COSTS={1:15,2:35,3:65,4:100,5:140,6:185,7:240,8:310,9:400,10:510,11:640,12:800,13:990,14:1220,15:1500,16:1850};
 const WCLS={
-  warrior:{nm:'Воин',    em:'⚔️',col:'#cc4444',desc:'Высокое ХП и броня.'},
-  mage:   {nm:'Маг',     em:'🔮',col:'#8888ff',desc:'Высокий урон заклинаниями.'},
-  ranger: {nm:'Следопыт',em:'🏹',col:'#44cc88',desc:'Быстрый, уклоняется.'},
+  warrior:{nm:'Дикарь',   em:'⚔️',col:'#cc4444',desc:'Высокое ХП и броня.'},
+  mage:   {nm:'Ведьма',   em:'🔮',col:'#8888ff',desc:'Высокий урон заклинаниями.'},
+  ranger: {nm:'Охотница', em:'🏹',col:'#44cc88',desc:'Быстрый, уклоняется.'},
+  noble:  {nm:'Дворянка',  em:'👸',col:'#e8c020',desc:'Получает бонусы от всех типов вещей.'},
 };
 const WNAMES=['Харальд','Сигрид','Торвальд','Астрид','Рагнар','Хильда','Эйнар','Фрейя','Бьёрн','Ингрид','Гуннар','Брунхильд','Свейн','Олаф','Магнус','Лейф','Хельга','Ивар'];
 const ACTS=[
@@ -236,76 +239,101 @@ const WLVLS=[0,50,150,350,750,1500,3000,5500,9000,14000,21000];
 const SLOTS=['weapon','armor','helmet','ring'];
 const SLOTNM={weapon:'⚔️ Оружие',armor:'🛡️ Броня',helmet:'⛑️ Шлем',ring:'💍 Кольцо'};
 const STATNM={dmgPhys:'Физ. урон',dmgSpell:'Урон заклин.',dmgArea:'Урон по области',minionDmg:'Урон призывов',critChance:'Шанс крита',critMult:'Множитель крита',critSpell:'Крит заклин.',castSpd:'Скорость каста',atkSpd:'Скорость атаки',str:'Сила',int:'Интеллект',dex:'Ловкость',hp:'Очки здоровья',energyShield:'Энергощит',armor:'Броня',evasion:'Уклонение',blockChance:'Шанс блока',allRes:'Все сопр.',fireRes:'Огн. сопр.',coldRes:'Хол. сопр.',moveSpd:'Скор. движения'};
-const CDMG={warrior:['dmgPhys','dmgArea','critChance','critMult','atkSpd','str'],mage:['dmgSpell','minionDmg','critSpell','castSpd','int'],ranger:['dmgPhys','critChance','critMult','atkSpd','dex']};
-const CSURV={warrior:['armor','hp','blockChance','str','allRes','fireRes'],mage:['energyShield','int','allRes'],ranger:['evasion','hp','dex','allRes','coldRes']};
+const CDMG={warrior:['dmgPhys','dmgArea','critChance','critMult','atkSpd','str'],mage:['dmgSpell','minionDmg','critSpell','castSpd','int'],ranger:['dmgPhys','critChance','critMult','atkSpd','dex'],noble:['dmgPhys','dmgSpell','dmgArea','critChance','critMult','atkSpd','str','int','dex','castSpd']};
+const CSURV={warrior:['armor','hp','blockChance','str','allRes','fireRes'],mage:['energyShield','int','allRes'],ranger:['evasion','hp','dex','allRes','coldRes'],noble:['armor','energyShield','evasion','hp','blockChance','allRes','str','int','dex']};
 const IBASES=[
-  {nm:'Длинный меч',     em:'🗡️',cls:'warrior',slot:'weapon',mods:['dmgPhys','critChance','atkSpd','str']},
-  {nm:'Боевой топор',    em:'🪓',cls:'warrior',slot:'weapon',mods:['dmgPhys','dmgArea','str','atkSpd']},
-  {nm:'Двуручный молот', em:'🔨',cls:'warrior',slot:'weapon',mods:['dmgPhys','dmgArea','str','critMult']},
-  {nm:'Стальной нагрудник',em:'🛡',cls:'warrior',slot:'armor',mods:['armor','hp','str','allRes']},
-  {nm:'Латные поножи',   em:'🥾',cls:'warrior',slot:'armor',mods:['armor','hp','str','fireRes']},
-  {nm:'Шлем паладина',   em:'⛑️',cls:'warrior',slot:'helmet',mods:['armor','hp','str','fireRes']},
-  {nm:'Кольцо воина',    em:'🔴',cls:'warrior',slot:'ring',mods:['hp','str','allRes','armor']},
-  {nm:'Жезл силы',       em:'🪄',cls:'mage',slot:'weapon',mods:['dmgSpell','castSpd','critSpell','int']},
-  {nm:'Посох мага',      em:'🦯',cls:'mage',slot:'weapon',mods:['dmgSpell','castSpd','int','energyShield']},
-  {nm:'Свиток призыва',  em:'📜',cls:'mage',slot:'weapon',mods:['minionDmg','dmgSpell','int','castSpd']},
-  {nm:'Мантия архимага', em:'🧥',cls:'mage',slot:'armor',mods:['energyShield','int','allRes','castSpd']},
-  {nm:'Диадема мага',    em:'👑',cls:'mage',slot:'helmet',mods:['energyShield','int','critSpell','dmgSpell']},
-  {nm:'Кольцо знания',   em:'🔵',cls:'mage',slot:'ring',mods:['int','dmgSpell','critSpell','allRes']},
-  {nm:'Охотничий лук',   em:'🏹',cls:'ranger',slot:'weapon',mods:['dmgPhys','atkSpd','dex','critChance']},
-  {nm:'Кинжал ассасина', em:'🔪',cls:'ranger',slot:'weapon',mods:['dmgPhys','critChance','critMult','dex']},
-  {nm:'Двойные клинки',  em:'⚡',cls:'ranger',slot:'weapon',mods:['dmgPhys','atkSpd','dex','critMult']},
-  {nm:'Кожаный доспех',  em:'🥋',cls:'ranger',slot:'armor',mods:['evasion','dex','hp','allRes']},
-  {nm:'Сапоги ловкача',  em:'👟',cls:'ranger',slot:'armor',mods:['evasion','dex','moveSpd','hp']},
-  {nm:'Кольцо ловкости', em:'🟢',cls:'ranger',slot:'ring',mods:['hp','dex','evasion','coldRes']},
+  {nm:'Длинный меч',      em:'🗡️',cls:'warrior',slot:'weapon',mods:['dmgPhys','critChance','atkSpd','str']},
+  {nm:'Боевой топор',     em:'🪓',cls:'warrior',slot:'weapon',mods:['dmgPhys','dmgArea','str','atkSpd']},
+  {nm:'Двуручный молот',  em:'🔨',cls:'warrior',slot:'weapon',mods:['dmgPhys','dmgArea','str','critMult']},
+  {nm:'Стальной нагрудник',em:'🛡',cls:'warrior',slot:'armor', mods:['armor','hp','str','allRes']},
+  {nm:'Латные поножи',    em:'🥾',cls:'warrior',slot:'armor', mods:['armor','hp','str','fireRes']},
+  {nm:'Шлем паладина',    em:'⛑️',cls:'warrior',slot:'helmet',mods:['armor','hp','str','fireRes']},
+  {nm:'Кольцо воина',     em:'🔴',cls:'warrior',slot:'ring',  mods:['hp','str','allRes','armor']},
+  {nm:'Жезл силы',        em:'🪄',cls:'mage',   slot:'weapon',mods:['dmgSpell','castSpd','critSpell','int']},
+  {nm:'Посох мага',       em:'🦯',cls:'mage',   slot:'weapon',mods:['dmgSpell','castSpd','int','energyShield']},
+  {nm:'Свиток призыва',   em:'📜',cls:'mage',   slot:'weapon',mods:['minionDmg','dmgSpell','int','castSpd']},
+  {nm:'Мантия архимага',  em:'🧥',cls:'mage',   slot:'armor', mods:['energyShield','int','allRes','castSpd']},
+  {nm:'Диадема мага',     em:'👑',cls:'mage',   slot:'helmet',mods:['energyShield','int','critSpell','dmgSpell']},
+  {nm:'Кольцо знания',    em:'🔵',cls:'mage',   slot:'ring',  mods:['int','dmgSpell','critSpell','allRes']},
+  {nm:'Охотничий лук',    em:'🏹',cls:'ranger', slot:'weapon',mods:['dmgPhys','atkSpd','dex','critChance']},
+  {nm:'Кинжал ассасина',  em:'🔪',cls:'ranger', slot:'weapon',mods:['dmgPhys','critChance','critMult','dex']},
+  {nm:'Кожаный доспех',   em:'🥋',cls:'ranger', slot:'armor', mods:['evasion','dex','hp','allRes']},
+  {nm:'Сапоги ловкача',   em:'👟',cls:'ranger', slot:'armor', mods:['evasion','dex','moveSpd','hp']},
+  {nm:'Кольцо ловкости',  em:'🟢',cls:'ranger', slot:'ring',  mods:['hp','dex','evasion','coldRes']},
 ];
 const NPFX={warrior:['Кровавый','Стальной','Железный','Яростный','Боевой','Каменный'],mage:['Тёмный','Мистический','Вечный','Призрачный','Сумеречный','Звёздный'],ranger:['Точный','Быстрый','Лесной','Теневой','Ветреный','Скрытый'],generic:['Древний','Проклятый','Легендарный','Великий','Могучий','Зловещий']};
 const NSFX={warrior:['Берсеркера','Паладина','Защитника','Воителя','Крестоносца'],mage:['Архимага','Чародея','Некроманта','Провидца','Повелителя'],ranger:['Ассасина','Следопыта','Охотника','Разведчика','Стрелка'],generic:['Рока','Гибели','Судьбы','Вечности','Забвения']};
+// Unique maps: {t: min_tier, nm, em, bonus description}
+const UNIQ_MAPS=[
+  {t:3, nm:'Кошмар Актона',         em:'🌀',desc:'Лабиринт скелетов · +100%IIQ',     bonus:'x2 предметы'},
+  {t:4, nm:'Освящённая земля',       em:'⛪',desc:'+100%IIQ · +3 карты от босса',      bonus:'+3 карты'},
+  {t:5, nm:'Водоворот Хаоса',        em:'🌊',desc:'Молния+Иммунитет · редкость +300%', bonus:'x2 редкость'},
+  {t:6, nm:'Зал Великих Мастеров',   em:'👑',desc:'Бессмертные Грандмастера · PvP',    bonus:'x3 опыт'},
+  {t:8, nm:'Лесной Склеп',           em:'🌑',desc:'Тёмный лес · Некроманты',           bonus:'+1 уник.шанс'},
+  {t:9, nm:'Изменённая Память',      em:'🧠',desc:'Синтез · +100%IIQ · +25% монстров', bonus:'x2 XP'},
+  {t:10,nm:'Дополненная Память',     em:'🔮',desc:'Синтез · 5 доп. модификаторов',      bonus:'x2 XP'},
+  {t:11,nm:'Машинариум Дориани',     em:'⚙️',desc:'Боссы усилены выбором игрока',       bonus:'x2 лут'},
+  {t:12,nm:'Смерть и Налоги',        em:'☠️',desc:'Босс: +12-20 валюты · мгновенно',    bonus:'x4 золото'},
+  {t:13,nm:'Кортекс',                em:'🧬',desc:'Синтез · уровень 83 · 5 модов',       bonus:'x2 лут + XP'},
+  {t:14,nm:'Лабиринт Миnotавра',     em:'🐂',desc:'Заряженный Лабиринт · уник. дроп',   bonus:'+2 уника'},
+  {t:15,nm:'Логово Волчьей Стаи',    em:'🐺',desc:'+150%IIQ · +4 карты от босса',       bonus:'+4 карты'},
+  {t:16,nm:'Заражённый Плацдарм',    em:'💫',desc:'Харбинджеры · +20 особых врагов',    bonus:'x3 лут'},
+];
+const UNIQ_MAP_NAMES=UNIQ_MAPS.map(m=>m.nm); // compat
 const ACHDEFS=[
-  {id:'first_run', ico:'🗺',nm:'Первые шаги',      ds:'Пройти первую карту',            rw:'+30💰'},
-  {id:'t5_clear',  ico:'🌲',nm:'Проклятый лес',    ds:'Пройти карту T5',                rw:'+50💰'},
-  {id:'t10_clear', ico:'💀',nm:'Некромант',         ds:'Пройти карту T10',               rw:'+150💰'},
-  {id:'t16_clear', ico:'💫',nm:'Картоходец',        ds:'Пройти карту T16',               rw:'+500💰'},
-  {id:'hire3',     ico:'👥',nm:'Команда',           ds:'Нанять 3 работников',            rw:'+100💰'},
-  {id:'runs50',    ico:'🔄',nm:'Ветеран',           ds:'Пройти 50 карт',                 rw:'+200💰'},
-  {id:'runs200',   ico:'⚔️',nm:'Мастер',           ds:'Пройти 200 карт',                rw:'+1000💰'},
-  {id:'items20',   ico:'🎒',nm:'Коллекционер',     ds:'Найти 20 предметов',             rw:'+80💰'},
-  {id:'rare_item', ico:'🌟',nm:'Первая редкость',  ds:'Найти редкий предмет',           rw:'+60💰'},
-  {id:'uniq_item', ico:'💎',nm:'Уникальность',     ds:'Найти уникальный предмет',       rw:'+250💰'},
-  {id:'sell500',   ico:'💰',nm:'Торговец',          ds:'Продать предметов на 500💰',     rw:'+100💰'},
-  {id:'all16',     ico:'🌐',nm:'Атлас завершён',   ds:'Пройти все 16 тиров',            rw:'Открывает Престиж'},
+  {id:'first_run', ico:'🗺',nm:'Первые шаги',    ds:'Пройти первую карту',          rw:'+30💰'},
+  {id:'t5_clear',  ico:'🌲',nm:'Проклятый лес',  ds:'Пройти карту T5',              rw:'+50💰'},
+  {id:'t10_clear', ico:'💀',nm:'Некромант',       ds:'Пройти карту T10',             rw:'+150💰'},
+  {id:'t16_clear', ico:'💫',nm:'Картоходец',      ds:'Пройти карту T16',             rw:'+500💰'},
+  {id:'hire3',     ico:'👥',nm:'Команда',         ds:'Нанять 3 работников',          rw:'+100💰'},
+  {id:'runs50',    ico:'🔄',nm:'Ветеран',         ds:'Пройти 50 карт',               rw:'+200💰'},
+  {id:'runs200',   ico:'⚔️',nm:'Мастер',         ds:'Пройти 200 карт',              rw:'+1000💰'},
+  {id:'items20',   ico:'🎒',nm:'Коллекционер',   ds:'Найти 20 предметов',           rw:'+80💰'},
+  {id:'rare_item', ico:'🌟',nm:'Первая редкость', ds:'Найти редкий предмет',         rw:'+60💰'},
+  {id:'uniq_item', ico:'💎',nm:'Уникальность',   ds:'Найти уникальный предмет',     rw:'+250💰'},
+  {id:'sell500',   ico:'💰',nm:'Торговец',        ds:'Продать предметов на 500💰',   rw:'+100💰'},
+  {id:'all16',     ico:'🌐',nm:'Атлас завершён', ds:'Пройти все 16 тиров',          rw:'Открывает Престиж'},
 ];
 
-// ════════ STATE ════════
+// ══════════ STATE ══════════════════════════════════════════════
 function freshG(){
   return {gold:50,totalRuns:0,maps:{1:5,2:2},inv:[],workers:[],
-    ups:{slots:0,rescue:0,heal:0},selfEq:{weapon:null,armor:null,helmet:null,ring:null},
+    ups:{slots:0,rescue:0,heal:0},
+    selfEq:{weapon:null,armor:null,helmet:null,ring:null},
     selfRun:null,actRun:null,selMap:null,maxTier:2,
     cleared:{},achs:{},prestige:0,prestigeBonus:0,
     selfCls:null,selfXp:0,selfLevel:0,selfLevelUp:false,clsLocked:false,
-    stats:{ge:0,fi:0,mr:0,ar:0,sold:0,sg:0,cap:0,inj:0},
+    stats:{ge:0,fi:0,mr:0,ar:0,sold:0,sg:0,cap:0,inj:0},achsPending:{},
     gt:0,iid:0,wid:0};
 }
 let G=freshG();
 
-// ════════ HELPERS ════════
+// ══════════ HELPERS ═══════════════════════════════════════════
 const ri=(a,b)=>Math.floor(Math.random()*(b-a+1))+a;
 const fN=n=>n>=1e6?(n/1e6).toFixed(1)+'M':n>=1e3?(n/1e3).toFixed(1)+'K':Math.floor(n)+'';
-const qcol=q=>({normal:'#b0b0b0',magic:'#8888ff',rare:'#f0d060',unique:'#cc6820'}[q]||'#fff');
+const qcol=q=>({normal:'#b0b0b0',magic:'#8888ff',rare:'#f0d060',unique:'#e87020'}[q]||'#fff');
 const qlbl=q=>({normal:'Обычный',magic:'Магический',rare:'Редкий',unique:'Уникальный'}[q]||q);
 const tcol=t=>t<=3?'#aaa':t<=6?'#5599ff':t<=10?'#bb55ff':t<=14?'#ff8844':'#ff4422';
 const calcCh=(power,tier)=>{const d=MAP_TIERS[tier-1].dgr;return Math.max(0.03,Math.min(0.97,(power/d-0.2)/0.7));};
 const chcol=ch=>ch>=0.8?'#4acf4a':ch>=0.5?'#cfcf4a':ch>=0.25?'#cf8040':'#cf4040';
 const iDmg=(it,cls)=>{const r=CDMG[cls]||[];return Math.floor(it.mods.reduce((s,m)=>s+(r.includes(m.stat)?m.value:m.value*.08),0));};
 const iSurv=(it,cls)=>{const r=CSURV[cls]||[];return Math.floor(it.mods.reduce((s,m)=>s+(r.includes(m.stat)?m.value:m.value*.08),0));};
-const sDmg=()=>{let v=5+G.selfLevel*3;SLOTS.forEach(s=>{if(G.selfEq[s])v+=iDmg(G.selfEq[s],G.selfCls||'warrior');});return v;};
-const sSurv=()=>{let v=10+G.selfLevel*3;SLOTS.forEach(s=>{if(G.selfEq[s])v+=iSurv(G.selfEq[s],G.selfCls||'warrior');});return v;};
+const sDmg=()=>{const sc=G.selfCls||'warrior';let v=5+G.selfLevel*3;SLOTS.forEach(s=>{if(G.selfEq[s])v+=iDmg(G.selfEq[s],sc);});return v;};
+const sSurv=()=>{const sc=G.selfCls||'warrior';let v=10+G.selfLevel*3;SLOTS.forEach(s=>{if(G.selfEq[s])v+=iSurv(G.selfEq[s],sc);});return v;};
 function recalcW(w){let d=5+w.level*3,s=5+w.level*3;SLOTS.forEach(sl=>{if(w.eq[sl]){d+=iDmg(w.eq[sl],w.cls);s+=iSurv(w.eq[sl],w.cls);}});w.dmg=d;w.surv=s;}
-function addXP(w,amt){w.xp+=amt;const mx=WLVLS.length-1;while(w.level<mx&&w.xp>=WLVLS[w.level+1]){w.level++;recalcW(w);log('⭐ '+w.name+' — Ур.'+w.level+'!','info');showN(w.name+' — Ур.'+w.level+'!','pur');}}
+function addXPSelf(amt){
+  G.selfXp+=amt;const mx=WLVLS.length-1;
+  while(G.selfLevel<mx&&G.selfXp>=WLVLS[G.selfLevel+1]){G.selfLevel++;G.selfLevelUp=true;log('⭐ Уровень '+G.selfLevel+' достигнут! Нажмите + для применения','info');showN('Ур.'+G.selfLevel+'! Нажмите +','pur');}
+}
+function addXP(w,amt){
+  w.xp+=amt;const mx=WLVLS.length-1;
+  while(w.level<mx&&w.xp>=WLVLS[w.level+1]){w.level++;recalcW(w);log('⭐ '+w.name+' — Ур.'+w.level+'!','info');showN(w.name+' — Ур.'+w.level+'!','pur');}
+}
 const xpAmt=tier=>tier*8+12;
 const goldReward=(md,power,mapCost=0)=>{
-  const base=Math.max(mapCost, ri(md.g[0],md.g[1]));
-  return Math.floor(base*(1+(power*.007)*(1+G.prestigeBonus*.01)));
+  const base=Math.max(mapCost,ri(md.g[0],md.g[1]));
+  const mult=Math.min(1.6,1+(power*.003)*(1+G.prestigeBonus*.01));
+  return Math.floor(base*mult);
 };
 const canPrestige=()=>[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16].every(t=>G.cleared[t]);
 
@@ -315,38 +343,60 @@ function genItem(tier,workerCls){
   if(!pool.length)pool=IBASES;
   const base=pool[Math.floor(Math.random()*pool.length)];
   const r=Math.random();
-  const quality=tier>=14&&r<.07?'unique':tier>=5&&r<.24?'rare':r<.58?'magic':'normal';
+  const quality=tier>=16&&r<.12?'unique':tier>=14&&r<.08?'unique':tier>=5&&r<.24?'rare':r<.58?'magic':'normal';
   const cnt={normal:1,magic:ri(1,2),rare:ri(3,5),unique:4}[quality];
-  const qm={normal:1,magic:1.25,rare:1.6,unique:2.2}[quality];
+  // Unique items are 1.4x stronger than rare
+  const qm={normal:1,magic:1.25,rare:1.6,unique:2.24}[quality];
   const mods=[...base.mods].sort(()=>Math.random()-.5).slice(0,cnt).map(stat=>({stat,value:Math.floor((tier*2+ri(3,12))*qm)}));
-  const sp=Math.floor({normal:3,magic:8,rare:22,unique:65}[quality]*(1+tier*.35));
+  const sp=Math.floor({normal:3,magic:8,rare:22,unique:75}[quality]*(1+tier*.35));
   const pfx=NPFX[base.cls]||NPFX.generic,sfx=NSFX[base.cls]||NSFX.generic;
-  const name=quality==='normal'?base.nm:quality==='magic'?pfx[ri(0,pfx.length-1)]+' '+base.nm:pfx[ri(0,pfx.length-1)]+' '+base.nm+' '+sfx[ri(0,sfx.length-1)];
-  return {id:++G.iid,name,em:base.em,cls:base.cls,slot:base.slot,quality,mods,tier,sellPrice:sp};
+  const nm=quality==='normal'?base.nm:quality==='magic'?pfx[ri(0,pfx.length-1)]+' '+base.nm:pfx[ri(0,pfx.length-1)]+' '+base.nm+' '+sfx[ri(0,sfx.length-1)];
+  return {id:++G.iid,name:nm,em:base.em,cls:base.cls,slot:base.slot,quality,mods,tier,sellPrice:sp};
 }
-function tryItem(md,cls,mult=1){if(Math.random()>md.drop*mult)return;const it=genItem(md.t,cls);G.inv.push(it);G.stats.fi++;log(it.em+' <span style="color:'+qcol(it.quality)+'">'+it.name+'</span> ['+qlbl(it.quality)+']','i-'+it.quality[0]);checkAchs();}
-function tryMap(md){if(Math.random()>md.md)return;const dt=Math.max(1,Math.min(16,md.t+ri(0,Math.min(3,md.mx-md.t))));if(Math.random()<.12){G.maps['c'+dt]=(G.maps['c'+dt]||0)+1;log('🗺💜 Заражённая T'+dt+'!','ev');}else{G.maps[dt]=(G.maps[dt]||0)+1;log('🗺 Карта T'+dt+' упала','info');}renderMaps();}
+function tryItem(md,cls,mult=1){
+  if(Math.random()>md.drop*mult)return;
+  const it=genItem(md.t,cls);G.inv.push(it);G.stats.fi++;
+  log(it.em+' <span style="color:'+qcol(it.quality)+'">'+it.name+'</span> ['+qlbl(it.quality)+']','i-'+it.quality[0]);
+  checkAchs();
+}
+function tryMap(md){
+  if(Math.random()>md.md)return;
+  const dt=Math.max(1,Math.min(16,md.t+ri(0,Math.min(3,md.mx-md.t))));
+  if(md.t>=14&&Math.random()<.08){
+    const uPool=UNIQ_MAPS.filter(m=>m.t<=dt);const uMap=uPool.length?uPool[Math.floor(Math.random()*uPool.length)]:UNIQ_MAPS[UNIQ_MAPS.length-1];
+    G.maps['u'+dt]=(G.maps['u'+dt]||0)+1;
+    G.uniqMapData=G.uniqMapData||{};G.uniqMapData['u'+dt]=uMap;
+    log('🗺🟠 Уникальная карта «'+uMap.nm+'» T'+dt+' упала!','ev');
+    renderMaps();return;
+  }
+  if(Math.random()<.12){G.maps['c'+dt]=(G.maps['c'+dt]||0)+1;log('🗺💜 Заражённая T'+dt+'!','ev');}
+  else{G.maps[dt]=(G.maps[dt]||0)+1;log('🗺 Карта T'+dt+' упала','info');}
+  renderMaps();
+}
 
-// ════════ RUNS ════════
+// ══════════ RUNS ══════════════════════════════════════════════
 function selfRun(){
   if(!G.selMap){showN('Выберите карту!');return;}
   if(G.selfRun){showN('Уже в походе!');return;}
   if(G.actRun){showN('Уже в акте!');return;}
-  const cursed=String(G.selMap).startsWith('c');
-  const tier=cursed?parseInt(String(G.selMap).slice(1)):parseInt(G.selMap);
-  const key=cursed?'c'+tier:tier;
+  const key=String(G.selMap);
+  const cursed=key.startsWith('c');
+  const uniq=key.startsWith('u');
+  const tier=cursed||uniq?parseInt(key.slice(1)):parseInt(key);
   if(!(G.maps[key]>0)){showN('Нет карт!');return;}
   G.maps[key]--;
+  // Lock class on first run
+  G.clsLocked=true;
+  if(!G.selfCls)G.selfCls='warrior';
   const md=MAP_TIERS[tier-1];
-  const mapCostTbl={1:15,2:35,3:65,4:100,5:140,6:185,7:240,8:310,9:400,10:510,11:640,12:800,13:990,14:1220,15:1500,16:1850};
-  G.clsLocked=true;if(!G.selfCls)G.selfCls='warrior';
-  G.selfRun={md,tier,cursed,elapsed:0,cost:mapCostTbl[tier]||0};
+  const cost=SHOP_COSTS[tier]||0;
+  G.selfRun={md,tier,cursed,uniq,elapsed:0,cost};
   document.getElementById('rpw').style.display='block';
   document.getElementById('btn-cancel-run').style.display='inline-block';
   document.getElementById('btn-self-run').disabled=true;
-  document.getElementById('rpl').textContent=(cursed?'💜 ':'')+md.em+' '+md.nm+' [T'+tier+']';
+  document.getElementById('rpl').textContent=(cursed?'💜 ':uniq?'🟠 ':'')+md.em+' '+md.nm+' [T'+tier+']';
   updateRunVis(md);renderMaps();
-  log('⚡ Портал: '+(cursed?'💜 ЗАРАЖЁННАЯ ':'')+'T'+tier+' '+md.nm,'info');
+  log('⚡ Портал: '+(cursed?'💜 ЗАРАЖЁННАЯ ':uniq?'🟠 УНИКАЛЬНАЯ ':'')+'T'+tier+' '+md.nm,'info');
 }
 function cancelRun(){if(!G.selfRun)return;G.selfRun=null;resetRunUI();log('⚠ Отступили.','ev');}
 function resetRunUI(){
@@ -357,19 +407,22 @@ function resetRunUI(){
   const p=document.getElementById('rpp');if(p)p.textContent='0%';
 }
 function completeSelfRun(){
-  const {md,tier,cursed}=G.selfRun;
+  const {md,tier,cursed,uniq,cost}=G.selfRun;
   const power=sDmg()+sSurv();
-  const ch=Math.max(.03,calcCh(power,tier)-(cursed?.2:0));
+  const ch=Math.max(.03,calcCh(power,tier)-(cursed?.2:0)-(uniq?.1:0));
   const ok=Math.random()<ch;
   G.stats.mr++;G.totalRuns++;G.selfRun=null;resetRunUI();
   if(ok){
-    const lm=cursed?3:1;
-    const g=goldReward(md,power);G.gold+=g;G.stats.ge+=g;
+    const lm=cursed?3:uniq?2:1;
+    const g=goldReward(md,power,cost);G.gold+=g;G.stats.ge+=g;
     G.cleared[tier]=true;if(tier>G.maxTier)G.maxTier=tier;
-    log('💰 Пройдено!+'+(g)+'💰'+(cursed?' (x3 лут!)':''),'ge');floatT('+'+g+'💰','#f0d080');
-    for(let i=0;i<lm;i++)tryItem(md,null,1);tryMap(md);
+    log('✅ Пройдено! +'+g+'💰'+(cursed?' (x3 лут)':uniq?' (x2 лут)':''),'ge');
+    floatT('+'+g+'💰','#f0d080');
+    for(let i=0;i<lm;i++)tryItem(md,G.selfCls,1);tryMap(md);
+    // Self XP
+    addXPSelf(xpAmt(tier));
     checkAchs();renderAtlasBar();renderShop();
-  }else{log('💀 Вы пали в T'+tier+(cursed?' [ЗАРАЖЁННАЯ]':'')+'!','ev');showN('Вы погибли!','red');}
+  }else{log('💀 Вы пали в T'+tier+(cursed?' [ЗАРАЖЁННАЯ]':uniq?' [УНИКАЛЬНАЯ]':'')+'!','ev');showN('Вы погибли!','red');}
   if(G.selMap)updateRunVis(MAP_TIERS[tier-1],true);else updateRunVis(null);
   renderMaps();renderInv();updateRes();
 }
@@ -377,10 +430,11 @@ function updateRunVis(md,idle){
   const el=document.getElementById('run-con');if(!el)return;
   if(!md){el.innerHTML='<div class="dim" style="font-style:italic">Выберите карту слева</div>';return;}
   const col=tcol(md.t);
-  let ch='';if(idle){const c=calcCh(sDmg()+sSurv(),md.t);ch='<div style="margin-top:4px;font-size:10px;color:'+chcol(c)+'">Ваш шанс: '+Math.round(c*100)+'%</div>';}
+  let ch='';if(idle){const c=calcCh(sDmg()+sSurv(),md.t);ch='<div style="margin-top:4px;font-size:12px;color:'+chcol(c)+'">Ваш шанс: '+Math.round(c*100)+'%</div>';}
+  const cost=SHOP_COSTS[md.t]||0;
   el.innerHTML='<div class="run-nm" style="color:'+col+'">'+md.em+' '+md.nm+'</div>'+
-    '<div class="dim" style="font-size:9px;letter-spacing:2px;margin-bottom:4px">КАРТА ТИРА '+md.t+'</div>'+
-    '<div style="font-size:10px;color:var(--txt-d)">⏱ ~'+md.time+'с &nbsp; 💰 '+md.g[0]+'–'+md.g[1]+'+предметы</div>'+ch;
+    '<div class="dim" style="font-size:10px;letter-spacing:2px;margin-bottom:4px">КАРТА ТИРА '+md.t+'</div>'+
+    '<div style="font-size:12px;color:var(--txt-d)">⏱ ~'+md.time+'с &nbsp; 💰'+md.g[0]+'-'+md.g[1]+'з</div>'+ch;
 }
 function startAct(id){
   if(G.actRun){showN('Уже в акте!');return;}if(G.selfRun){showN('Уже в походе!');return;}
@@ -399,59 +453,77 @@ function sendWorker(id){
   if(!G.selMap){showN('Выберите карту!');return;}
   const w=G.workers.find(x=>x.id===id);if(!w||w.status!=='idle')return;
   const running=G.workers.filter(x=>x.status==='running'||x.status==='exp').length;
-  const maxS=2+G.ups.slots;if(running>=maxS){showN('Все слоты заняты! ('+maxS+')');return;}
-  const cursed=String(G.selMap).startsWith('c');
-  const tier=cursed?parseInt(String(G.selMap).slice(1)):parseInt(G.selMap);
-  const key=cursed?'c'+tier:tier;
+  const maxS=1+G.ups.slots;
+  if(running>=maxS){showN('Нужен апгрейд Машины для ещё одного слота!');return;}
+  const key=String(G.selMap);
+  const cursed=key.startsWith('c');
+  const uniq=key.startsWith('u');
+  const tier=cursed||uniq?parseInt(key.slice(1)):parseInt(key);
   if(!(G.maps[key]>0)){showN('Нет карт!');return;}
   G.maps[key]--;
-  w.status='running';w.curMap=tier;w.cursed=!!cursed;w.elapsed=0;w.prog=0;
-  log('🚀 '+w.name+' → '+(cursed?'💜':'')+'T'+tier,'info');renderWorkers();renderMaps();
+  w.status='running';w.curMap=tier;w.cursed=cursed;w.uniq=uniq;w.elapsed=0;w.prog=0;
+  log('🚀 '+w.name+' → '+(cursed?'💜 ':uniq?'🟠 ':'')+'T'+tier,'info');
+  renderWorkers();renderMaps();
 }
 function resolveWorker(w,md){
-  const power=w.dmg+w.surv;const ch=Math.max(.03,calcCh(power,md.t)-(w.cursed?.2:0));
-  const ok=Math.random()<ch;G.stats.mr++;G.totalRuns++;w.runsCompleted=(w.runsCompleted||0)+1;
+  const power=w.dmg+w.surv;
+  const ch=Math.max(.03,calcCh(power,md.t)-(w.cursed?.2:0)-(w.uniq?.1:0));
+  const ok=Math.random()<ch;
+  G.stats.mr++;G.totalRuns++;w.runsCompleted=(w.runsCompleted||0)+1;
   if(!ok){
-    if(Math.random()<.45){w.status='captured';w.capturedAt=G.gt;G.stats.cap++;log('⛓️ '+w.name+' захвачен на T'+w.curMap+'!','ev');showN(w.name+' захвачен!','red');return;}
+    if(Math.random()<.3){w.status='captured';w.capturedAt=G.gt;G.stats.cap++;log('⛓️ '+w.name+' захвачен на T'+w.curMap+'!','ev');showN(w.name+' захвачен!','red');return;}
     else{w.status='injured';w.injuredAt=G.gt;G.stats.inj++;log('💔 '+w.name+' ранен на T'+w.curMap+'!','ev');}
-  }else w.status='idle';
-  const mapCostTbl2={1:15,2:35,3:65,4:100,5:140,6:185,7:240,8:310,9:400,10:510,11:640,12:800,13:990,14:1220,15:1500,16:1850};
-  const lm=w.cursed?3:1;const g=goldReward(md,power,mapCostTbl2[md.t]||0);G.gold+=g;G.stats.ge+=g;
+  }else{w.status='idle';}
+  const cost=SHOP_COSTS[md.t]||0;
+  const lm=w.cursed?3:w.uniq?2:1;
+  const g=goldReward(md,power,cost);G.gold+=g;G.stats.ge+=g;
   G.cleared[md.t]=true;if(md.t>G.maxTier)G.maxTier=md.t;
-  log('💰 '+w.name+' T'+md.t+(w.cursed?' 💜':'')+(lm>1?' x'+lm:'')+' +'+g+'💰','ge');floatT('+'+g+'💰','#f0d080');
+  log('💰 '+w.name+' T'+md.t+(w.cursed?' 💜':w.uniq?' 🟠':'')+(lm>1?' x'+lm:'')+' +'+g+'💰','ge');
+  floatT('+'+g+'💰','#f0d080');
   for(let i=0;i<lm;i++)tryItem(md,w.cls,1);tryMap(md);addXP(w,xpAmt(md.t));
+  // Small self XP from workers
+  addXPSelf(Math.floor(xpAmt(md.t)*.25));
   w.prog=0;w.elapsed=0;checkAchs();renderAtlasBar();renderShop();renderWorkers();renderInv();updateRes();
 }
 function resolveExpStep(w){
   const tier=w.expTiers[w.expIdx];const md=MAP_TIERS[tier-1];const power=w.dmg+w.surv;
-  // Risk = based on hardest tier's fail chance * 1.5 (not flat -10% per step)
-  const hardestTier=Math.max(...w.expTiers);
-  const failChHardest=1-calcCh(power,hardestTier);
-  const expFailCh=Math.min(0.6, failChHardest*1.5);
-  const ch=Math.max(.03, 1-expFailCh);const ok=Math.random()<ch;
+  // Chance based on hardest tier's fail chance * 1.5
+  const hardest=Math.max(...w.expTiers);
+  const failHard=1-calcCh(power,hardest);
+  const ch=Math.max(.03,1-Math.min(.65,failHard*1.5));
+  const ok=Math.random()<ch;
   G.stats.mr++;G.totalRuns++;
   if(!ok){
-    if(Math.random()<.5){w.status='captured';w.capturedAt=G.gt;G.stats.cap++;log('⛓️ '+w.name+' захвачен в экспедиции T'+tier+'!','ev');showN(w.name+' захвачен!','red');}
-    else{w.status='injured';w.injuredAt=G.gt;G.stats.inj++;log('💔 '+w.name+' ранен в экспедиции T'+tier+'!','ev');}
+    if(Math.random()<.2){w.status='captured';w.capturedAt=G.gt;G.stats.cap++;log('⛓️ '+w.name+' захвачен в экспедиции T'+tier+'!','ev');showN(w.name+' захвачен!','red');}
+    else{w.status='injured';w.injuredAt=G.gt;G.stats.inj++;log('💔 '+w.name+' ранен в экспедиции!','ev');}
     w.expTiers=[];w.expIdx=0;renderWorkers();renderInv();updateRes();return;
   }
-  const g=goldReward(md,power);G.gold+=g;G.stats.ge+=g;
+  const cost=SHOP_COSTS[tier]||0;
+  const g=goldReward(md,power,cost);G.gold+=g;G.stats.ge+=g;
   G.cleared[tier]=true;if(tier>G.maxTier)G.maxTier=tier;
-  log('💰 '+w.name+' экспед. T'+tier+' +'+g+'💰','ge');tryItem(md,w.cls,1.5);tryMap(md);addXP(w,xpAmt(tier));
+  log('💰 '+w.name+' экспед. T'+tier+' +'+g+'💰','ge');
+  tryItem(md,w.cls,1.5);tryMap(md);addXP(w,xpAmt(tier));
+  addXPSelf(Math.floor(xpAmt(tier)*.15));
   checkAchs();renderAtlasBar();renderShop();
   w.expIdx++;w.elapsed=0;w.prog=0;
-  if(w.expIdx>=w.expTiers.length){w.status='idle';w.expTiers=[];w.expIdx=0;log('🎉 '+w.name+' завершил экспедицию!','info');showN(w.name+' завершил экспедицию!','pur');}
+  if(w.expIdx>=w.expTiers.length){
+    w.status='idle';w.expTiers=[];w.expIdx=0;
+    log('🎉 '+w.name+' завершил экспедицию!','info');showN(w.name+' завершил экспедицию!','pur');
+  }
   renderWorkers();renderInv();updateRes();
 }
 function rescueW(id){
   const w=G.workers.find(x=>x.id===id);if(!w||w.status!=='captured')return;
   const cost=Math.floor((30+(w.curMap||1)*12)*(1-G.ups.rescue*.15));
   if(G.gold<cost){showN('Нужно '+cost+'💰!');return;}
-  G.gold-=cost;w.status='idle';log('🔓 '+w.name+' выкуплен за '+cost+'💰','info');showN(w.name+' освобождён!','grn');renderWorkers();updateRes();
+  G.gold-=cost;w.status='idle';
+  log('🔓 '+w.name+' выкуплен за '+cost+'💰','info');showN(w.name+' освобождён!','grn');
+  renderWorkers();updateRes();
 }
 function sellItem(id){
   const it=G.inv.find(x=>x.id===id);if(!it)return;
-  G.gold+=it.sellPrice;G.stats.sg+=it.sellPrice;G.stats.sold++;G.inv=G.inv.filter(x=>x.id!==id);
+  G.gold+=it.sellPrice;G.stats.sg+=it.sellPrice;G.stats.sold++;
+  G.inv=G.inv.filter(x=>x.id!==id);
   log('💰 '+it.em+' '+it.name+' +'+it.sellPrice+'💰','ge');floatT('+'+it.sellPrice+'💰','#c8a96e');
   checkAchs();closeM();renderInv();updateRes();
 }
@@ -459,77 +531,157 @@ function sellAllNormal(){
   const ns=G.inv.filter(x=>x.quality==='normal');if(!ns.length){showN('Нет обычных!');return;}
   const tot=ns.reduce((s,x)=>s+x.sellPrice,0);G.inv=G.inv.filter(x=>x.quality!=='normal');
   G.gold+=tot;G.stats.sg+=tot;G.stats.sold+=ns.length;
-  log('💰 Продано '+ns.length+'x обычных +'+tot+'💰','ge');floatT('+'+tot+'💰','#c8a96e');checkAchs();renderInv();updateRes();
+  log('💰 Продано '+ns.length+'x обычных +'+tot+'💰','ge');floatT('+'+tot+'💰','#c8a96e');
+  checkAchs();renderInv();updateRes();
 }
 
-// ════════ ACHIEVEMENTS ════════
+// ══════════ ACHIEVEMENTS ══════════════════════════════════════
 function checkAchs(){
-  function grant(id,reward){
-    if(G.achs[id])return;G.achs[id]=true;G.gold+=reward;
+  function grant(id){
+    if(G.achs[id])return;
+    if(!G.achsPending)G.achsPending={};
+    if(G.achsPending[id])return;
+    G.achsPending[id]=true;
     const a=ACHDEFS.find(x=>x.id===id);
-    if(a){log('🏆 '+a.nm+' '+a.rw,'info');showN('🏆 '+a.nm,'pur');}
-    renderAchs();updateRes();
+    if(a){log('🏆 АРХИВ: '+a.nm+' — заберите награду!','info');showN('🏆 '+a.nm+' — перейдите в Архив!','pur');}
+    updateAchBadge();renderAchs();
   }
-  if(G.stats.mr>=1)grant('first_run',30);if(G.cleared[5])grant('t5_clear',50);
-  if(G.cleared[10])grant('t10_clear',150);if(G.cleared[16])grant('t16_clear',500);
-  if(G.workers.length>=3)grant('hire3',100);if(G.totalRuns>=50)grant('runs50',200);
-  if(G.totalRuns>=200)grant('runs200',1000);if(G.stats.fi>=20)grant('items20',80);
+  if(G.stats.mr>=1)grant('first_run');
+  if(G.cleared[5])grant('t5_clear');
+  if(G.cleared[10])grant('t10_clear');
+  if(G.cleared[16])grant('t16_clear');
+  if(G.workers.length>=3)grant('hire3');
+  if(G.totalRuns>=50)grant('runs50');
+  if(G.totalRuns>=200)grant('runs200');
+  if(G.stats.fi>=20)grant('items20');
   const allEq=[...G.inv,...Object.values(G.selfEq),...G.workers.flatMap(w=>Object.values(w.eq))].filter(Boolean);
-  if(allEq.some(x=>x.quality==='rare'))grant('rare_item',60);
-  if(allEq.some(x=>x.quality==='unique'))grant('uniq_item',250);
-  if(G.stats.sg>=500)grant('sell500',100);
-  if(canPrestige())grant('all16',0);
+  if(allEq.some(x=>x.quality==='rare'))grant('rare_item');
+  if(allEq.some(x=>x.quality==='unique'))grant('uniq_item');
+  if(G.stats.sg>=500)grant('sell500');
+  if(canPrestige())grant('all16');
 }
 
-// ════════ PRESTIGE ════════
+// ══════════ PRESTIGE ══════════════════════════════════════════
 function doPrestige(){
   if(!canPrestige()){showN('Нужно пройти все 16 тиров!');return;}
-  const np=G.prestige+1,nb=np*15,kg=Math.floor(G.gold*.2);
+  const np=G.prestige+1,nb=np*15,kg=Math.floor(G.gold*.15);
   G=freshG();G.prestige=np;G.prestigeBonus=nb;G.gold=kg+100;G.maps={1:5,2:3,3:1};
   closeM();log('✨ ПРЕСТИЖ '+np+'! +'+nb+'% золота навсегда!','info');showN('✨ Престиж '+np+'!','pur');
   renderAll();save();
 }
 
-// ════════ EXPEDITION ════════
+// ══════════ EXPEDITION ════════════════════════════════════════
 function openExpedition(){
   if(!G.workers.length){showN('Нет работников!');return;}
-  const keys=Object.keys(G.maps).filter(k=>G.maps[k]>0&&!String(k).startsWith('c')).map(Number).sort((a,b)=>b-a);
-  if(keys.length<3){showN('Нужно минимум 3 разных карты!');return;}
   const idle=G.workers.filter(w=>w.status==='idle');
   if(!idle.length){showN('Нет свободных работников!');return;}
-  const top3=keys.slice(0,3);
-  let html='<div class="dim" style="margin-bottom:8px;font-size:10px">Работник проходит 3 карты подряд (T'+top3.join(', T')+').<br>Шанс −10%, лут ×1.5. При провале — плен или ранение.</div>'+
-    idle.map(w=>'<div class="srow" style="margin-bottom:4px"><div class="wavat" style="border-color:'+WCLS[w.cls].col+'">'+WCLS[w.cls].em+'</div>'+
-      '<div class="si"><div class="snm">'+w.name+' <span class="lvl-b">Ур.'+w.level+'</span></div>'+
-      '<div class="sds">⚔️'+w.dmg+' 🛡'+w.surv+'</div></div>'+
-      '<button class="btn btn-sm btn-p" data-exp-w="'+w.id+'">Отправить</button></div>').join('')+
-    '<button class="btn btn-r btn-sm" id="btn-close-m" style="margin-top:6px">Отмена</button>';
-  openM('🗺 Экспедиция',html);
+  // Build tier availability (normal maps only)
+  const tierCounts={};
+  Object.keys(G.maps).filter(k=>!isNaN(k)&&G.maps[k]>0).forEach(k=>{
+    const t=parseInt(k);tierCounts[t]=(tierCounts[t]||0)+G.maps[k];
+  });
+  if(Object.keys(tierCounts).length<1){showN('Нет карт для экспедиции!');return;}
+  // Restore last selection if maps still available
+  let initSlots=[null,null,null];
+  if(G.lastExpSlots){
+    const tc2={...tierCounts};
+    initSlots=G.lastExpSlots.map(t=>{
+      if(t!==null&&tc2[t]>0){tc2[t]--;return t;}return null;
+    });
+  }
+  window._exp={slots:initSlots,wid:null,tierCounts};
+  window._exp.render=function(){
+    const {slots,wid,tierCounts}=window._exp;
+    const selW=wid?G.workers.find(x=>x.id===wid):null;
+    // Chance display
+    let chHtml='';
+    const filled=slots.filter(Boolean);
+    if(selW&&filled.length===3){
+      const hardest=Math.max(...filled);
+      const failH=1-calcCh(selW.dmg+selW.surv,hardest);
+      const stepCh=Math.max(.03,1-Math.min(.65,failH*1.5));
+      const totalCh=Math.pow(stepCh,3); // all 3 steps must succeed
+      chHtml='<div style="margin:8px 0;font-size:14px;background:var(--bg2);border:1px solid var(--brd);padding:6px">'+
+        '🗺 Шанс успеха всей экспедиции: <b style="color:'+chcol(totalCh)+'">'+Math.round(totalCh*100)+'%</b>'+
+        '<div style="font-size:11px;color:var(--txt-d);margin-top:2px">Каждый шаг (T'+hardest+'): '+Math.round(stepCh*100)+'% · Лут ×1.5</div></div>';
+    }
+    // 3 slots
+    let html='<div style="font-size:13px;color:var(--txt-d);margin-bottom:10px">Выберите 3 карты и работника. При провале — захват или ранение.</div>';
+    html+='<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:10px">';
+    slots.forEach((t,i)=>{
+      const active=window._exp.pickSlot===i;
+      html+='<div style="background:var(--bg4);border:2px solid '+(t?'var(--gold-d)':active?'var(--gold)':'var(--brd)')+';padding:8px;text-align:center;cursor:pointer;min-height:60px;display:flex;flex-direction:column;align-items:center;justify-content:center" data-xslot="'+i+'">';
+      if(t){const md=MAP_TIERS[t-1];html+='<div style="font-size:18px">'+md.em+'</div><div style="font-size:13px;color:var(--gold)">T'+t+'</div><div style="font-size:10px;color:var(--txt-d)">'+md.nm.slice(0,9)+'</div><div style="font-size:10px;color:var(--red);cursor:pointer" data-xslot-clear="'+i+'">✕</div>';}
+      else html+='<div style="font-size:24px;color:var(--brd)">+</div><div style="font-size:11px;color:var(--txt-d)">Слот '+(i+1)+'</div>';
+      html+='</div>';
+    });
+    html+='</div>';
+    // Tier picker
+    if(window._exp.pickSlot!==undefined){
+      const si=window._exp.pickSlot;
+      const used=slots.filter((s,ii)=>ii!==si&&s!==null);
+      html+='<div style="font-size:12px;color:var(--txt-d);margin-bottom:6px">Выберите карту для слота '+(si+1)+':</div>';
+      html+='<div style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:10px">';
+      Object.keys(tierCounts).map(Number).sort((a,b)=>a-b).forEach(t=>{
+        const avail=tierCounts[t]-used.filter(x=>x===t).length;
+        if(avail<=0)return;
+        html+='<button class="btn btn-sm" data-xpick="'+t+'">T'+t+' ('+avail+')</button>';
+      });
+      html+='</div>';
+    }
+    html+=chHtml;
+    // Worker
+    html+='<div style="font-size:12px;color:var(--txt-d);margin-bottom:6px">Работник:</div>';
+    html+=idle.map(iw=>{
+      const sel=wid===iw.id;
+      return '<div class="srow" style="cursor:pointer;border-color:'+(sel?'var(--gold)':'var(--brd)')+'" data-xworker="'+iw.id+'">'+
+        '<div class="wavat" style="border-color:'+WCLS[iw.cls].col+'">'+WCLS[iw.cls].em+'</div>'+
+        '<div class="si"><div class="snm">'+iw.name+' <span class="lvl-b">Ур.'+iw.level+'</span></div>'+
+        '<div style="font-size:12px;color:var(--txt-d)">⚔️'+iw.dmg+' 🛡'+iw.surv+'</div></div>'+
+        (sel?'<span class="gt" style="font-size:16px">✓</span>':'')+'</div>';
+    }).join('');
+    const canGo=slots.every(Boolean)&&wid;
+    html+='<div style="display:flex;gap:6px;margin-top:10px">'+
+      '<button class="btn btn-p" id="btn-xgo"'+(canGo?'':' disabled')+'>🗺 Отправить</button>'+
+      '<button class="btn btn-r btn-sm" id="btn-close-m">Отмена</button></div>';
+    openM('🗺 Экспедиция',html);
+  };
+  window._exp.render();
 }
 function startExpedition(wid){
+  const {slots,tierCounts}=window._exp;
+  if(!slots.every(Boolean)){showN('Выберите 3 карты!');return;}
   const w=G.workers.find(x=>x.id===wid);if(!w||w.status!=='idle')return;
-  const keys=Object.keys(G.maps).filter(k=>G.maps[k]>0&&!String(k).startsWith('c')).map(Number).sort((a,b)=>b-a);
-  if(keys.length<3){showN('Нужно 3 карты!');closeM();return;}
-  const chosen=keys.slice(0,3);chosen.forEach(t=>{G.maps[t]=Math.max(0,(G.maps[t]||0)-1);});
-  w.status='exp';w.expTiers=[...chosen];w.expIdx=0;w.elapsed=0;w.prog=0;w.curMap=chosen[0];
-  log('🗺 '+w.name+' — экспедиция: T'+chosen.join(', T'),'info');closeM();renderWorkers();renderMaps();
+  // Check availability
+  const needed={};slots.forEach(t=>{needed[t]=(needed[t]||0)+1;});
+  for(const t in needed){
+    if((G.maps[parseInt(t)]||0)<needed[t]){showN('Не хватает карт T'+t+'!');return;}
+  }
+  for(const t in needed){G.maps[parseInt(t)]=Math.max(0,(G.maps[parseInt(t)]||0)-needed[t]);}
+  G.lastExpSlots=[...slots];
+  w.status='exp';w.expTiers=[...slots];w.expIdx=0;w.elapsed=0;w.prog=0;w.curMap=slots[0];
+  log('🗺 '+w.name+' — экспедиция: T'+slots.join(', T'),'info');
+  closeM();renderWorkers();renderMaps();
 }
 
-// ════════ TICK ════════
+// ══════════ TICK ══════════════════════════════════════════════
 function tick(){
   G.gt+=200;
+  // Self run
   if(G.selfRun){
     G.selfRun.elapsed+=200;const pct=Math.min(1,G.selfRun.elapsed/(G.selfRun.md.time*1000));
     const f=document.getElementById('rpf');if(f)f.style.width=(pct*100)+'%';
     const p=document.getElementById('rpp');if(p)p.textContent=Math.floor(pct*100)+'%';
     if(pct>=1)completeSelfRun();
   }
+  // Act run
   if(G.actRun){
     G.actRun.elapsed+=200;const pct=Math.min(1,G.actRun.elapsed/(G.actRun.act.time*1000));
     const f=document.getElementById('apf-'+G.actRun.act.id);if(f)f.style.width=(pct*100)+'%';
     const l=document.getElementById('apct-'+G.actRun.act.id);if(l)l.textContent=Math.floor(pct*100)+'%';
     if(pct>=1)completeAct();
   }
+  // Workers
   let wch=false;
   G.workers.forEach(w=>{
     if(w.status==='running'||w.status==='exp'){
@@ -544,41 +696,62 @@ function tick(){
       if(G.gt-w.injuredAt>=hd){w.status='idle';log('💊 '+w.name+' восстановился!','info');wch=true;}
     }
     const wp=document.getElementById('wp-'+w.id);if(wp)wp.style.width=(w.prog*100)+'%';
-    if(w.status==='injured'){const hp=document.getElementById('hp-'+w.id);if(hp){const hd=Math.max(5000,(10+(w.curMap||1)*2)*1000*(1-G.ups.heal*.2));hp.style.width=(Math.min(1,(G.gt-w.injuredAt)/hd)*100)+'%';}}
+    if(w.status==='injured'){
+      const hp=document.getElementById('hp-'+w.id);
+      if(hp){const hd=Math.max(5000,(10+(w.curMap||1)*2)*1000*(1-G.ups.heal*.2));hp.style.width=(Math.min(1,(G.gt-w.injuredAt)/hd)*100)+'%';}
+    }
   });
   if(wch)renderWorkers();
   updateRes();updateStats();updateSelfStats();
 }
 
-// ════════ RENDER ════════
-function renderAll(){renderMaps();renderShop();renderInv();renderActs();renderWorkers();renderUpgrades();renderAtlasBar();renderAtlasTab();renderAchs();updateRes();updateStats();updateSelfStats();}
+// ══════════ RENDER ═════════════════════════════════════════════
+function renderAll(){updateAchBadge();renderMaps();renderShop();renderInv();renderActs();renderWorkers();renderUpgrades();renderAtlasBar();renderAtlasTab();renderAchs();updateRes();updateStats();updateSelfStats();}
 
 function renderMaps(){
   const el=document.getElementById('tab-maps');if(!el)return;
-  const keys=Object.keys(G.maps).filter(k=>G.maps[k]>0);
-  if(!keys.length){el.innerHTML='<div class="dim" style="text-align:center;padding:14px;font-style:italic">Нет карт.<br>Купите в лавке или пройдите акты!</div>';return;}
+  const allKeys=Object.keys(G.maps).filter(k=>G.maps[k]>0);
+  if(!allKeys.length){el.innerHTML='<div class="dim" style="text-align:center;padding:14px;font-style:italic">Нет карт.<br>Купите в лавке или пройдите акты!</div>';return;}
   const power=sDmg()+sSurv();
-  const normal=keys.filter(k=>!isNaN(k)).map(Number).sort((a,b)=>a-b);
-  const cursed=keys.filter(k=>String(k).startsWith('c')).map(k=>parseInt(String(k).slice(1))).sort((a,b)=>a-b);
+  const normal=allKeys.filter(k=>!isNaN(k)).map(Number).sort((a,b)=>a-b);
+  const cursed=allKeys.filter(k=>String(k).startsWith('c')).map(k=>parseInt(k.slice(1))).sort((a,b)=>a-b);
+  const uniqs=allKeys.filter(k=>String(k).startsWith('u')).map(k=>parseInt(k.slice(1))).sort((a,b)=>a-b);
+  const items=[
+    ...normal.map(t=>({t,k:String(t),type:'normal'})),
+    ...cursed.map(t=>({t,k:'c'+t,type:'cursed'})),
+    ...uniqs.map(t=>({t,k:'u'+t,type:'uniq'})),
+  ];
   let html='';
-  const items=[...normal.map(t=>({t,k:t,cursed:false})),...cursed.map(t=>({t,k:'c'+t,cursed:true}))];
-  items.forEach(({t,k,cursed})=>{
+  items.forEach(({t,k,type})=>{
     if(!(G.maps[k]>0))return;
-    const md=MAP_TIERS[t-1];const ch=calcCh(power,t)*(cursed?.8:1);const cc=chcol(ch);
-    const sel=String(G.selMap)===String(k)?'sel':'';
-    html+='<div class="mcard '+sel+(cursed?' cursed':'')+'" data-mapkey="'+k+'">'+
-      '<div class="mtier" style="color:'+tcol(t)+'">'+(cursed?'💜':'')+'T'+t+'</div>'+
-      '<div style="flex:1"><div class="mname">'+md.em+' '+md.nm+(cursed?' <span style="color:#9944cc;font-size:8px">[ЗАРАЖ.]</span>':'')+'</div>'+
-      '<div class="mch-wrap"><div class="mch-bg"><div class="mch-fill" style="width:'+(Math.min(1,ch)*100)+'%;background:'+cc+'"></div></div>'+
-      '<div class="mch-pct" style="color:'+cc+'">'+Math.round(Math.min(1,ch)*100)+'%</div></div></div>'+
+    const md=MAP_TIERS[t-1];
+    const chMod=type==='cursed'?-.2:type==='uniq'?-.1:0;
+    const ch=Math.max(.03,calcCh(power,t)+chMod);
+    const cc=chcol(ch);
+    const sel=String(G.selMap)===k?'sel':'';
+    const borderCol=type==='cursed'?'#9944cc':type==='uniq'?'#cc5500':'';
+    const badge=type==='cursed'?'<span style="color:#bb44ff;font-size:10px">[ЗАРАЖ.]</span>':
+                type==='uniq'?'<span style="color:#e87020;font-size:10px">[УНИК.]</span>':'';
+    const prefix=type==='cursed'?'💜 ':type==='uniq'?'🟠 ':'';
+    const cost=SHOP_COSTS[t]||0;
+    html+='<div class="mcard '+sel+'" style="'+(borderCol?'border-color:'+borderCol+';':'')+'" data-mapkey="'+k+'">'+
+      '<div class="mtier" style="color:'+tcol(t)+'">'+prefix+'T'+t+'</div>'+
+      '<div style="flex:1">'+
+        '<div class="mname">'+(type==='uniq'?(()=>{const ud=G.uniqMapData&&G.uniqMapData[k];return (ud?ud.em:md.em)+' <span style="color:#e87020">'+(ud?ud.nm:md.nm)+'</span>';})():md.em+' '+md.nm)+' '+badge+'</div>'+
+        '<div style="font-size:11px;color:var(--txt-d)">💰'+md.g[0]+'-'+md.g[1]+'з + предметы</div>'+
+        '<div class="mch-wrap"><div class="mch-bg"><div class="mch-fill" style="width:'+(Math.min(1,ch)*100)+'%;background:'+cc+'"></div></div>'+
+        '<div class="mch-pct" style="color:'+cc+'">'+Math.round(Math.min(1,ch)*100)+'%</div></div>'+
+      '</div>'+
       '<div class="mcnt">'+G.maps[k]+'x</div></div>';
   });
   el.innerHTML=html;
 }
 function selectMap(key){
   G.selMap=String(key);renderMaps();
-  const cursed=String(key).startsWith('c');const tier=cursed?parseInt(String(key).slice(1)):parseInt(key);
-  if(!G.selfRun)updateRunVis(MAP_TIERS[tier-1]);updateSelfStats();renderWorkers();
+  const k=String(key);const isC=k.startsWith('c');const isU=k.startsWith('u');
+  const tier=isC||isU?parseInt(k.slice(1)):parseInt(k);
+  if(!G.selfRun)updateRunVis(MAP_TIERS[tier-1]);
+  updateSelfStats();renderWorkers();
 }
 
 function renderShop(){
@@ -600,21 +773,28 @@ function renderShop(){
     {id:'s15',nm:'Карта T15',  cost:1500,mt:13,fn:()=>{G.maps[15]=(G.maps[15]||0)+1;}},
     {id:'s16',nm:'Карта T16',  cost:1850,mt:14,fn:()=>{G.maps[16]=(G.maps[16]||0)+1;}},
   ];
+  if(G.clsLocked){
+    all.push({id:'respec',nm:'🔄 Смена класса',cost:200,mt:-1,fn:()=>{G.clsLocked=false;log('🔄 Смена класса — выберите новый!','info');showN('Выберите новый класс!','pur');updateSelfStats();}});
+  }
   window._shopItems=all;
-  if(G.clsLocked){all.push({id:'respec',nm:'Смена класса',cost:200,mt:-1,fn:()=>{G.clsLocked=false;log('Смена класса доступна!','info');showN('Выберите новый класс!','pur');updateSelfStats();}});}
-  const unlocked=all.filter(it=>G.maxTier>=it.mt);const locked=all.filter(it=>G.maxTier<it.mt);
-  const t=id=>{const n=parseInt(id.slice(1));const md=MAP_TIERS[n-1];return md?' · 💰'+md.g[0]+'–'+md.g[1]+'+предметы':'';};
-  let html=unlocked.map(it=>'<div class="srow"><span style="font-size:16px">🗺</span>'+
-    '<div class="si"><div class="snm">'+it.nm+'</div><div class="sds">'+t(it.id)+'</div></div>'+
-    '<div style="text-align:right"><div class="spr">💰'+it.cost+'</div>'+
-    '<button class="btn btn-sm" style="margin-top:2px" data-shop="'+it.id+'">Купить</button></div></div>').join('');
+  const unlocked=all.filter(it=>G.maxTier>=it.mt);
+  const locked=all.filter(it=>G.maxTier<it.mt);
+  let html=unlocked.map(it=>{
+    const n=parseInt(it.id.slice(1));const md=n>=1&&n<=16?MAP_TIERS[n-1]:null;
+    const desc=md?'💰'+md.g[0]+'-'+md.g[1]+'з + предметы':it.nm.includes('Смена класса')?'Выберите другой класс':'';;
+    return '<div class="srow"><span style="font-size:16px">'+(md?'🗺':'🔄')+'</span>'+
+      '<div class="si"><div class="snm">'+it.nm+'</div><div class="sds">'+desc+'</div></div>'+
+      '<div style="text-align:right"><div class="spr">💰'+it.cost+'</div>'+
+      '<button class="btn btn-sm" style="margin-top:2px" data-shop="'+it.id+'">Купить</button></div></div>';
+  }).join('');
   if(locked.length){const nx=locked[0];html+='<div class="srow" style="opacity:.4;pointer-events:none"><span>🔒</span><div class="si"><div class="snm">'+nx.nm+'</div><div class="sds">После T'+(nx.mt+1)+'</div></div><div class="spr">💰'+nx.cost+'</div></div>';}
   document.getElementById('tab-shop').innerHTML=html;
 }
 function buyShop(id){
   const it=window._shopItems.find(x=>x.id===id);if(!it)return;
   if(G.gold<it.cost){showN('Мало золота!');return;}
-  G.gold-=it.cost;it.fn();log('🗺 Куплено: '+it.nm,'info');updateRes();renderMaps();
+  G.gold-=it.cost;it.fn();
+  log('🛒 Куплено: '+it.nm,'info');updateRes();renderMaps();renderShop();
 }
 
 function renderInv(){
@@ -622,102 +802,114 @@ function renderInv(){
   if(!G.inv.length){el.innerHTML='<div class="dim" style="text-align:center;padding:14px;font-style:italic">Склад пуст</div>';return;}
   const ns=G.inv.filter(x=>x.quality==='normal');
   let html=ns.length?'<button class="btn btn-sm" style="margin-bottom:6px;width:100%" id="btn-sell-all">💰 Продать обычные ('+ns.length+'шт = '+ns.reduce((s,x)=>s+x.sellPrice,0)+'💰)</button>':'';
-  html+='<div class="igrid">'+G.inv.map(it=>'<div class="iico '+it.quality[0]+'" style="border-color:'+qcol(it.quality)+'55" data-iid="'+it.id+'" data-tip="'+it.id+'">'+it.em+'<span class="isp">'+it.sellPrice+'💰</span></div>').join('')+'</div>';
+  html+='<div class="igrid">'+
+    G.inv.map(it=>'<div class="iico '+it.quality[0]+'" style="border-color:'+qcol(it.quality)+'77" data-iid="'+it.id+'" data-tip="'+it.id+'">'+it.em+
+      '<span class="isp" style="font-size:12px;color:'+qcol(it.quality)+'">'+it.sellPrice+'💰</span></div>').join('')+
+    '</div>';
   el.innerHTML=html;updateRes();
 }
 
 function renderActs(){
-  document.getElementById('tab-acts').innerHTML='<div class="dim" style="font-size:10px;margin-bottom:7px;font-style:italic">⚠️ Используйте если совсем нет карт и золота.</div>'+
+  document.getElementById('tab-acts').innerHTML=
+    '<div class="dim" style="font-size:12px;margin-bottom:7px;font-style:italic">⚠️ Используйте если совсем нет карт и золота.</div>'+
     ACTS.map(a=>'<div class="act-card"><span style="font-size:17px">'+a.em+'</span>'+
-      '<div style="flex:1"><div style="font-size:11px;color:var(--txt-b)">'+a.nm+'</div>'+
-      '<div class="tiny">💰'+a.g[0]+'–'+a.g[1]+'💰 · ⏱'+a.time+'с</div>'+
+      '<div style="flex:1"><div style="font-size:13px;color:var(--txt-b)">'+a.nm+'</div>'+
+      '<div class="tiny">💰'+a.g[0]+'–'+a.g[1]+' · ⏱'+a.time+'с</div>'+
       '<div class="act-pg"><div class="act-pgf" id="apf-'+a.id+'" style="width:0%"></div></div>'+
-      '<div class="tiny" id="apct-'+a.id+'"></div></div>'+
+      '<div style="font-size:11px" id="apct-'+a.id+'"></div></div>'+
       '<button class="btn btn-sm btn-g" id="abtn-'+a.id+'" data-act="'+a.id+'">▶ Идти</button></div>').join('');
 }
 
 function renderWorkers(){
   const el=document.getElementById('workers-list');if(!el)return;
   if(!G.workers.length){el.innerHTML='<div class="dim" style="text-align:center;padding:8px;font-style:italic">Наймите первого работника!</div>';return;}
-  const maxS=2+G.ups.slots;const running=G.workers.filter(x=>x.status==='running'||x.status==='exp').length;
+  const maxS=1+G.ups.slots;
+  const running=G.workers.filter(x=>x.status==='running'||x.status==='exp').length;
   el.innerHTML=G.workers.map(w=>{
     const cls=WCLS[w.cls];
-    const xpp=w.level>=WLVLS.length-1?1:Math.min(1,Math.max(0,w.xp-WLVLS[w.level])/(WLVLS[w.level+1]-WLVLS[w.level]));
-    const tier=G.selMap?(String(G.selMap).startsWith('c')?parseInt(String(G.selMap).slice(1)):parseInt(G.selMap)):null;
-    const ch=tier?calcCh(w.dmg+w.surv,tier):null;const cc=ch?chcol(ch):'';
+    const xpp=w.level>=WLVLS.length-1?1:Math.min(1,Math.max(0,(w.xp-WLVLS[w.level])/(WLVLS[w.level+1]-WLVLS[w.level])));
+    const selTier=G.selMap?(String(G.selMap).startsWith('c')||String(G.selMap).startsWith('u')?parseInt(String(G.selMap).slice(1)):parseInt(String(G.selMap))):null;
+    const ch=selTier?calcCh(w.dmg+w.surv,selTier):null;const cc=ch?chcol(ch):'';
     let sEl='',aEl='';
     if(w.status==='idle'){
       sEl='<span class="wst st-idle">ОЖИДАЕТ</span>';
-      const hasM=!!(G.selMap&&G.maps[String(G.selMap)]>0);const hasS=running<maxS;
-      aEl='<button class="btn btn-sm" data-send="'+w.id+'"'+(hasM&&hasS?'':' disabled')+'>▶</button>';
+      const hasM=!!(G.selMap&&G.maps[String(G.selMap)]>0);
+      const hasS=running<maxS;
+      const disReason=!hasM?'Выберите карту':!hasS?'Нужен апгрейд Машины для доп. слота':'';
+      aEl='<button class="btn btn-sm" data-send="'+w.id+'"'+(hasM&&hasS?'':' disabled title="'+disReason+'"')+'>▶</button>';
     }else if(w.status==='running'){
-      sEl='<span class="wst st-run">'+(w.cursed?'💜':'')+'T'+w.curMap+'</span>';
-      aEl='<div class="prog-bar" style="width:60px;height:3px"><div class="prog-fill" id="wp-'+w.id+'" style="width:'+(w.prog*100)+'%"></div></div>';
+      sEl='<span class="wst st-run">'+(w.cursed?'💜':w.uniq?'🟠':'')+'T'+w.curMap+'</span>';
+      aEl='<div class="prog-bar" style="width:60px;height:4px"><div class="prog-fill" id="wp-'+w.id+'" style="width:'+(w.prog*100)+'%"></div></div>';
     }else if(w.status==='exp'){
-      sEl='<span class="wst st-exp">ЭКС T'+(w.expTiers&&w.expTiers[w.expIdx]||'?')+'</span>';
-      aEl='<div class="prog-bar" style="width:60px;height:3px"><div class="prog-fill purple" id="wp-'+w.id+'" style="width:'+(w.prog*100)+'%"></div></div>';
+      const et=w.expTiers&&w.expTiers[w.expIdx];
+      sEl='<span class="wst st-exp">ЭКС T'+et+'</span>';
+      aEl='<div class="prog-bar" style="width:60px;height:4px"><div class="prog-fill purple" id="wp-'+w.id+'" style="width:'+(w.prog*100)+'%"></div></div>';
     }else if(w.status==='captured'){
       const cost=Math.floor((30+(w.curMap||1)*12)*(1-G.ups.rescue*.15));
       sEl='<span class="wst st-cap">⛓ ПЛЕН</span>';
       aEl='<button class="btn btn-sm btn-r" data-rescue="'+w.id+'">🔓'+cost+'💰</button>';
     }else if(w.status==='injured'){
       sEl='<span class="wst st-inj">💔 ЛЕЧИТСЯ</span>';
-      aEl='<div class="prog-bar" style="width:60px;height:3px"><div class="prog-fill red" id="hp-'+w.id+'" style="width:0%"></div></div>';
+      aEl='<div class="prog-bar" style="width:60px;height:4px"><div class="prog-fill red" id="hp-'+w.id+'" style="width:0%"></div></div>';
     }
     return '<div class="wslot">'+
       '<div class="wavat" style="border-color:'+cls.col+'">'+cls.em+'</div>'+
       '<div class="winfo">'+
-        '<div class="wname">'+w.name+'<span class="lvl-b">Ур.'+w.level+'</span></div>'+
+        '<div class="wname">'+w.name+' <span class="lvl-b">Ур.'+w.level+'</span></div>'+
         '<div class="wcls">'+cls.nm.toUpperCase()+'</div>'+
         '<div class="tiny">⚔️'+w.dmg+' 🛡'+w.surv+(ch?' · <span style="color:'+cc+'">'+Math.round(ch*100)+'%</span>':'')+'</div>'+
         '<div class="wxp"><div class="wxp-f" style="width:'+(xpp*100)+'%"></div></div>'+
       '</div>'+
-      '<div style="display:flex;flex-direction:column;gap:2px;align-items:flex-end">'+sEl+
-        '<div style="display:flex;gap:2px">'+aEl+'<button class="btn btn-sm" data-weq="'+w.id+'">🎒</button></div>'+
+      '<div style="display:flex;flex-direction:column;gap:3px;align-items:flex-end">'+
+        sEl+
+        '<div style="display:flex;gap:3px">'+aEl+'<button class="btn btn-sm" data-weq="'+w.id+'">🎒</button></div>'+
       '</div></div>';
   }).join('');
 }
 
 function renderUpgrades(){
   const defs=[
-    {id:'slots', nm:'⚙ Слот машины',  max:5,desc:()=>'Работников одновременно: '+(2+G.ups.slots),   cost:()=>Math.floor(200*Math.pow(2.2,G.ups.slots))},
-    {id:'rescue',nm:'🤝 Переговорщик',max:3,desc:()=>'Скидка выкупа: '+(G.ups.rescue*15)+'%',cost:()=>Math.floor(250*Math.pow(2,G.ups.rescue))},
-    {id:'heal',  nm:'💊 Лазарет',     max:3,desc:()=>'Лечение быстрее: '+(G.ups.heal*20)+'%', cost:()=>Math.floor(220*Math.pow(2,G.ups.heal))},
+    {id:'slots', nm:'⚙ Слот машины',  max:4,desc:()=>'Одновременно: '+(1+G.ups.slots)+' работ.', cost:()=>Math.floor(200*Math.pow(2.2,G.ups.slots))},
+    {id:'rescue',nm:'🤝 Переговорщик',max:3,desc:()=>'Скидка выкупа: '+(G.ups.rescue*15)+'%',    cost:()=>Math.floor(250*Math.pow(2,G.ups.rescue))},
+    {id:'heal',  nm:'💊 Лазарет',     max:3,desc:()=>'Лечение быстрее: '+(G.ups.heal*20)+'%',    cost:()=>Math.floor(220*Math.pow(2,G.ups.heal))},
   ];
   window._upsDefs=defs;
   let html=defs.map(u=>{
     const lvl=G.ups[u.id],maxed=lvl>=u.max,cost=u.cost();
     return '<div class="srow"><div style="flex:1"><div class="snm">'+u.nm+'</div><div class="sds">'+u.desc()+'</div>'+
       '<div style="display:flex;justify-content:space-between;align-items:center;margin-top:3px">'+
-      (maxed?'<span class="gt" style="font-size:9px">✓ MAX</span>':
+      (maxed?'<span class="gt" style="font-size:11px">✓ MAX</span>':
        '<span class="spr">💰'+cost+'</span><button class="btn btn-sm" data-up="'+u.id+'">Улучшить</button>')+
       '</div></div></div>';
   }).join('');
-  if(canPrestige())html+='<div style="margin-top:8px;padding:8px;border:1px solid #553388;background:rgba(85,51,136,.15);text-align:center"><div style="font-family:Cinzel,serif;color:#ffaa00;font-size:11px;margin-bottom:6px">✨ ВЫ ПРОШЛИ ВСЕ 16 ТИРОВ!</div><button class="btn btn-p" id="btn-prestige">✨ Престиж — сброс с бонусом</button></div>';
+  if(canPrestige())html+=
+    '<div style="margin-top:8px;padding:8px;border:1px solid #553388;background:rgba(85,51,136,.15);text-align:center">'+
+    '<div style="font-family:Cinzel,serif;color:#ffaa00;font-size:12px;margin-bottom:6px">✨ ВЫ ПРОШЛИ ВСЕ 16 ТИРОВ!</div>'+
+    '<button class="btn btn-p" id="btn-prestige">✨ Престиж — сброс с бонусом</button></div>';
   document.getElementById('upgrades').innerHTML=html;
 }
 
 function renderAtlasBar(){
   const ct=document.getElementById('pt-tiers');if(!ct)return;
-  ct.innerHTML=[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16].map(t=>'<div class="pt-t '+(G.cleared[t]?'done':'')+'" title="T'+t+'">'+t+'</div>').join('');
+  ct.innerHTML=[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16].map(t=>'<div class="pt-t '+(G.cleared[t]?'done':'')+'" title="T'+t+' '+MAP_TIERS[t-1].nm+'">'+t+'</div>').join('');
   const hint=document.getElementById('pt-hint');if(!hint)return;
   const cl=Object.keys(G.cleared).length;
-  if(G.prestige>0)hint.textContent='Престиж '+G.prestige+' · +'+G.prestigeBonus+'% золота';
-  else if(canPrestige())hint.innerHTML='<span style="color:#ffaa00;font-weight:bold">✨ Доступен Престиж! (вкладка Апгрейды)</span>';
+  if(G.prestige>0)hint.innerHTML='Престиж '+G.prestige+' · +'+G.prestigeBonus+'% золота';
+  else if(canPrestige())hint.innerHTML='<span style="color:#ffaa00;font-weight:bold">✨ Атлас завершён!</span> <button class="btn btn-sm btn-p" id="btn-prestige-bar" style="margin-left:6px">✨ Престиж</button>';
   else hint.textContent='Тиров пройдено: '+cl+'/16';
   const rip=document.getElementById('ri-pres');if(rip)rip.style.display=G.prestige>0?'flex':'none';
   const rpp=document.getElementById('r-pres');if(rpp)rpp.textContent=G.prestige;
 }
 function renderAtlasTab(){
   const el=document.getElementById('tab-atlas');if(!el)return;
-  let html='<div style="font-size:10px;color:var(--txt-d);margin-bottom:8px">Зелёный = пройден. Пройдите все 16 для Престижа.</div><div id="atlas-grid">';
+  let html='<div style="font-size:12px;color:var(--txt-d);margin-bottom:8px">Зелёный = пройден. Пройдите все 16 для Престижа.</div><div id="atlas-grid">';
   for(let t=1;t<=16;t++){
     const md=MAP_TIERS[t-1];const done=!!G.cleared[t];
     html+='<div class="at-cell '+(done?'done':'locked')+'">'+
-      '<div style="font-size:18px">'+md.em+'</div>'+
-      '<div style="font-family:Cinzel,serif;font-size:8px;margin-top:2px">T'+t+'</div>'+
-      '<div style="font-size:7px;color:var(--txt-d)">'+md.nm.slice(0,10)+'</div>'+
-      (done?'<div style="color:var(--grn);font-size:10px">✓</div>':'<div style="font-size:9px">—</div>')+
+      '<div style="font-size:20px">'+md.em+'</div>'+
+      '<div style="font-family:Cinzel,serif;font-size:9px;margin-top:2px">T'+t+'</div>'+
+      '<div style="font-size:9px;color:var(--txt-d)">'+md.nm.slice(0,9)+'</div>'+
+      (done?'<div style="color:var(--grn);font-size:12px">✓</div>':'<div style="font-size:10px">—</div>')+
     '</div>';
   }
   html+='</div>';el.innerHTML=html;
@@ -726,13 +918,36 @@ function renderAchs(){
   const el=document.getElementById('tab-ach');if(!el)return;
   el.innerHTML=ACHDEFS.map(a=>{
     const done=!!G.achs[a.id];
-    return '<div class="ach-row '+(done?'done':'')+'">'+
-      '<div class="ach-ico">'+(done?a.ico:'🔒')+'</div>'+
-      '<div style="flex:1"><div class="ach-nm">'+a.nm+'</div><div class="ach-ds">'+a.ds+'</div><div class="ach-rw">'+a.rw+'</div></div>'+
-      (done?'<span class="gt">✓</span>':'')+'</div>';
+    const pending=!done&&G.achsPending&&G.achsPending[a.id];
+    return '<div class="ach-row '+(done?'done':pending?'pending':'')+'">'+
+      '<div class="ach-ico">'+(done?a.ico:pending?'🎁':'🔒')+'</div>'+
+      '<div style="flex:1"><div class="ach-nm">'+a.nm+'</div>'+
+      '<div class="ach-ds">'+a.ds+'</div>'+
+      '<div class="ach-rw">'+a.rw+'</div></div>'+
+      (done?'<span class="gt" style="font-size:16px">✓</span>':
+       pending?'<button class="btn btn-sm btn-g" data-claim-ach="'+a.id+'">Забрать!</button>':'')+'</div>';
   }).join('');
 }
 
+function updateAchBadge(){
+  const cnt=G.achsPending?Object.keys(G.achsPending).filter(k=>!G.achs[k]).length:0;
+  // Highlight tab button
+  document.querySelectorAll('.tab-btn').forEach(b=>{
+    if(b.dataset.tab==='ach'){
+      b.innerHTML=cnt>0?'🏆 АРХИВ <span style="background:#aa6600;color:#fff;border-radius:50%;padding:0 4px;font-size:9px;margin-left:2px">'+cnt+'</span>':'🏆 АРХИВ';
+    }
+  });
+}
+function claimAch(id){
+  if(!G.achsPending||!G.achsPending[id]||G.achs[id])return;
+  G.achs[id]=true;delete G.achsPending[id];
+  const a=ACHDEFS.find(x=>x.id===id);
+  if(!a)return;
+  const rwMatch=a.rw.match(/\+?(\d+)/);const rewardGold=rwMatch?parseInt(rwMatch[1]):0;
+  if(rewardGold>0){G.gold+=rewardGold;floatT('+'+rewardGold+'💰','#f0d080');}
+  log('🏆 '+a.nm+' — получено! '+a.rw,'info');showN(''+a.nm+' '+a.rw,'pur');
+  updateAchBadge();renderAchs();updateRes();
+}
 function updateRes(){
   const tm=Object.keys(G.maps).reduce((s,k)=>s+(G.maps[k]||0),0);
   const set=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=v;};
@@ -740,7 +955,8 @@ function updateRes(){
 }
 function updateStats(){
   const el=document.getElementById('stats-p');if(!el)return;
-  el.innerHTML='<div>💰 Заработано: <span class="gt">'+fN(G.stats.ge)+'</span></div>'+
+  el.innerHTML=
+    '<div>💰 Заработано: <span class="gt">'+fN(G.stats.ge)+'</span></div>'+
     '<div>💎 Продано: <span class="gt">'+G.stats.sold+'шт ('+fN(G.stats.sg)+'💰)</span></div>'+
     '<div>🗺 Карт пройдено: <span class="gt">'+G.stats.mr+'</span></div>'+
     '<div>🏕 Актов: <span class="gt">'+G.stats.ar+'</span></div>'+
@@ -750,33 +966,56 @@ function updateStats(){
     (G.prestige?'<div>✨ Престиж: <span style="color:#ffaa00">'+G.prestige+'x (+'+G.prestigeBonus+'%💰)</span></div>':'');
 }
 function updateSelfStats(){
+  if(!document.getElementById('s-dmg'))return; // after reset DOM may be replaced
   const d=sDmg(),s=sSurv();
   const set=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=v;};
   set('s-dmg',d);set('s-surv',s);set('s-lvl',G.selfLevel);
+  // XP bar
+  const xpBar=document.getElementById('s-xp-bar');
+  const xpTxt=document.getElementById('s-lvl-xp');
+  const mx=WLVLS.length-1;
+  if(G.selfLevel>=mx){if(xpBar)xpBar.style.width='100%';if(xpTxt)xpTxt.textContent='MAX';}
+  else{const xpPct=Math.min(1,(G.selfXp-WLVLS[G.selfLevel])/(WLVLS[G.selfLevel+1]-WLVLS[G.selfLevel]));if(xpBar)xpBar.style.width=(xpPct*100)+'%';if(xpTxt)xpTxt.textContent=(WLVLS[G.selfLevel+1]-G.selfXp)+' до Ур.'+(G.selfLevel+1);}
   // Level up button
   const lvlBtn=document.getElementById('btn-self-lvlup');
   if(lvlBtn)lvlBtn.style.display=G.selfLevelUp?'inline-block':'none';
-  // Class buttons highlight
-  ['warrior','mage','ranger'].forEach(c=>{
-    const b=document.getElementById('cls-'+c);
-    if(b)b.style.borderColor=c===(G.selfCls||'warrior')?'var(--gold)':'var(--gold-d)';
+  // Class buttons
+  // Show noble class if prestige unlocked
+  const nb=document.getElementById('cls-noble');
+  if(nb)nb.style.display=G.prestige>0?'inline-block':'none';
+  ['warrior','mage','ranger','noble'].forEach(cl=>{
+    const b=document.getElementById('cls-'+cl);if(!b)return;
+    const active=cl===(G.selfCls||'warrior');
+    b.style.borderColor=active?'var(--gold)':'var(--gold-d)';
+    b.disabled=G.clsLocked&&!active;
+    b.title=G.clsLocked&&!active?'Класс заблокирован. Смените в Лавке за 200💰':'';
   });
   const ec=document.getElementById('s-ch');
   if(ec){
-    if(G.selMap){const t=parseInt(String(G.selMap).startsWith('c')?String(G.selMap).slice(1):G.selMap);const ch=calcCh(d+s,t);ec.innerHTML='<span style="color:'+chcol(ch)+'">'+Math.round(ch*100)+'% T'+t+'</span>';}
-    else ec.textContent='— (нет карты)';
+    if(G.selMap){
+      const k=String(G.selMap);const isC=k.startsWith('c');const isU=k.startsWith('u');
+      const t=isC||isU?parseInt(k.slice(1)):parseInt(k);
+      const mod=isC?-.2:isU?-.1:0;
+      const ch=Math.max(.03,calcCh(d+s,t)+mod);
+      ec.innerHTML='<span style="color:'+chcol(ch)+'">'+Math.round(ch*100)+'% T'+t+'</span>';
+    }else ec.textContent='— (нет карты)';
   }
 }
 
-// ════════ MODALS ════════
-function openM(title,html){document.getElementById('mtl').textContent=title;document.getElementById('mbd').innerHTML=html;document.getElementById('moverlay').classList.add('on');}
+// ══════════ MODALS ════════════════════════════════════════════
+function openM(title,html){
+  document.getElementById('mtl').textContent=title;
+  document.getElementById('mbd').innerHTML=html;
+  document.getElementById('moverlay').classList.add('on');
+}
 function closeM(){document.getElementById('moverlay').classList.remove('on');}
 
 function openHire(){
   const cost=80+G.workers.length*60;
-  let html='<div class="dim" style="margin-bottom:8px;font-size:10px">Стоимость: <span class="gt">'+cost+'💰</span></div>';
+  let html='<div class="dim" style="margin-bottom:8px;font-size:13px">Стоимость: <span class="gt">'+cost+'💰</span></div>';
   Object.entries(WCLS).forEach(([cls,c])=>{
-    html+='<div class="srow" style="margin-bottom:4px"><div class="wavat" style="border-color:'+c.col+'">'+c.em+'</div>'+
+    html+='<div class="srow" style="margin-bottom:4px">'+
+      '<div class="wavat" style="border-color:'+c.col+'">'+c.em+'</div>'+
       '<div class="si"><div class="snm">'+c.nm+'</div><div class="sds">'+c.desc+'</div></div>'+
       '<button class="btn btn-sm" data-hire="'+cls+'">Нанять</button></div>';
   });
@@ -784,20 +1023,24 @@ function openHire(){
   openM('Нанять работника',html);
 }
 function hireWorker(cls){
-  const cost=80+G.workers.length*60;if(G.gold<cost){showN('Мало золота! Нужно '+cost+'💰');return;}
+  const cost=80+G.workers.length*60;
+  if(G.gold<cost){showN('Мало золота! Нужно '+cost+'💰');return;}
   G.gold-=cost;
   const name=WNAMES[Math.floor(Math.random()*WNAMES.length)];
-  const w={id:++G.wid,name,cls,status:'idle',curMap:1,cursed:false,elapsed:0,prog:0,runsCompleted:0,
-    capturedAt:0,injuredAt:0,xp:0,level:0,expTiers:[],expIdx:0,eq:{weapon:null,armor:null,helmet:null,ring:null},dmg:5,surv:5};
-  recalcW(w);G.workers.push(w);log('👤 Нанят: '+name+' ('+WCLS[cls].nm+')','info');checkAchs();closeM();renderWorkers();updateRes();
+  const w={id:++G.wid,name,cls,status:'idle',curMap:1,cursed:false,uniq:false,elapsed:0,prog:0,runsCompleted:0,
+    capturedAt:0,injuredAt:0,xp:0,level:0,expTiers:[],expIdx:0,
+    eq:{weapon:null,armor:null,helmet:null,ring:null},dmg:5,surv:5};
+  recalcW(w);G.workers.push(w);
+  log('👤 Нанят: '+name+' ('+WCLS[cls].nm+')','info');
+  checkAchs();closeM();renderWorkers();updateRes();
 }
 
 function openWorkerEq(id){
   const w=G.workers.find(x=>x.id===id);if(!w)return;
   const xpnm=w.level<WLVLS.length-1?((WLVLS[w.level+1]-w.xp)+' XP до Ур.'+(w.level+1)):'Макс.';
-  const tier=G.selMap?(String(G.selMap).startsWith('c')?parseInt(String(G.selMap).slice(1)):parseInt(G.selMap)):null;
-  const ch=tier?calcCh(w.dmg+w.surv,tier):null;
-  let html='<div style="display:flex;gap:10px;margin-bottom:8px;flex-wrap:wrap;font-size:11px">'+
+  const selTier=G.selMap?(String(G.selMap).startsWith('c')||String(G.selMap).startsWith('u')?parseInt(String(G.selMap).slice(1)):parseInt(String(G.selMap))):null;
+  const ch=selTier?calcCh(w.dmg+w.surv,selTier):null;
+  let html='<div style="display:flex;gap:10px;margin-bottom:8px;flex-wrap:wrap;font-size:13px">'+
     '<div>⚔️<span class="gt">'+w.dmg+'</span></div><div>🛡<span style="color:var(--grn)">'+w.surv+'</span></div>'+
     '<div>⭐Ур.'+w.level+': <span style="color:var(--mag)">'+xpnm+'</span></div>'+
     (ch?'<div>Шанс: <span style="color:'+chcol(ch)+'">'+Math.round(ch*100)+'%</span></div>':'')+
@@ -806,9 +1049,9 @@ function openWorkerEq(id){
     const eq=w.eq[sl];
     html+='<div class="eqsl '+(eq?'filled':'')+'" data-pick-w="'+id+'" data-pick-sl="'+sl+'">'+
       '<span class="eqlbl">'+SLOTNM[sl]+'</span>'+
-      (eq?'<span style="color:'+qcol(eq.quality)+';font-size:9px">'+eq.em+' '+eq.name+'</span>'+
+      (eq?'<span style="color:'+qcol(eq.quality)+';font-size:11px">'+eq.em+' '+eq.name+'</span>'+
           '<span class="tiny">⚔️+'+iDmg(eq,w.cls)+' 🛡+'+iSurv(eq,w.cls)+'</span>':
-       '<span class="dim" style="font-size:9px">Пусто</span>')+
+       '<span class="dim" style="font-size:11px">Пусто</span>')+
     '</div>';
   });
   html+='</div><button class="btn btn-r btn-sm" id="btn-close-m">Закрыть</button>';
@@ -816,16 +1059,17 @@ function openWorkerEq(id){
 }
 function openSelfEq(){
   const cls=G.selfCls||'warrior';const d=sDmg(),s=sSurv();
-  let html='<div style="display:flex;gap:10px;margin-bottom:8px;font-size:11px">'+
-    '<div>⚔️<span class="gt">'+d+'</span></div><div>🛡<span style="color:var(--grn)">'+s+'</span></div></div>'+
+  let html='<div style="display:flex;gap:10px;margin-bottom:8px;font-size:13px">'+
+    '<div>⚔️<span class="gt">'+d+'</span></div>'+
+    '<div>🛡<span style="color:var(--grn)">'+s+'</span></div></div>'+
     '<div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-bottom:8px">';
   SLOTS.forEach(sl=>{
     const eq=G.selfEq[sl];
     html+='<div class="eqsl '+(eq?'filled':'')+'" data-pick-w="0" data-pick-sl="'+sl+'">'+
       '<span class="eqlbl">'+SLOTNM[sl]+'</span>'+
-      (eq?'<span style="color:'+qcol(eq.quality)+';font-size:9px">'+eq.em+' '+eq.name+'</span>'+
+      (eq?'<span style="color:'+qcol(eq.quality)+';font-size:11px">'+eq.em+' '+eq.name+'</span>'+
           '<span class="tiny">⚔️+'+iDmg(eq,cls)+' 🛡+'+iSurv(eq,cls)+'</span>':
-       '<span class="dim" style="font-size:9px">Пусто</span>')+
+       '<span class="dim" style="font-size:11px">Пусто</span>')+
     '</div>';
   });
   html+='</div><button class="btn btn-r btn-sm" id="btn-close-m">Закрыть</button>';
@@ -838,22 +1082,25 @@ function openSlotPick(ownerId,slot,isWorker){
   const compat=G.inv.filter(it=>it.slot===slot);
   let html='';
   if(cur){
-    html+='<div class="srow" style="border-color:'+qcol(cur.quality)+'44;margin-bottom:6px"><span style="font-size:17px">'+cur.em+'</span>'+
-      '<div class="si"><div style="color:'+qcol(cur.quality)+';font-size:11px">'+cur.name+'</div>'+
+    html+='<div class="srow" style="border-color:'+qcol(cur.quality)+'44;margin-bottom:6px">'+
+      '<span style="font-size:17px">'+cur.em+'</span>'+
+      '<div class="si"><div style="color:'+qcol(cur.quality)+';font-size:13px">'+cur.name+'</div>'+
       '<div class="tiny">⚔️'+iDmg(cur,cls)+' 🛡'+iSurv(cur,cls)+' · '+cur.sellPrice+'💰</div></div>'+
       '<button class="btn btn-sm btn-r" data-uneq-slot="'+slot+'" data-uneq-owner="'+ownerId+'" data-uneq-isw="'+(isWorker?1:0)+'">Снять</button></div>';
   }
   if(!compat.length){html+='<div class="dim" style="padding:8px;font-style:italic">Нет подходящих предметов</div>';}
   else{
     html+=compat.map(it=>{
-      const d=iDmg(it,cls),s=iSurv(it,cls),cd=cur?iDmg(cur,cls):0,cs=cur?iSurv(cur,cls):0;
-      const dd=d-cd,ds=s-cs;
-      const dds=dd>0?'<span class="dp">+'+dd+'</span>':dd<0?'<span class="dn">'+dd+'</span>':'<span class="dim">±0</span>';
-      const dss=ds>0?'<span class="dp">+'+ds+'</span>':ds<0?'<span class="dn">'+ds+'</span>':'<span class="dim">±0</span>';
-      const c=qcol(it.quality);
-      return '<div class="srow" style="cursor:pointer;border-color:'+c+'33" data-equip-item="'+it.id+'" data-equip-slot="'+slot+'" data-equip-owner="'+ownerId+'" data-equip-isw="'+(isWorker?1:0)+'" data-tip="'+it.id+'">'+
-        '<span style="font-size:17px">'+it.em+'</span><div class="si"><div style="color:'+c+';font-size:11px">'+it.name+'</div>'+
-        '<div class="tiny">⚔️'+d+'('+dds+') 🛡'+s+'('+dss+') · '+it.sellPrice+'💰</div></div>'+
+      const dv=iDmg(it,cls),sv=iSurv(it,cls),cd=cur?iDmg(cur,cls):0,cs=cur?iSurv(cur,cls):0;
+      const dd=dv-cd,ds=sv-cs;
+      const dds=dd>0?'<span style="color:var(--grn)">+'+dd+'</span>':dd<0?'<span style="color:var(--red)">'+dd+'</span>':'<span class="dim">±0</span>';
+      const dss=ds>0?'<span style="color:var(--grn)">+'+ds+'</span>':ds<0?'<span style="color:var(--red)">'+ds+'</span>':'<span class="dim">±0</span>';
+      const co=qcol(it.quality);
+      return '<div class="srow" style="cursor:pointer;border-color:'+co+'33" '+
+        'data-equip-item="'+it.id+'" data-equip-slot="'+slot+'" data-equip-owner="'+ownerId+'" data-equip-isw="'+(isWorker?1:0)+'" data-tip="'+it.id+'">'+
+        '<span style="font-size:17px">'+it.em+'</span>'+
+        '<div class="si"><div style="color:'+co+';font-size:13px">'+it.name+'</div>'+
+        '<div class="tiny">⚔️'+dv+'('+dds+') 🛡'+sv+'('+dss+') · '+it.sellPrice+'💰</div></div>'+
         '<button class="btn btn-sm">Надеть</button></div>';
     }).join('');
   }
@@ -885,78 +1132,94 @@ function openItemM(id){
   const it=G.inv.find(x=>x.id===id);if(!it)return;
   openM(it.em+' '+it.name,
     '<div class="tiny" style="margin-bottom:6px">'+qlbl(it.quality).toUpperCase()+' · Тира '+it.tier+' · '+SLOTNM[it.slot]+'</div>'+
-    it.mods.map(m=>'<div style="color:var(--mag);padding:2px 0;font-size:13px">+ '+m.value+' '+STATNM[m.stat]+'</div>').join('')+
-    '<hr class="sep"><div style="font-size:11px;margin-bottom:6px">Продажа: <span class="gt">'+it.sellPrice+'💰</span></div>'+
-    '<div style="display:flex;gap:4px"><button class="btn btn-sm btn-g" data-sell-id="'+id+'">💰 Продать</button>'+
-    '<button class="btn btn-sm btn-r" data-discard-id="'+id+'">🗑 Выбросить</button>'+
-    '<button class="btn btn-sm btn-r" id="btn-close-m">✕</button></div>');
+    it.mods.map(m=>'<div style="color:var(--mag);padding:2px 0;font-size:14px">+ '+m.value+' '+STATNM[m.stat]+'</div>').join('')+
+    '<hr class="sep"><div style="font-size:13px;margin-bottom:6px">Продажа: <span class="gt">'+it.sellPrice+'💰</span></div>'+
+    '<div style="display:flex;gap:4px">'+
+      '<button class="btn btn-sm btn-g" data-sell-id="'+id+'">💰 Продать</button>'+
+      '<button class="btn btn-sm btn-r" data-discard-id="'+id+'">🗑 Выбросить</button>'+
+      '<button class="btn btn-sm btn-r" id="btn-close-m">✕</button></div>');
 }
 function discardItem(id){G.inv=G.inv.filter(x=>x.id!==id);closeM();renderInv();updateRes();}
 
 function openDebug(){
   const sp=sDmg()+sSurv();
-  const rows=[['version','v0.008'],['gold',G.gold],['totalRuns',G.totalRuns],['prestige',G.prestige],['bonus',G.prestigeBonus+'%'],
+  // Average rewards per tier at power=100
+  const avgRew=MAP_TIERS.map(m=>{
+    const base=(m.g[0]+m.g[1])/2;
+    const mult=Math.min(1.6,1+(100*.003));
+    return 'T'+m.t+':'+(Math.floor(base*mult));
+  }).join(' ');
+  const rows=[
+    ['version','v0.010'],['gold',G.gold],['totalRuns',G.totalRuns],['prestige',G.prestige],['bonus',G.prestigeBonus+'%'],
     ['selfPower',sp],['chances',[1,3,5,8,10,12,16].map(t=>'T'+t+':'+Math.round(calcCh(sp,t)*100)+'%').join(' ')],
     ['cleared',Object.keys(G.cleared).sort((a,b)=>a-b).join(',')],
     ['maps',Object.keys(G.maps).filter(k=>G.maps[k]>0).map(k=>k+':'+G.maps[k]).join(',')],
     ['workers',G.workers.map(w=>w.name+'('+w.cls+',lvl'+w.level+',⚔'+w.dmg+',🛡'+w.surv+','+w.status+')').join('|')],
     ['inv',G.inv.length],['stats',JSON.stringify(G.stats)],['ups',JSON.stringify(G.ups)],
+    ['avgRew_p100',avgRew],
     ['dgr',MAP_TIERS.map(m=>'T'+m.t+':'+m.dgr).join(' ')],
-    ['achs',Object.keys(G.achs).join(',')]];
+    ['achs',Object.keys(G.achs).join(',')],
+  ];
   const dataStr=JSON.stringify(Object.fromEntries(rows),null,2);
   openM('🔧 ДЕБАГ',
     '<div id="dbg-out">'+rows.map(([k,v])=>'<div><span style="color:#ffaa44">'+k+':</span> '+JSON.stringify(v)+'</div>').join('')+'</div>'+
-    '<div style="margin-top:7px;display:flex;gap:5px"><button class="btn btn-sm" id="btn-copy-debug">📋 Копировать</button>'+
-    '<button class="btn btn-sm btn-r" id="btn-close-m">Закрыть</button></div>');
+    '<div style="margin-top:7px;display:flex;gap:5px">'+
+      '<button class="btn btn-sm" id="btn-copy-debug">📋 Копировать</button>'+
+      '<button class="btn btn-sm btn-r" id="btn-close-m">Закрыть</button></div>');
   window._debugStr=dataStr;
 }
 
 function confirmReset(){
   openM('⚠️ СБРОС',
-    '<div style="color:var(--red);margin-bottom:10px;font-size:12px">Весь прогресс будет уничтожен.</div>'+
-    '<div style="display:flex;gap:6px"><button class="btn btn-r" id="btn-do-reset">💀 Умереть в нищете</button>'+
-    '<button class="btn btn-sm" id="btn-close-m">Нет</button></div>');
+    '<div style="color:var(--red);margin-bottom:10px;font-size:14px">Весь прогресс будет уничтожен.</div>'+
+    '<div style="display:flex;gap:6px">'+
+      '<button class="btn btn-r" id="btn-do-reset">💀 Умереть в нищете</button>'+
+      '<button class="btn btn-sm" id="btn-close-m">Нет</button></div>');
 }
 function doReset(){
   if(window._tickId){clearInterval(window._tickId);window._tickId=null;}
   if(window._saveId){clearInterval(window._saveId);window._saveId=null;}
   try{localStorage.removeItem('kartahodec_save');}catch(e){}
   G=freshG();
-  const ov=document.getElementById('moverlay');
-  if(ov)ov.style.display='none';
+  // Hide modal overlay
+  const ov=document.getElementById('moverlay');if(ov)ov.classList.remove('on');
+  // Replace app
   const app=document.getElementById('app');
-  if(app)app.innerHTML=
-    '<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:80vh;text-align:center;gap:14px">'+
+  if(!app)return;
+  app.innerHTML=
+    '<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:80vh;text-align:center;gap:16px">'+
     '<div style="font-size:60px">💀</div>'+
-    '<div style="font-family:Cinzel,serif;font-size:24px;color:var(--red);text-shadow:0 0 25px rgba(200,50,50,.6)">СМЕРТЬ В НИЩЕТЕ</div>'+
-    '<div style="color:var(--txt-d);font-style:italic">Изгнанник пал, не достигнув величия...</div>'+
-    '<button class="btn" id="btn-restart">⚔ Начать заново</button></div>';
-  document.getElementById('btn-restart').addEventListener('click',()=>location.reload());
+    '<div style="font-family:Cinzel,serif;font-size:28px;color:var(--red);text-shadow:0 0 25px rgba(200,50,50,.6)">СМЕРТЬ В НИЩЕТЕ</div>'+
+    '<div style="color:var(--txt-d);font-style:italic;font-size:18px">Изгнанник пал, не достигнув величия...</div>'+
+    '<button class="btn" style="font-size:16px;padding:12px 24px" onclick="location.reload()">⚔ Начать заново</button></div>';
 }
 
-// ════════ TOOLTIP ════════
+// ══════════ TOOLTIP ═══════════════════════════════════════════
 function showTip(e,id){
-  const item=[...G.inv,...Object.values(G.selfEq),...G.workers.flatMap(w=>Object.values(w.eq))].filter(Boolean).find(x=>x.id===id);
-  if(!item)return;
+  const all=[...G.inv,...Object.values(G.selfEq),...G.workers.flatMap(w=>Object.values(w.eq))].filter(Boolean);
+  const item=all.find(x=>x&&x.id===id);if(!item)return;
   const c=qcol(item.quality);
   document.getElementById('tt').innerHTML=
     '<div class="tt-nm" style="color:'+c+'">'+item.em+' '+item.name+'</div>'+
     '<div class="tt-ty">'+qlbl(item.quality).toUpperCase()+' · Т'+item.tier+' · '+SLOTNM[item.slot]+'</div>'+
     item.mods.map(m=>'<div class="tt-st">+ '+m.value+' '+STATNM[m.stat]+'</div>').join('')+
-    '<hr class="tt-dv"><div class="tt-sm">Воин: ⚔️'+iDmg(item,'warrior')+' 🛡'+iSurv(item,'warrior')+'<br>Маг: ⚔️'+iDmg(item,'mage')+' 🛡'+iSurv(item,'mage')+'<br>Следопыт: ⚔️'+iDmg(item,'ranger')+' 🛡'+iSurv(item,'ranger')+'</div>'+
+    '<hr class="tt-dv"><div class="tt-sm">Воин: ⚔️'+iDmg(item,'warrior')+' 🛡'+iSurv(item,'warrior')+'<br>'+
+    'Маг: ⚔️'+iDmg(item,'mage')+' 🛡'+iSurv(item,'mage')+'<br>'+
+    'Следопыт: ⚔️'+iDmg(item,'ranger')+' 🛡'+iSurv(item,'ranger')+'</div>'+
     '<div class="tt-sv">💰 Продажа: '+item.sellPrice+'💰</div>';
   const tt=document.getElementById('tt');tt.style.display='block';
   let x=e.clientX+14,y=e.clientY+14;
-  if(x+270>window.innerWidth)x=e.clientX-270;if(y+tt.offsetHeight>window.innerHeight)y=e.clientY-tt.offsetHeight-8;
+  if(x+270>window.innerWidth)x=e.clientX-270;
+  if(y+tt.offsetHeight>window.innerHeight)y=e.clientY-tt.offsetHeight-8;
   tt.style.left=x+'px';tt.style.top=y+'px';
 }
-function hideTip(){document.getElementById('tt').style.display='none';}
+function hideTip(){const t=document.getElementById('tt');if(t)t.style.display='none';}
 
-// ════════ NOTIFS & LOG ════════
+// ══════════ NOTIFS & LOG ══════════════════════════════════════
 function showN(msg,type){
-  const el=document.createElement('div');
-  el.className='notif'+(type?' '+type:'');el.textContent=msg;
-  document.getElementById('notif-area').appendChild(el);setTimeout(()=>el.remove(),3200);
+  const na=document.getElementById('notif-area');if(!na)return;
+  const el=document.createElement('div');el.className='notif'+(type?' '+type:'');el.textContent=msg;
+  na.appendChild(el);setTimeout(()=>el.remove(),3200);
 }
 function log(msg,cls){
   const el=document.getElementById('loot-log');if(!el)return;
@@ -971,32 +1234,39 @@ function floatT(txt,color){
   el.textContent=txt;document.body.appendChild(el);setTimeout(()=>el.remove(),1300);
 }
 
-// ════════ SAVE / LOAD ════════
+// ══════════ SAVE / LOAD ═══════════════════════════════════════
 function save(){
   try{localStorage.setItem('kartahodec_save',JSON.stringify({
-    v:8,gold:G.gold,totalRuns:G.totalRuns,maps:G.maps,inv:G.inv,workers:G.workers,
-    ups:G.ups,selfEq:G.selfEq,selfCls:G.selfCls,clsLocked:G.clsLocked,selfXp:G.selfXp,selfLevel:G.selfLevel,stats:G.stats,iid:G.iid,wid:G.wid,
-    maxTier:G.maxTier,cleared:G.cleared,achs:G.achs,prestige:G.prestige,prestigeBonus:G.prestigeBonus,
+    v:10,gold:G.gold,totalRuns:G.totalRuns,maps:G.maps,inv:G.inv,workers:G.workers,
+    ups:G.ups,selfEq:G.selfEq,
+    selfCls:G.selfCls,clsLocked:G.clsLocked,selfXp:G.selfXp,selfLevel:G.selfLevel,lastExpSlots:G.lastExpSlots,
+    stats:G.stats,iid:G.iid,wid:G.wid,
+    maxTier:G.maxTier,cleared:G.cleared,achs:G.achs,achsPending:G.achsPending,prestige:G.prestige,prestigeBonus:G.prestigeBonus,
   }));}catch(e){}
 }
 function load(){
   try{
     const raw=localStorage.getItem('kartahodec_save');if(!raw)return;
     const s=JSON.parse(raw);
-    if(!s.v||s.v<8){localStorage.removeItem('kartahodec_save');log('⚠ Старый сейв — начинаем заново','ev');return;}
+    if(!s.v||s.v<10){localStorage.removeItem('kartahodec_save');log('⚠ Старый сейв — начинаем заново','ev');return;}
     Object.assign(G,s);
-    if(!G.cleared)G.cleared={};if(!G.achs)G.achs={};if(!G.prestige)G.prestige=0;if(!G.prestigeBonus)G.prestigeBonus=0;
-    if(!G.selfCls)G.selfCls='warrior';if(!G.selfXp)G.selfXp=0;if(!G.selfLevel)G.selfLevel=0;if(G.selfLevelUp===undefined)G.selfLevelUp=false;
+    if(!G.cleared)G.cleared={};if(!G.achs)G.achs={};if(!G.achsPending)G.achsPending={};
+    if(!G.prestige)G.prestige=0;if(!G.prestigeBonus)G.prestigeBonus=0;
+    if(!G.selfCls)G.selfCls=null;if(G.clsLocked===undefined)G.clsLocked=false;if(!G.lastExpSlots)G.lastExpSlots=null;
+    if(!G.selfXp)G.selfXp=0;if(!G.selfLevel)G.selfLevel=0;if(G.selfLevelUp===undefined)G.selfLevelUp=false;
     G.workers.forEach(w=>{
       if(w.status==='running'||w.status==='exp'){w.status='idle';w.prog=0;w.elapsed=0;}
-      if(!w.xp)w.xp=0;if(!w.level)w.level=0;if(!w.expTiers)w.expTiers=[];if(!w.expIdx)w.expIdx=0;
+      if(!w.xp)w.xp=0;if(!w.level)w.level=0;
+      if(!w.expTiers)w.expTiers=[];if(!w.expIdx)w.expIdx=0;
+      if(w.uniq===undefined)w.uniq=false;
       recalcW(w);
     });
-    G.selfRun=null;G.actRun=null;log('💾 Прогресс загружен','info');
+    G.selfRun=null;G.actRun=null;
+    log('💾 Прогресс загружен','info');
   }catch(e){log('⚠ Ошибка загрузки','ev');}
 }
 
-// ════════ EVENTS ════════
+// ══════════ EVENTS ════════════════════════════════════════════
 document.addEventListener('click',function(e){
   const t=e.target;const cl=s=>t.closest?t.closest(s):null;
   hideTip();
@@ -1006,7 +1276,7 @@ document.addEventListener('click',function(e){
     const tab=tabBtn.dataset.tab;
     document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
     document.querySelectorAll('.tabpanel').forEach(p=>p.classList.remove('active'));
-    const el=document.getElementById('tab-'+tab);if(el)el.classList.add('active');
+    const ep=document.getElementById('tab-'+tab);if(ep)ep.classList.add('active');
     tabBtn.classList.add('active');
     if(tab==='inv')renderInv();else if(tab==='acts')renderActs();
     else if(tab==='atlas')renderAtlasTab();else if(tab==='ach')renderAchs();
@@ -1014,11 +1284,19 @@ document.addEventListener('click',function(e){
   }
   // Map select
   const mc=cl('.mcard');if(mc&&mc.dataset.mapkey){selectMap(mc.dataset.mapkey);return;}
-  // Fixed buttons
-  // Self class selection
-  if(t.dataset.cls){G.selfCls=t.dataset.cls;updateSelfStats();renderWorkers();log('Выбран класс: '+WCLS[t.dataset.cls].nm,'info');return;}
+  // Class select (only if not locked, or show message)
+  if(t.dataset.cls){
+    if(G.clsLocked){showN('Класс заблокирован! Смените в Лавке за 200💰.','red');return;}
+    G.selfCls=t.dataset.cls;log('Выбран класс: '+WCLS[t.dataset.cls].nm,'info');updateSelfStats();save();return;
+  }
   // Self level up
-  if(t.id==='btn-self-lvlup'){G.selfLevelUp=false;log('⭐ Вы прокачали уровень '+G.selfLevel+'! +3⚔️ +3🛡','info');showN('Уровень '+G.selfLevel+' применён!','pur');updateSelfStats();return;}
+  if(t.id==='btn-self-lvlup'){
+    G.selfLevelUp=false;
+    log('⭐ Уровень повышен! (Ур.'+G.selfLevel+') +3⚔️ +3🛡','info');
+    showN('Уровень повышен!','pur');
+    updateSelfStats();return;
+  }
+  // Fixed buttons
   if(t.id==='btn-self-run'){selfRun();return;}
   if(t.id==='btn-cancel-run'){cancelRun();return;}
   if(t.id==='btn-self-eq'){openSelfEq();return;}
@@ -1030,13 +1308,15 @@ document.addEventListener('click',function(e){
   if(t.id==='btn-close-m'){closeM();return;}
   if(t.id==='btn-sell-all'){sellAllNormal();return;}
   if(t.id==='btn-copy-debug'){try{navigator.clipboard.writeText(window._debugStr||'');}catch(ex){}showN('Скопировано!');return;}
-  if(t.id==='btn-prestige'){
+  // Prestige
+  if(t.id==='btn-prestige'||t.id==='btn-prestige-bar'){
     openM('✨ ПРЕСТИЖ',
-      '<div style="margin-bottom:10px;font-size:12px">Вы прошли все 16 тиров!<br><br>'+
-      '<span class="gt">Бонусы при Престиже:</span><br>• +15% золота навсегда (суммируется)<br>• Сохраняется 20% текущего золота<br>• Начинаете с T1–T3 картами<br><br>'+
+      '<div style="margin-bottom:12px;font-size:14px">Вы прошли все 16 тиров!<br><br>'+
+      '<span class="gt">Бонусы:</span><br>• +15% золота навсегда (суммируется)<br>• Сохраняется 15% текущего золота<br>• Начинаете с T1–T3 картами<br><br>'+
       'Текущий: <span class="gt">'+G.prestige+'</span> → <span style="color:#ffaa00">'+(G.prestige+1)+'</span> (+'+((G.prestige+1)*15)+'% золота)</div>'+
-      '<div style="display:flex;gap:6px"><button class="btn btn-p" id="btn-confirm-prestige">✨ Вознестись!</button>'+
-      '<button class="btn btn-sm" id="btn-close-m">Отмена</button></div>');
+      '<div style="display:flex;gap:6px">'+
+        '<button class="btn btn-p" id="btn-confirm-prestige">✨ Вознестись!</button>'+
+        '<button class="btn btn-sm" id="btn-close-m">Отмена</button></div>');
     return;
   }
   if(t.id==='btn-confirm-prestige'){doPrestige();return;}
@@ -1045,9 +1325,8 @@ document.addEventListener('click',function(e){
   // Upgrades
   if(t.dataset.up){
     const costs={slots:()=>Math.floor(200*Math.pow(2.2,G.ups.slots)),rescue:()=>Math.floor(250*Math.pow(2,G.ups.rescue)),heal:()=>Math.floor(220*Math.pow(2,G.ups.heal))};
-    const maxes={slots:5,rescue:3,heal:3};
-    const id=t.dataset.up;if(!costs[id])return;
-    if(G.ups[id]>=maxes[id]){showN('Максимум!');return;}
+    const maxes={slots:4,rescue:3,heal:3};const id=t.dataset.up;
+    if(!costs[id])return;if(G.ups[id]>=maxes[id]){showN('Максимум!');return;}
     const cost=costs[id]();if(G.gold<cost){showN('Мало золота!');return;}
     G.gold-=cost;G.ups[id]++;log('⚙ '+id+' → Ур.'+G.ups[id],'info');updateRes();renderUpgrades();return;
   }
@@ -1056,23 +1335,35 @@ document.addEventListener('click',function(e){
   const rescEl=t.dataset.rescue?t:cl('[data-rescue]');if(rescEl&&rescEl.dataset.rescue){rescueW(parseInt(rescEl.dataset.rescue));return;}
   const weqEl=t.dataset.weq?t:cl('[data-weq]');if(weqEl&&weqEl.dataset.weq){openWorkerEq(parseInt(weqEl.dataset.weq));return;}
   const hireEl=cl('[data-hire]');if(hireEl){hireWorker(hireEl.dataset.hire);return;}
-  // Act
+  // Acts
   if(t.dataset.act){startAct(t.dataset.act);return;}
-  // Expedition
-  const expEl=t.dataset.expW?t:cl('[data-exp-w]');if(expEl&&expEl.dataset.expW){startExpedition(parseInt(expEl.dataset.expW));return;}
-  // Equip pick slot
+  // Expedition modal
+  if(t.dataset.xslot!==undefined){
+    if(window._exp){window._exp.pickSlot=parseInt(t.dataset.xslot);window._exp.render();}return;
+  }
+  if(t.dataset.xslotClear!==undefined){
+    if(window._exp){window._exp.slots[parseInt(t.dataset.xslotClear)]=null;window._exp.render();}return;
+  }
+  if(t.dataset.xpick){
+    if(window._exp&&window._exp.pickSlot!==undefined){
+      window._exp.slots[window._exp.pickSlot]=parseInt(t.dataset.xpick);
+      delete window._exp.pickSlot;window._exp.render();
+    }return;
+  }
+  const xwEl=t.dataset.xworker?t:cl('[data-xworker]');
+  if(xwEl&&xwEl.dataset.xworker){if(window._exp){window._exp.wid=parseInt(xwEl.dataset.xworker);window._exp.render();}return;}
+  if(t.id==='btn-xgo'){if(window._exp&&window._exp.wid)startExpedition(window._exp.wid);return;}
+  // Equipment
   const pickEl=cl('[data-pick-w]');if(pickEl){openSlotPick(parseInt(pickEl.dataset.pickW),pickEl.dataset.pickSl,parseInt(pickEl.dataset.pickW)!==0);return;}
-  // Do equip
   const eqEl=cl('[data-equip-item]');if(eqEl){doEquip(parseInt(eqEl.dataset.equipOwner),eqEl.dataset.equipSlot,parseInt(eqEl.dataset.equipItem),eqEl.dataset.equipIsw==='1');return;}
-  // Unequip
   const uqEl=t.dataset.uneqSlot?t:cl('[data-uneq-slot]');if(uqEl&&uqEl.dataset.uneqSlot){doUnequip(parseInt(uqEl.dataset.uneqOwner),uqEl.dataset.uneqSlot,uqEl.dataset.uneqIsw==='1');return;}
-  // Back from slot pick
   if(t.dataset.backEq!==undefined){if(t.dataset.backIsw==='1')openWorkerEq(parseInt(t.dataset.backEq));else openSelfEq();return;}
-  // Item click
+  // Inventory
+  const claimEl=t.dataset.claimAch?t:cl('[data-claim-ach]');if(claimEl&&claimEl.dataset.claimAch){claimAch(claimEl.dataset.claimAch);return;}
   const iico=cl('[data-iid]');if(iico){openItemM(parseInt(iico.dataset.iid));return;}
   if(t.dataset.sellId){sellItem(parseInt(t.dataset.sellId));return;}
   if(t.dataset.discardId){discardItem(parseInt(t.dataset.discardId));return;}
-  if(t.id==='moverlay'){closeM();return;}
+  if(t.id==='moverlay'||t===document.getElementById('moverlay')){closeM();return;}
 });
 document.addEventListener('mousemove',function(e){
   const el=e.target.closest?e.target.closest('[data-tip]'):null;
@@ -1080,12 +1371,12 @@ document.addEventListener('mousemove',function(e){
 });
 document.addEventListener('scroll',()=>hideTip(),true);
 
-// ════════ INIT ════════
+// ══════════ INIT ══════════════════════════════════════════════
 function init(){
   load();renderAll();
   window._tickId=setInterval(tick,200);
   window._saveId=setInterval(save,8000);
-  log('🌟 Добро пожаловать! Картоходец v0.008','info');
+  log('🌟 Добро пожаловать! Картоходец v0.010','info');
 }
 init();
 </script>
