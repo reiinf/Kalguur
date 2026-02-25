@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Картоходец v0.010</title>
+<title>Картоходец v0.013</title>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;900&family=Crimson+Pro:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
 <style>
 :root{--gold:#c8a96e;--gold-b:#f0d080;--gold-d:#8a6a2e;--blood:#8b1a1a;--blood-b:#c0392b;--bg0:#0a0806;--bg1:#110e09;--bg2:#1a1510;--bg3:#1f1912;--bg4:#241d14;--brd:#3a2e1e;--brd-g:#5a4a2a;--txt:#d4c4a0;--txt-d:#8a7a60;--txt-b:#f0e0b0;--mag:#8888ff;--rare:#f0d060;--uniq:#e87020;--norm:#b0b0b0;--grn:#4a9a4a;--cyn:#4ab0b0;--red:#c03030;--org:#cc7700;}
@@ -34,7 +34,7 @@ h1{font-family:'Cinzel',serif;font-size:22px;font-weight:900;color:var(--gold);t
 .tabpanel{display:none;}.tabpanel.active{display:block;}
 .mcard{background:var(--bg4);border:1px solid var(--brd);padding:6px 9px;margin-bottom:4px;cursor:pointer;transition:all .15s;display:flex;align-items:center;gap:6px;}
 .mcard:hover{border-color:var(--gold-d);}.mcard.sel{border-color:var(--gold);box-shadow:0 0 7px rgba(200,169,110,.2);}.mcard.cursed{border-color:#9944cc;}
-.mtier{font-family:'Cinzel',serif;font-size:9px;font-weight:900;width:22px;text-align:center;}.mname{flex:1;font-size:13px;color:var(--txt-b);}.mcnt{background:var(--bg2);border:1px solid var(--brd);padding:1px 5px;font-size:10px;font-family:'Cinzel',serif;}
+.mtier{font-family:'Cinzel',serif;font-size:9px;font-weight:900;width:22px;text-align:center;}.mname{flex:1;font-size:14px;color:var(--txt-b);font-weight:500;}.mcnt{background:var(--bg2);border:1px solid var(--brd);padding:2px 6px;font-size:12px;font-family:'Cinzel',serif;}.mreward{font-size:12px;color:var(--txt-d);}
 .mch-wrap{display:flex;align-items:center;gap:3px;margin-top:2px;}.mch-bg{flex:1;height:2px;background:var(--bg2);}.mch-fill{height:100%;}.mch-pct{font-size:11px;font-family:'Cinzel',serif;min-width:26px;text-align:right;}
 .run-vis{background:var(--bg4);border:1px solid var(--brd);min-height:140px;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;}
 .run-bg{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 80%,rgba(80,20,0,.3) 0%,transparent 70%);}
@@ -67,7 +67,7 @@ h1{font-family:'Cinzel',serif;font-size:22px;font-weight:900;color:var(--gold);t
 .iico{background:var(--bg4);border:1px solid var(--brd);aspect-ratio:1;display:flex;align-items:center;justify-content:center;font-size:26px;cursor:pointer;transition:all .15s;position:relative;}
 .iico:hover{transform:scale(1.08);}
 .iico.n{border-color:#444;}.iico.m{border-color:#5555aa;}.iico.r{border-color:#aaaa00;}.iico.u{border-color:#cc5500;}
-.isp{position:absolute;bottom:1px;right:2px;font-size:11px;color:var(--gold-d);font-family:'Cinzel',serif;}
+.isp{position:absolute;bottom:1px;right:2px;font-size:12px;font-weight:bold;color:var(--gold-d);font-family:'Cinzel',serif;}
 #tt{position:fixed;background:var(--bg1);border:1px solid var(--gold-d);padding:8px 12px;max-width:260px;pointer-events:none;z-index:9999;display:none;font-size:11px;box-shadow:0 0 18px rgba(0,0,0,.9);}
 .tt-nm{font-family:'Cinzel',serif;font-size:16px;margin-bottom:4px;}.tt-ty{font-size:8px;color:var(--txt-d);margin-bottom:4px;letter-spacing:1px;border-bottom:1px solid var(--brd);padding-bottom:3px;}
 .tt-st{color:var(--mag);padding:2px 0;font-size:14px;}.tt-dv{border:none;border-top:1px solid var(--brd);margin:4px 0;}.tt-sm{font-size:11px;color:var(--txt-d);line-height:1.7;}.tt-sv{color:var(--gold-d);font-size:9px;margin-top:2px;}
@@ -77,9 +77,9 @@ h1{font-family:'Cinzel',serif;font-size:22px;font-weight:900;color:var(--gold);t
 .notif{background:var(--bg1);border:1px solid var(--gold-d);padding:7px 11px;font-size:10px;animation:sli .3s ease,fao .5s ease 2.5s forwards;}
 .notif.red{border-color:var(--blood-b);color:#ff8888;}.notif.grn{border-color:var(--grn);color:#88ff88;}.notif.pur{border-color:#aa66ff;color:#cc99ff;}
 @keyframes sli{from{transform:translateX(100%);opacity:0}to{transform:none;opacity:1}}@keyframes fao{to{opacity:0;transform:translateX(18px)}}
-.eqsl{background:var(--bg2);border:1px dashed var(--brd);padding:4px 6px;font-size:8px;color:var(--txt-d);min-height:30px;cursor:pointer;display:flex;flex-direction:column;gap:2px;transition:all .15s;}
+.eqsl{background:var(--bg2);border:1px dashed var(--brd);padding:8px 10px;font-size:14px;color:var(--txt-d);min-height:52px;cursor:pointer;display:flex;flex-direction:column;gap:3px;transition:all .15s;}
 .eqsl:hover{border-color:var(--gold-d);}.eqsl.filled{border-style:solid;border-color:var(--brd);color:var(--txt);}
-.eqlbl{font-size:7px;color:var(--txt-d);letter-spacing:1px;}
+.eqlbl{font-size:12px;color:var(--txt-d);letter-spacing:1px;font-weight:600;}
 #moverlay{position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:800;display:none;align-items:center;justify-content:center;}
 #moverlay.on{display:flex;}
 #mbox{background:var(--bg3);border:1px solid var(--gold-d);padding:16px;max-width:480px;width:92%;max-height:85vh;overflow-y:auto;box-shadow:0 0 35px rgba(0,0,0,.9);}
@@ -104,7 +104,7 @@ h1{font-family:'Cinzel',serif;font-size:22px;font-weight:900;color:var(--gold);t
 <body>
 <div id="app">
 <header>
-  <h1>КАРТОХОДЕЦ <span class="ver">v0.010</span></h1>
+  <h1>КАРТОХОДЕЦ <span class="ver">v0.013</span></h1>
 </header>
 <div id="res-bar">
   <div class="ri"><span class="ri-ico">💰</span><div><span class="ri-lbl">ЗОЛОТО</span><span class="ri-val" id="r-gold">0</span></div></div>
@@ -205,22 +205,22 @@ h1{font-family:'Cinzel',serif;font-size:22px;font-weight:900;color:var(--gold);t
 'use strict';
 // ══════════ CONSTANTS ══════════════════════════════════════════
 const MAP_TIERS=[
-  {t:1, nm:'Равнины Кальгура',     em:'🌾',time:8, g:[15,35],   drop:.28,md:.08,mx:2, dgr:22},
-  {t:2, nm:'Туманный берег',       em:'🌊',time:9, g:[22,48],   drop:.30,md:.09,mx:3, dgr:35},
-  {t:3, nm:'Гнилые болота',        em:'🌿',time:10,g:[32,68],   drop:.32,md:.10,mx:4, dgr:52},
-  {t:4, nm:'Каменные шахты',       em:'⛏️',time:12,g:[45,90],   drop:.34,md:.11,mx:5, dgr:73},
-  {t:5, nm:'Проклятый лес',        em:'🌲',time:13,g:[60,115],  drop:.36,md:.12,mx:6, dgr:98},
-  {t:6, nm:'Руины Сарнат',         em:'🏛️',time:15,g:[80,150],  drop:.38,md:.13,mx:7, dgr:128},
-  {t:7, nm:'Цитадель теней',       em:'🏰',time:17,g:[100,185], drop:.40,md:.14,mx:8, dgr:163},
-  {t:8, nm:'Ледяные пустоши',      em:'❄️',time:18,g:[125,230], drop:.42,md:.15,mx:9, dgr:203},
-  {t:9, nm:'Вулкан Кальгура',      em:'🌋',time:20,g:[155,285], drop:.44,md:.16,mx:10,dgr:248},
-  {t:10,nm:'Некрополь Вааса',      em:'💀',time:22,g:[195,345], drop:.46,md:.16,mx:11,dgr:298},
-  {t:11,nm:'Храм Луны',            em:'🌙',time:25,g:[240,410], drop:.48,md:.17,mx:12,dgr:354},
-  {t:12,nm:'Астральная плоскость', em:'✨',time:28,g:[290,480], drop:.50,md:.18,mx:13,dgr:416},
-  {t:13,nm:'Лабиринт Забвения',    em:'🌀',time:30,g:[350,570], drop:.52,md:.19,mx:14,dgr:484},
-  {t:14,nm:'Бездна Хаоса',         em:'🔥',time:33,g:[420,670], drop:.55,md:.20,mx:15,dgr:558},
-  {t:15,nm:'Сердце Катаклизма',    em:'⚡',time:36,g:[500,790], drop:.58,md:.22,mx:16,dgr:638},
-  {t:16,nm:'Шейперз Рилм',         em:'💫',time:40,g:[600,900], drop:.62,md:.25,mx:16,dgr:725},
+  {t:1, nm:'Академия',              em:'🏛️',time:8, g:[15,35],  drop:.28,md:.08,mx:2, dgr:22},
+  {t:2, nm:'Дюны',                  em:'🏜️',time:9, g:[22,48],  drop:.30,md:.09,mx:3, dgr:35},
+  {t:3, nm:'Каньон',                em:'🏔️',time:10,g:[32,68],  drop:.32,md:.10,mx:4, dgr:52},
+  {t:4, nm:'Кладбище',              em:'⛪',time:12,g:[45,90],  drop:.34,md:.11,mx:5, dgr:73},
+  {t:5, nm:'Атолл',                 em:'🏝️',time:13,g:[60,115], drop:.36,md:.12,mx:6, dgr:98},
+  {t:6, nm:'Арсенал',               em:'⚔️',time:15,g:[80,150], drop:.38,md:.13,mx:7, dgr:128},
+  {t:7, nm:'Городская площадь',     em:'🏙️',time:17,g:[100,185],drop:.40,md:.14,mx:8, dgr:163},
+  {t:8, nm:'Базар',                 em:'🛒',time:18,g:[125,230], drop:.42,md:.15,mx:9, dgr:203},
+  {t:9, nm:'Тёмный лес',            em:'🌑',time:20,g:[155,285], drop:.44,md:.16,mx:10,dgr:248},
+  {t:10,nm:'Замёрзшие домики',      em:'❄️',time:22,g:[195,345], drop:.46,md:.16,mx:11,dgr:298},
+  {t:11,nm:'Кислотные пещеры',      em:'🧪',time:25,g:[240,410], drop:.48,md:.17,mx:12,dgr:354},
+  {t:12,nm:'Пурпурный посёлок',     em:'🔴',time:28,g:[290,480], drop:.50,md:.18,mx:13,dgr:416},
+  {t:13,nm:'Погребальные камеры',   em:'🪦',time:30,g:[350,570], drop:.52,md:.19,mx:14,dgr:484},
+  {t:14,nm:'Гробница паука',        em:'🕷️',time:33,g:[420,670], drop:.55,md:.20,mx:15,dgr:558},
+  {t:15,nm:'Арена',                 em:'🏟️',time:36,g:[500,790], drop:.58,md:.22,mx:16,dgr:638},
+  {t:16,nm:'Пляж',                  em:'🌊',time:40,g:[600,900], drop:.62,md:.25,mx:16,dgr:725},
 ];
 const SHOP_COSTS={1:15,2:35,3:65,4:100,5:140,6:185,7:240,8:310,9:400,10:510,11:640,12:800,13:990,14:1220,15:1500,16:1850};
 const WCLS={
@@ -280,6 +280,19 @@ const UNIQ_MAPS=[
   {t:16,nm:'Заражённый Плацдарм',    em:'💫',desc:'Харбинджеры · +20 особых врагов',    bonus:'x3 лут'},
 ];
 const UNIQ_MAP_NAMES=UNIQ_MAPS.map(m=>m.nm); // compat
+
+// ── ENDGAME BOSSES ──────────────────────────────────────────────
+const GUARDIAN_MAPS=[
+  {id:'g_hydra',    nm:'Логово Гидры',          em:'🐍',boss:'Гидра',       type:'shaper',dgr:820,time:50,g:[900,1400]},
+  {id:'g_minotaur', nm:'Лабиринт Минотавра',    em:'🐂',boss:'Минотавр',    type:'shaper',dgr:820,time:50,g:[900,1400]},
+  {id:'g_phoenix',  nm:'Горнило Феникса',        em:'🔥',boss:'Феникс',      type:'shaper',dgr:820,time:50,g:[900,1400]},
+  {id:'g_chimera',  nm:'Яма Химеры',             em:'🦁',boss:'Химера',      type:'shaper',dgr:820,time:50,g:[900,1400]},
+];
+const BOSSES=[
+  {id:'shaper', nm:'Создатель',      em:'💠',desc:'Страж картографии. Требует 4 фрагмента стражников.',
+   req:{shaper:4},dgr:1200,time:90,g:[3000,6000],
+   uniqPool:['Кольцо Создателя','Клинок Создателя','Орб Созидания','Тюрьма Создателя']},
+];
 const ACHDEFS=[
   {id:'first_run', ico:'🗺',nm:'Первые шаги',    ds:'Пройти первую карту',          rw:'+30💰'},
   {id:'t5_clear',  ico:'🌲',nm:'Проклятый лес',  ds:'Пройти карту T5',              rw:'+50💰'},
@@ -302,6 +315,7 @@ function freshG(){
     selfEq:{weapon:null,armor:null,helmet:null,ring:null},
     selfRun:null,actRun:null,selMap:null,maxTier:2,
     cleared:{},achs:{},prestige:0,prestigeBonus:0,
+    guardianPieces:{shaper:0,elder:0},bossAttempts:{},bossKills:{},
     selfCls:null,selfXp:0,selfLevel:0,selfLevelUp:false,clsLocked:false,
     stats:{ge:0,fi:0,mr:0,ar:0,sold:0,sg:0,cap:0,inj:0},achsPending:{},
     gt:0,iid:0,wid:0};
@@ -362,6 +376,13 @@ function tryItem(md,cls,mult=1){
 function tryMap(md){
   if(Math.random()>md.md)return;
   const dt=Math.max(1,Math.min(16,md.t+ri(0,Math.min(3,md.mx-md.t))));
+  // Guardian maps drop from T16
+  if(md.t>=16&&Math.random()<.25){
+    const gm=GUARDIAN_MAPS[Math.floor(Math.random()*GUARDIAN_MAPS.length)];
+    G.maps['grd_'+gm.id]=(G.maps['grd_'+gm.id]||0)+1;
+    log('🗺🔷 СТРАЖ карта «'+gm.nm+'» ['+gm.boss+'] упала!','ev');
+    renderMaps();return;
+  }
   if(md.t>=14&&Math.random()<.08){
     const uPool=UNIQ_MAPS.filter(m=>m.t<=dt);const uMap=uPool.length?uPool[Math.floor(Math.random()*uPool.length)]:UNIQ_MAPS[UNIQ_MAPS.length-1];
     G.maps['u'+dt]=(G.maps['u'+dt]||0)+1;
@@ -382,20 +403,22 @@ function selfRun(){
   const key=String(G.selMap);
   const cursed=key.startsWith('c');
   const uniq=key.startsWith('u');
-  const tier=cursed||uniq?parseInt(key.slice(1)):parseInt(key);
+  const isGrd=key.startsWith('grd_');
+  const tier=cursed||uniq?parseInt(key.slice(1)):isGrd?16:parseInt(key);
+  const grdMapData=isGrd?GUARDIAN_MAPS.find(g=>'grd_'+g.id===key):null;
   if(!(G.maps[key]>0)){showN('Нет карт!');return;}
   G.maps[key]--;
   // Lock class on first run
   G.clsLocked=true;
   if(!G.selfCls)G.selfCls='warrior';
-  const md=MAP_TIERS[tier-1];
-  const cost=SHOP_COSTS[tier]||0;
-  G.selfRun={md,tier,cursed,uniq,elapsed:0,cost};
+  const md=isGrd?(grdMapData||MAP_TIERS[15]):MAP_TIERS[tier-1];
+  const cost=isGrd?0:SHOP_COSTS[tier]||0;
+  G.selfRun={md,tier,cursed,uniq,isGrd,grdId:isGrd?key.slice(4):null,elapsed:0,cost};
   document.getElementById('rpw').style.display='block';
   document.getElementById('btn-cancel-run').style.display='inline-block';
   document.getElementById('btn-self-run').disabled=true;
-  document.getElementById('rpl').textContent=(cursed?'💜 ':uniq?'🟠 ':'')+md.em+' '+md.nm+' [T'+tier+']';
-  updateRunVis(md);renderMaps();
+  document.getElementById('rpl').textContent=(isGrd?'🔷 ':(cursed?'💜 ':uniq?'🟠 ':'')+'')+md.em+' '+(isGrd&&md.boss?md.boss:md.nm)+' ['+(isGrd?'Стражник':'T'+tier)+']';
+  updateRunVis(md,false,isGrd);renderMaps();
   log('⚡ Портал: '+(cursed?'💜 ЗАРАЖЁННАЯ ':uniq?'🟠 УНИКАЛЬНАЯ ':'')+'T'+tier+' '+md.nm,'info');
 }
 function cancelRun(){if(!G.selfRun)return;G.selfRun=null;resetRunUI();log('⚠ Отступили.','ev');}
@@ -407,34 +430,49 @@ function resetRunUI(){
   const p=document.getElementById('rpp');if(p)p.textContent='0%';
 }
 function completeSelfRun(){
-  const {md,tier,cursed,uniq,cost}=G.selfRun;
+  // Save everything from selfRun BEFORE nulling it
+  const {md,tier,cursed,uniq,isGrd,grdId,cost}=G.selfRun;
+  const grdMapData=grdId?GUARDIAN_MAPS.find(g=>g.id===grdId):null;
   const power=sDmg()+sSurv();
-  const ch=Math.max(.03,calcCh(power,tier)-(cursed?.2:0)-(uniq?.1:0));
+  const chMod=(cursed?-.2:0)+(uniq?-.1:0)+(isGrd?-.15:0);
+  const ch=Math.max(.03,calcCh(power,tier)+chMod);
   const ok=Math.random()<ch;
-  G.stats.mr++;G.totalRuns++;G.selfRun=null;resetRunUI();
+  G.stats.mr++;G.totalRuns++;
+  G.selfRun=null;resetRunUI();  // null AFTER extracting all data
   if(ok){
     const lm=cursed?3:uniq?2:1;
     const g=goldReward(md,power,cost);G.gold+=g;G.stats.ge+=g;
-    G.cleared[tier]=true;if(tier>G.maxTier)G.maxTier=tier;
-    log('✅ Пройдено! +'+g+'💰'+(cursed?' (x3 лут)':uniq?' (x2 лут)':''),'ge');
+    if(!isGrd){G.cleared[tier]=true;if(tier>G.maxTier)G.maxTier=tier;}
+    if(isGrd){
+      const gtype=(grdMapData&&grdMapData.type)||'shaper';
+      G.guardianPieces[gtype]=(G.guardianPieces[gtype]||0)+1;
+      const pieces=G.guardianPieces[gtype];
+      log('🔷 Стражник повержен! Фрагмент Создателя: '+pieces+'/4','ev');
+      showN('🔷 Фрагмент Создателя '+pieces+'/4','pur');
+      checkBossUnlocks();
+    }
+    const suffix=cursed?' (x3 лут)':uniq?' (x2 лут)':isGrd?' [Стражник]':'';
+    log('✅ Пройдено! +'+g+'💰'+suffix,'ge');
     floatT('+'+g+'💰','#f0d080');
     for(let i=0;i<lm;i++)tryItem(md,G.selfCls,1);tryMap(md);
-    // Self XP
     addXPSelf(xpAmt(tier));
     checkAchs();renderAtlasBar();renderShop();
-  }else{log('💀 Вы пали в T'+tier+(cursed?' [ЗАРАЖЁННАЯ]':uniq?' [УНИКАЛЬНАЯ]':'')+'!','ev');showN('Вы погибли!','red');}
+  }else{
+    log('💀 Вы пали в T'+tier+(cursed?' [ЗАРАЖЁННАЯ]':uniq?' [УНИКАЛЬНАЯ]':isGrd?' [СТРАЖНИК]':'')+'!','ev');
+    showN('Вы погибли!','red');
+  }
   if(G.selMap)updateRunVis(MAP_TIERS[tier-1],true);else updateRunVis(null);
   renderMaps();renderInv();updateRes();
 }
-function updateRunVis(md,idle){
+function updateRunVis(md,idle,isGrd){
   const el=document.getElementById('run-con');if(!el)return;
   if(!md){el.innerHTML='<div class="dim" style="font-style:italic">Выберите карту слева</div>';return;}
-  const col=tcol(md.t);
-  let ch='';if(idle){const c=calcCh(sDmg()+sSurv(),md.t);ch='<div style="margin-top:4px;font-size:12px;color:'+chcol(c)+'">Ваш шанс: '+Math.round(c*100)+'%</div>';}
+  const col=isGrd?'#44aaff':tcol(md.t);
+  let ch='';if(idle){const cv=calcCh(sDmg()+sSurv(),md.t);ch='<div style="margin-top:4px;font-size:12px;color:'+chcol(cv)+'">Ваш шанс: '+Math.round(cv*100)+'%</div>';}
   const cost=SHOP_COSTS[md.t]||0;
-  el.innerHTML='<div class="run-nm" style="color:'+col+'">'+md.em+' '+md.nm+'</div>'+
-    '<div class="dim" style="font-size:10px;letter-spacing:2px;margin-bottom:4px">КАРТА ТИРА '+md.t+'</div>'+
-    '<div style="font-size:12px;color:var(--txt-d)">⏱ ~'+md.time+'с &nbsp; 💰'+md.g[0]+'-'+md.g[1]+'з</div>'+ch;
+  el.innerHTML='<div class="run-nm" style="color:'+col+'">'+md.em+' '+(isGrd&&md.boss?md.boss:md.nm)+'</div>'+
+    '<div class="dim" style="font-size:10px;letter-spacing:2px;margin-bottom:4px">'+(isGrd?'КАРТА СТРАЖНИКА':'КАРТА ТИРА '+md.t)+'</div>'+
+    '<div style="font-size:12px;color:var(--txt-d)">⏱ ~'+md.time+'с &nbsp; 💰'+md.g[0]+'-'+md.g[1]+'</div>'+ch;
 }
 function startAct(id){
   if(G.actRun){showN('Уже в акте!');return;}if(G.selfRun){showN('Уже в походе!');return;}
@@ -444,7 +482,9 @@ function startAct(id){
 }
 function completeAct(){
   const act=G.actRun.act;const g=ri(act.g[0],act.g[1]);G.gold+=g;G.stats.ge+=g;G.stats.ar++;G.actRun=null;
-  log('🏕 '+act.nm+' завершён — +'+g+'💰','ge');floatT('+'+g+'💰','#c8a96e');
+  // Acts give small self XP
+  const xpGain=Math.floor(xpAmt(1)*1.5);addXPSelf(xpGain);
+  log('🏕 '+act.nm+' завершён — +'+g+'💰 +'+xpGain+'XP','ge');floatT('+'+g+'💰','#c8a96e');
   const btn=document.getElementById('abtn-'+act.id);if(btn)btn.disabled=false;
   const fill=document.getElementById('apf-'+act.id);if(fill)fill.style.width='0%';
   updateRes();
@@ -458,7 +498,9 @@ function sendWorker(id){
   const key=String(G.selMap);
   const cursed=key.startsWith('c');
   const uniq=key.startsWith('u');
-  const tier=cursed||uniq?parseInt(key.slice(1)):parseInt(key);
+  const isGrd=key.startsWith('grd_');
+  const tier=cursed||uniq?parseInt(key.slice(1)):isGrd?16:parseInt(key);
+  const grdMapData=isGrd?GUARDIAN_MAPS.find(g=>'grd_'+g.id===key):null;
   if(!(G.maps[key]>0)){showN('Нет карт!');return;}
   G.maps[key]--;
   w.status='running';w.curMap=tier;w.cursed=cursed;w.uniq=uniq;w.elapsed=0;w.prog=0;
@@ -498,8 +540,7 @@ function resolveExpStep(w){
     else{w.status='injured';w.injuredAt=G.gt;G.stats.inj++;log('💔 '+w.name+' ранен в экспедиции!','ev');}
     w.expTiers=[];w.expIdx=0;renderWorkers();renderInv();updateRes();return;
   }
-  const cost=SHOP_COSTS[tier]||0;
-  const g=goldReward(md,power,cost);G.gold+=g;G.stats.ge+=g;
+  const g=Math.floor(goldReward(md,power,0)*1.2);G.gold+=g;G.stats.ge+=g;
   G.cleared[tier]=true;if(tier>G.maxTier)G.maxTier=tier;
   log('💰 '+w.name+' экспед. T'+tier+' +'+g+'💰','ge');
   tryItem(md,w.cls,1.5);tryMap(md);addXP(w,xpAmt(tier));
@@ -535,6 +576,45 @@ function sellAllNormal(){
   checkAchs();renderInv();updateRes();
 }
 
+// ══════════ BOSS SYSTEM ═══════════════════════════════════════
+function checkBossUnlocks(){
+  BOSSES.forEach(b=>{
+    const ready=Object.entries(b.req).every(([k,v])=>(G.guardianPieces[k]||0)>=v);
+    if(ready&&!G.bossAttempts[b.id]){
+      log('💠 ВНИМАНИЕ: Открыт доступ к '+b.nm+'!','ev');
+      showN('💠 '+b.nm+' ждёт!','pur');
+      renderUpgrades();
+    }
+  });
+}
+function tryBoss(id){
+  const b=BOSSES.find(x=>x.id===id);if(!b)return;
+  const ready=Object.entries(b.req).every(([k,v])=>(G.guardianPieces[k]||0)>=v);
+  if(!ready){showN('Нужны все фрагменты!');return;}
+  // Deduct fragments
+  Object.entries(b.req).forEach(([k,v])=>{G.guardianPieces[k]=Math.max(0,(G.guardianPieces[k]||0)-v);});
+  const power=sDmg()+sSurv();
+  const ch=Math.max(.03,calcCh(power,16)*.6); // Bosses are much harder
+  const ok=Math.random()<ch;
+  G.bossAttempts[id]=(G.bossAttempts[id]||0)+1;
+  if(ok){
+    G.bossKills[id]=(G.bossKills[id]||0)+1;
+    const g=Math.floor(Math.random()*(b.g[1]-b.g[0])+b.g[0]);G.gold+=g;G.stats.ge+=g;
+    // Guaranteed unique item
+    const uniqNm=b.uniqPool[Math.floor(Math.random()*b.uniqPool.length)];
+    const uniqIt={id:++G.iid,name:uniqNm,em:'💠',cls:'warrior',slot:['weapon','armor','helmet','ring'][Math.floor(Math.random()*4)],
+      quality:'unique',mods:[{stat:'dmgPhys',value:200},{stat:'hp',value:300},{stat:'allRes',value:50},{stat:'critChance',value:30}],
+      tier:16,sellPrice:2500};
+    G.inv.push(uniqIt);G.stats.fi++;
+    log('💠 '+b.nm+' повержен! +'+g+'💰 + 💠 '+uniqNm,'ev');showN('💠 '+b.nm+' убит!','pur');
+    renderInv();checkAchs();
+  }else{
+    log('💠 Вы пали перед '+b.nm+'!','ev');showN('💀 Поражение от '+b.nm,'red');
+  }
+  G.selfRun=null;resetRunUI();renderUpgrades();updateRes();save();
+  closeM();
+}
+
 // ══════════ ACHIEVEMENTS ══════════════════════════════════════
 function checkAchs(){
   function grant(id){
@@ -565,7 +645,14 @@ function checkAchs(){
 function doPrestige(){
   if(!canPrestige()){showN('Нужно пройти все 16 тиров!');return;}
   const np=G.prestige+1,nb=np*15,kg=Math.floor(G.gold*.15);
-  G=freshG();G.prestige=np;G.prestigeBonus=nb;G.gold=kg+100;G.maps={1:5,2:3,3:1};
+  // Save lifetime stats and achievements across prestige
+  const lstats={...G.stats};
+  const lruns=G.totalRuns;
+  const lachs={...G.achs};
+  const lpend={...(G.achsPending||{})};
+  G=freshG();
+  G.prestige=np;G.prestigeBonus=nb;G.gold=kg+100;G.maps={1:5,2:3,3:1};
+  G.stats=lstats;G.totalRuns=lruns;G.achs=lachs;G.achsPending=lpend;
   closeM();log('✨ ПРЕСТИЖ '+np+'! +'+nb+'% золота навсегда!','info');showN('✨ Престиж '+np+'!','pur');
   renderAll();save();
 }
@@ -716,10 +803,12 @@ function renderMaps(){
   const normal=allKeys.filter(k=>!isNaN(k)).map(Number).sort((a,b)=>a-b);
   const cursed=allKeys.filter(k=>String(k).startsWith('c')).map(k=>parseInt(k.slice(1))).sort((a,b)=>a-b);
   const uniqs=allKeys.filter(k=>String(k).startsWith('u')).map(k=>parseInt(k.slice(1))).sort((a,b)=>a-b);
+  const grdKeys=Object.keys(G.maps).filter(k=>k.startsWith('grd_')&&G.maps[k]>0);
   const items=[
     ...normal.map(t=>({t,k:String(t),type:'normal'})),
     ...cursed.map(t=>({t,k:'c'+t,type:'cursed'})),
     ...uniqs.map(t=>({t,k:'u'+t,type:'uniq'})),
+    ...grdKeys.map(k=>({t:16,k,type:'guardian'})),
   ];
   let html='';
   items.forEach(({t,k,type})=>{
@@ -729,16 +818,16 @@ function renderMaps(){
     const ch=Math.max(.03,calcCh(power,t)+chMod);
     const cc=chcol(ch);
     const sel=String(G.selMap)===k?'sel':'';
-    const borderCol=type==='cursed'?'#9944cc':type==='uniq'?'#cc5500':'';
+    const borderCol=type==='cursed'?'#9944cc':type==='uniq'?'#cc5500':type==='guardian'?'#0088cc':'';
     const badge=type==='cursed'?'<span style="color:#bb44ff;font-size:10px">[ЗАРАЖ.]</span>':
                 type==='uniq'?'<span style="color:#e87020;font-size:10px">[УНИК.]</span>':'';
-    const prefix=type==='cursed'?'💜 ':type==='uniq'?'🟠 ':'';
+    const prefix=type==='cursed'?'💜 ':type==='uniq'?'🟠 ':type==='guardian'?'🔷 ':'';  const grdData=type==='guardian'?GUARDIAN_MAPS.find(g=>'grd_'+g.id===k):null;
     const cost=SHOP_COSTS[t]||0;
     html+='<div class="mcard '+sel+'" style="'+(borderCol?'border-color:'+borderCol+';':'')+'" data-mapkey="'+k+'">'+
       '<div class="mtier" style="color:'+tcol(t)+'">'+prefix+'T'+t+'</div>'+
       '<div style="flex:1">'+
-        '<div class="mname">'+(type==='uniq'?(()=>{const ud=G.uniqMapData&&G.uniqMapData[k];return (ud?ud.em:md.em)+' <span style="color:#e87020">'+(ud?ud.nm:md.nm)+'</span>';})():md.em+' '+md.nm)+' '+badge+'</div>'+
-        '<div style="font-size:11px;color:var(--txt-d)">💰'+md.g[0]+'-'+md.g[1]+'з + предметы</div>'+
+        '<div class="mname">'+(type==='guardian'?'🔷 <span style="color:#44aaff">'+(grdData?grdData.nm:'Гвардейская')+'</span> <span style="color:#44aaff;font-size:10px">[СТРАЖ]</span>':type==='uniq'?(()=>{const ud=G.uniqMapData&&G.uniqMapData[k];return (ud?ud.em:md.em)+' <span style="color:#e87020">'+(ud?ud.nm:md.nm)+'</span>';})():md.em+' '+md.nm)+' '+badge+'</div>'+
+        '<div style="font-size:11px;color:var(--txt-d)">💰'+md.g[0]+'-'+md.g[1]+'+ предметы</div>'+
         '<div class="mch-wrap"><div class="mch-bg"><div class="mch-fill" style="width:'+(Math.min(1,ch)*100)+'%;background:'+cc+'"></div></div>'+
         '<div class="mch-pct" style="color:'+cc+'">'+Math.round(Math.min(1,ch)*100)+'%</div></div>'+
       '</div>'+
@@ -781,7 +870,7 @@ function renderShop(){
   const locked=all.filter(it=>G.maxTier<it.mt);
   let html=unlocked.map(it=>{
     const n=parseInt(it.id.slice(1));const md=n>=1&&n<=16?MAP_TIERS[n-1]:null;
-    const desc=md?'💰'+md.g[0]+'-'+md.g[1]+'з + предметы':it.nm.includes('Смена класса')?'Выберите другой класс':'';;
+    const desc=md?'💰'+md.g[0]+'-'+md.g[1]+'+ предметы':it.nm.includes('Смена класса')?'Выберите другой класс':'';;
     return '<div class="srow"><span style="font-size:16px">'+(md?'🗺':'🔄')+'</span>'+
       '<div class="si"><div class="snm">'+it.nm+'</div><div class="sds">'+desc+'</div></div>'+
       '<div style="text-align:right"><div class="spr">💰'+it.cost+'</div>'+
@@ -801,7 +890,12 @@ function renderInv(){
   const el=document.getElementById('tab-inv');if(!el)return;
   if(!G.inv.length){el.innerHTML='<div class="dim" style="text-align:center;padding:14px;font-style:italic">Склад пуст</div>';return;}
   const ns=G.inv.filter(x=>x.quality==='normal');
-  let html=ns.length?'<button class="btn btn-sm" style="margin-bottom:6px;width:100%" id="btn-sell-all">💰 Продать обычные ('+ns.length+'шт = '+ns.reduce((s,x)=>s+x.sellPrice,0)+'💰)</button>':'';
+  const ms=G.inv.filter(x=>x.quality==='magic');
+  let html='<div style="display:flex;gap:4px;margin-bottom:6px;flex-wrap:wrap">';
+  if(ns.length)html+='<button class="btn btn-sm" style="flex:1" id="btn-sell-all">💰 Обычные ('+ns.length+'шт='+ns.reduce((s,x)=>s+x.sellPrice,0)+')</button>';
+  if(ms.length)html+='<button class="btn btn-sm btn-p" style="flex:1" id="btn-sell-magic">💰 Волшебные ('+ms.length+'шт='+ms.reduce((s,x)=>s+x.sellPrice,0)+')</button>';
+  html+='</div>';
+  if(!ns.length&&!ms.length)html='';
   html+='<div class="igrid">'+
     G.inv.map(it=>'<div class="iico '+it.quality[0]+'" style="border-color:'+qcol(it.quality)+'77" data-iid="'+it.id+'" data-tip="'+it.id+'">'+it.em+
       '<span class="isp" style="font-size:12px;color:'+qcol(it.quality)+'">'+it.sellPrice+'💰</span></div>').join('')+
@@ -882,6 +976,23 @@ function renderUpgrades(){
        '<span class="spr">💰'+cost+'</span><button class="btn btn-sm" data-up="'+u.id+'">Улучшить</button>')+
       '</div></div></div>';
   }).join('');
+  // Boss buttons — only show when player has ever had a fragment
+  BOSSES.forEach(b=>{
+    const pieces=b.id==='shaper'?G.guardianPieces.shaper||0:0;
+    const maxPieces=Object.values(b.req).reduce((s,v)=>s+v,0);
+    const everSeen=pieces>0||(G.bossAttempts[b.id]||0)>0||(G.bossKills[b.id]||0)>0;
+    if(!everSeen)return;
+    const ready=pieces>=maxPieces;
+    html+='<div style="margin-top:8px;padding:8px;border:1px solid '+(ready?'#0088cc':'#335566')+';background:rgba(0,80,140,'+(ready?'.2':'.08')+')">'+
+      '<div style="display:flex;align-items:center;gap:8px;margin-bottom:5px">'+
+        '<span style="font-size:22px">'+b.em+'</span>'+
+        '<div><div style="font-family:Cinzel,serif;color:'+(ready?'#44aaff':'#6699bb')+';font-size:13px">'+b.nm+'</div>'+
+        '<div style="font-size:12px;color:var(--txt-d)">Фрагменты стражников: <b style="color:'+(ready?'#44aaff':'#aabbcc')+'">'+pieces+'/'+maxPieces+'</b></div></div></div>'+
+      (ready
+        ?'<button class="btn btn-sm" style="border-color:#0088cc;color:#44aaff;width:100%" data-boss="'+b.id+'">💠 Войти в портал Создателя</button>'
+        :'<div style="font-size:12px;color:var(--txt-d)">Убейте всех 4 стражников для доступа.</div>')+
+    '</div>';
+  })
   if(canPrestige())html+=
     '<div style="margin-top:8px;padding:8px;border:1px solid #553388;background:rgba(85,51,136,.15);text-align:center">'+
     '<div style="font-family:Cinzel,serif;color:#ffaa00;font-size:12px;margin-bottom:6px">✨ ВЫ ПРОШЛИ ВСЕ 16 ТИРОВ!</div>'+
@@ -963,7 +1074,9 @@ function updateStats(){
     '<div>⚔️ Предметов найдено: <span class="gt">'+G.stats.fi+'</span></div>'+
     '<div>⛓ Захвачено: <span style="color:var(--red)">'+G.stats.cap+'</span></div>'+
     '<div>💔 Ранений: <span style="color:var(--org)">'+G.stats.inj+'</span></div>'+
-    (G.prestige?'<div>✨ Престиж: <span style="color:#ffaa00">'+G.prestige+'x (+'+G.prestigeBonus+'%💰)</span></div>':'');
+    (G.prestige?'<div>✨ Престиж: <span style="color:#ffaa00">'+G.prestige+'x (+'+G.prestigeBonus+'%💰)</span></div>':'')+
+    (G.bossKills.shaper?'<div>💠 Создатель убит: <span style="color:#44aaff">'+G.bossKills.shaper+'x</span></div>':'')+
+    '<div>🔷 Фрагментов стражников: <span style="color:#44aaff">'+(G.guardianPieces.shaper||0)+'/4</span></div>';
 }
 function updateSelfStats(){
   if(!document.getElementById('s-dmg'))return; // after reset DOM may be replaced
@@ -1013,7 +1126,7 @@ function closeM(){document.getElementById('moverlay').classList.remove('on');}
 function openHire(){
   const cost=80+G.workers.length*60;
   let html='<div class="dim" style="margin-bottom:8px;font-size:13px">Стоимость: <span class="gt">'+cost+'💰</span></div>';
-  Object.entries(WCLS).forEach(([cls,c])=>{
+  Object.entries(WCLS).filter(([cls])=>cls!=='noble').forEach(([cls,c])=>{
     html+='<div class="srow" style="margin-bottom:4px">'+
       '<div class="wavat" style="border-color:'+c.col+'">'+c.em+'</div>'+
       '<div class="si"><div class="snm">'+c.nm+'</div><div class="sds">'+c.desc+'</div></div>'+
@@ -1150,7 +1263,7 @@ function openDebug(){
     return 'T'+m.t+':'+(Math.floor(base*mult));
   }).join(' ');
   const rows=[
-    ['version','v0.010'],['gold',G.gold],['totalRuns',G.totalRuns],['prestige',G.prestige],['bonus',G.prestigeBonus+'%'],
+    ['version','v0.013'],['gold',G.gold],['totalRuns',G.totalRuns],['prestige',G.prestige],['bonus',G.prestigeBonus+'%'],
     ['selfPower',sp],['chances',[1,3,5,8,10,12,16].map(t=>'T'+t+':'+Math.round(calcCh(sp,t)*100)+'%').join(' ')],
     ['cleared',Object.keys(G.cleared).sort((a,b)=>a-b).join(',')],
     ['maps',Object.keys(G.maps).filter(k=>G.maps[k]>0).map(k=>k+':'+G.maps[k]).join(',')],
@@ -1237,22 +1350,24 @@ function floatT(txt,color){
 // ══════════ SAVE / LOAD ═══════════════════════════════════════
 function save(){
   try{localStorage.setItem('kartahodec_save',JSON.stringify({
-    v:10,gold:G.gold,totalRuns:G.totalRuns,maps:G.maps,inv:G.inv,workers:G.workers,
+    v:13,gold:G.gold,totalRuns:G.totalRuns,maps:G.maps,inv:G.inv,workers:G.workers,
     ups:G.ups,selfEq:G.selfEq,
     selfCls:G.selfCls,clsLocked:G.clsLocked,selfXp:G.selfXp,selfLevel:G.selfLevel,lastExpSlots:G.lastExpSlots,
     stats:G.stats,iid:G.iid,wid:G.wid,
     maxTier:G.maxTier,cleared:G.cleared,achs:G.achs,achsPending:G.achsPending,prestige:G.prestige,prestigeBonus:G.prestigeBonus,
+    guardianPieces:G.guardianPieces,bossAttempts:G.bossAttempts,bossKills:G.bossKills,
   }));}catch(e){}
 }
 function load(){
   try{
     const raw=localStorage.getItem('kartahodec_save');if(!raw)return;
     const s=JSON.parse(raw);
-    if(!s.v||s.v<10){localStorage.removeItem('kartahodec_save');log('⚠ Старый сейв — начинаем заново','ev');return;}
+    if(!s.v||s.v<13){localStorage.removeItem('kartahodec_save');log('⚠ Старый сейв — начинаем заново','ev');return;}
     Object.assign(G,s);
     if(!G.cleared)G.cleared={};if(!G.achs)G.achs={};if(!G.achsPending)G.achsPending={};
     if(!G.prestige)G.prestige=0;if(!G.prestigeBonus)G.prestigeBonus=0;
     if(!G.selfCls)G.selfCls=null;if(G.clsLocked===undefined)G.clsLocked=false;if(!G.lastExpSlots)G.lastExpSlots=null;
+    if(!G.guardianPieces)G.guardianPieces={shaper:0,elder:0};if(!G.bossAttempts)G.bossAttempts={};if(!G.bossKills)G.bossKills={};
     if(!G.selfXp)G.selfXp=0;if(!G.selfLevel)G.selfLevel=0;if(G.selfLevelUp===undefined)G.selfLevelUp=false;
     G.workers.forEach(w=>{
       if(w.status==='running'||w.status==='exp'){w.status='idle';w.prog=0;w.elapsed=0;}
@@ -1307,8 +1422,36 @@ document.addEventListener('click',function(e){
   if(t.id==='btn-do-reset'){doReset();return;}
   if(t.id==='btn-close-m'){closeM();return;}
   if(t.id==='btn-sell-all'){sellAllNormal();return;}
+  if(t.id==='btn-sell-magic'){
+    const ms=G.inv.filter(x=>x.quality==='magic');if(!ms.length){showN('Нет волшебных!');return;}
+    const tot=ms.reduce((s,x)=>s+x.sellPrice,0);G.inv=G.inv.filter(x=>x.quality!=='magic');
+    G.gold+=tot;G.stats.sg+=tot;G.stats.sold+=ms.length;
+    log('💰 Продано '+ms.length+'x волшебных +'+tot+'💰','ge');floatT('+'+tot+'💰','#c8a96e');
+    checkAchs();renderInv();updateRes();return;
+  }
+  if(t.id==='btn-sell-magic'){
+    const ms=G.inv.filter(x=>x.quality==='magic');if(!ms.length){showN('Нет волшебных!');return;}
+    const tot=ms.reduce((s,x)=>s+x.sellPrice,0);G.inv=G.inv.filter(x=>x.quality!=='magic');
+    G.gold+=tot;G.stats.sg+=tot;G.stats.sold+=ms.length;
+    log('💰 Продано '+ms.length+'x волшебных +'+tot+'💰','ge');floatT('+'+tot+'💰','#c8a96e');
+    checkAchs();renderInv();updateRes();return;
+  }
   if(t.id==='btn-copy-debug'){try{navigator.clipboard.writeText(window._debugStr||'');}catch(ex){}showN('Скопировано!');return;}
   // Prestige
+  // Boss
+  if(t.dataset.boss){
+    const b=BOSSES.find(x=>x.id===t.dataset.boss);if(!b)return;
+    const power=sDmg()+sSurv();const ch=Math.max(.03,calcCh(power,16)*.6);
+    openM('💠 '+b.nm,
+      '<div style="margin-bottom:10px;font-size:14px">'+b.desc+'<br><br>'+
+      '<span style="color:var(--txt-d)">Ваш шанс: </span><b style="color:'+chcol(ch)+'">'+Math.round(ch*100)+'%</b><br>'+
+      '<span style="font-size:12px;color:var(--txt-d)">Награда: 💰3000-6000 + гарантированный уникальный предмет</span></div>'+
+      '<div style="display:flex;gap:6px">'+
+        '<button class="btn" style="border-color:#0088cc;color:#44aaff" data-do-boss="'+b.id+'">💠 Войти!</button>'+
+        '<button class="btn btn-r btn-sm" id="btn-close-m">Отмена</button></div>');
+    return;
+  }
+  if(t.dataset.doBoss){tryBoss(t.dataset.doBoss);return;}
   if(t.id==='btn-prestige'||t.id==='btn-prestige-bar'){
     openM('✨ ПРЕСТИЖ',
       '<div style="margin-bottom:12px;font-size:14px">Вы прошли все 16 тиров!<br><br>'+
@@ -1376,7 +1519,7 @@ function init(){
   load();renderAll();
   window._tickId=setInterval(tick,200);
   window._saveId=setInterval(save,8000);
-  log('🌟 Добро пожаловать! Картоходец v0.010','info');
+  log('🌟 Добро пожаловать! Картоходец v0.013','info');
 }
 init();
 </script>
