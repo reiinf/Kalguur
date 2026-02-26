@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Картоходец v0.018</title>
+<title>Картоходец v0.022</title>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;900&family=Crimson+Pro:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
 <style>
 :root{--gold:#c8a96e;--gold-b:#f0d080;--gold-d:#8a6a2e;--blood:#8b1a1a;--blood-b:#c0392b;--bg0:#0a0806;--bg1:#110e09;--bg2:#1a1510;--bg3:#1f1912;--bg4:#241d14;--brd:#3a2e1e;--brd-g:#5a4a2a;--txt:#d4c4a0;--txt-d:#8a7a60;--txt-b:#f0e0b0;--mag:#8888ff;--rare:#f0d060;--uniq:#e87020;--norm:#b0b0b0;--grn:#4a9a4a;--cyn:#4ab0b0;--red:#c03030;--org:#cc7700;}
@@ -104,7 +104,7 @@ h1{font-family:'Cinzel',serif;font-size:22px;font-weight:900;color:var(--gold);t
 <body>
 <div id="app">
 <header>
-  <h1>КАРТОХОДЕЦ <span class="ver">v0.018</span></h1>
+  <h1>КАРТОХОДЕЦ <span class="ver">v0.022</span></h1>
 </header>
 <div id="res-bar">
   <div class="ri"><span class="ri-ico">💰</span><div><span class="ri-lbl">ЗОЛОТО</span><span class="ri-val" id="r-gold">0</span></div></div>
@@ -289,9 +289,15 @@ const GUARDIAN_MAPS=[
   {id:'g_chimera',  nm:'Яма Химеры',         em:'🦁',boss:'Химера',   type:'shaper',t:16,dgr:820,time:50,g:[900,1400],md:0,mx:16},
 ];
 const BOSSES=[
-  {id:'shaper', nm:'Создатель',      em:'💠',desc:'Страж картографии. Требует 4 фрагмента стражников.',
-   req:{shaper:4},dgr:1200,time:90,g:[3000,6000],
+  {id:'shaper', nm:'Создатель',       em:'💠',desc:'Страж картографии. Требует 4 фрагмента стражей.',
+   req:{shaper:4},dgr:1800,time:70,g:[3000,6000],t:16,md:0,mx:16,
    uniqPool:['Кольцо Создателя','Клинок Создателя','Орб Созидания','Тюрьма Создателя']},
+  {id:'exarch', nm:'Пламенный Экзарх',em:'🔥',desc:'Повелитель пылающих звёзд. Пробуждается каждые 28 T16 карт.',
+   req:{},dgr:1400,time:55,g:[2000,4000],t:16,md:0,mx:16,
+   uniqPool:['Чёрная Звезда','Венец Пламени','Доспех Экзарха','Кольцо Экзарха']},
+  {id:'eater',  nm:'Пожиратель Миров',em:'🌑',desc:'Пустотная сущность из-за Грани. Пробуждается каждые 28 T16 карт.',
+   req:{},dgr:1400,time:55,g:[2000,4000],t:16,md:0,mx:16,
+   uniqPool:['Семя Пустоты','Пожирающий Осколок','Щит Пожирателя','Кольцо Пустоты']},
 ];
 const ACHDEFS=[
   {id:'first_run', ico:'🗺',nm:'Первые шаги',    ds:'Пройти первую карту',          rw:'+30💰'},
@@ -315,7 +321,7 @@ function freshG(){
     selfEq:{weapon:null,armor:null,helmet:null,ring:null},
     selfRun:null,actRun:null,selMap:null,maxTier:2,
     cleared:{},achs:{},prestige:0,prestigeBonus:0,
-    guardianPieces:{shaper:0,elder:0},bossAttempts:{},bossKills:{},
+    guardianPieces:{shaper:0,elder:0},bossAttempts:{},bossKills:{},bossTriesLeft:0,activeBossId:null,t16RunsSinceBoss:0,pendingBoss:null,
     selfCls:null,selfXp:0,selfLevel:0,selfPendingLevel:0,selfLevelUp:false,clsLocked:false,
     stats:{ge:0,fi:0,mr:0,ar:0,sold:0,sg:0,cap:0,inj:0,tierRuns:{}},achsPending:{},
     gt:0,iid:0,wid:0};
@@ -413,7 +419,7 @@ function tryMap(md){
   if(md.t>=14&&Math.random()<.25){
     const gm=GUARDIAN_MAPS[Math.floor(Math.random()*GUARDIAN_MAPS.length)];
     G.maps['grd_'+gm.id]=(G.maps['grd_'+gm.id]||0)+1;
-    log('🔷 Карта стражника «'+gm.nm+'» упала!','ev');
+    log('🔷 Карта стража «'+gm.nm+'» упала!','ev');
     renderMaps();return;
   }
   if(md.t>=12&&Math.random()<.10){
@@ -439,15 +445,22 @@ function selfRun(){
   const isGrd=key.startsWith('grd_');
   const isBoss=key.startsWith('boss_');
   const tier=cursed||uniq?parseInt(key.slice(1)):(isGrd||isBoss)?16:parseInt(key);
+  const bossId=isBoss?key.slice(5):null;
   const grdMapData=isGrd?GUARDIAN_MAPS.find(g=>'grd_'+g.id===key):null;
-  const bossData=isBoss?BOSSES.find(b=>'boss_'+b.id===key):null;
+  const bossData=isBoss?BOSSES.find(b=>b.id===bossId):null;
   if(isBoss){
-    const pieces=G.guardianPieces.shaper||0;
-    if(pieces<4){showN('Нужно 4 фрагмента стражников!');return;}
-  }
-  if(isBoss){
-    // Boss needs fragments, not a card
-    if((G.guardianPieces.shaper||0)<4){showN('Нужно 4 фрагмента!');return;}
+    const isAltBoss=bossId==='exarch'||bossId==='eater';
+    if(isAltBoss){
+      if(G.pendingBoss!==bossId&&G.bossTriesLeft<=0){showN('Этот босс недоступен!');return;}
+      if(G.bossTriesLeft<=0){G.pendingBoss=null;G.bossTriesLeft=6;G.activeBossId=bossId;log('💥 '+bossData.nm+' вызван! 6 попыток.','ev');}
+    } else {
+      const pcs=G.guardianPieces.shaper||0;
+      if(pcs<4&&G.bossTriesLeft<=0){showN('Нужно 4 фрагмента Создателя!');return;}
+      if(pcs>=4&&G.bossTriesLeft<=0){
+        Object.entries(bossData.req).forEach(([k2,v2])=>{G.guardianPieces[k2]=Math.max(0,(G.guardianPieces[k2]||0)-v2);});
+        G.bossTriesLeft=6;G.activeBossId=bossId;log('💠 Создатель призван! 6 попыток.','ev');
+      }
+    }
   } else {
     if(!(G.maps[key]>0)){showN('Нет карт!');return;}
     G.maps[key]--;
@@ -458,12 +471,12 @@ function selfRun(){
   const md=isGrd?(grdMapData||MAP_TIERS[15]):isBoss?(bossData||BOSSES[0]):MAP_TIERS[tier-1];
   const cost=(isGrd||isBoss)?0:SHOP_COSTS[tier]||0;
   const _mc=(isGrd||isBoss)?0:SHOP_COSTS[tier]||0;
-  G.selfRun={md,tier,cursed,uniq,isGrd,isBoss,grdId:isGrd?key.slice(4):null,bossId:isBoss?key.slice(5):null,elapsed:0,cost,
+  G.selfRun={md,tier,cursed,uniq,isGrd,isBoss,grdId:isGrd?key.slice(4):null,bossId,elapsed:0,cost,
     goldRange:[goldMin(md,_mc),goldMax(md,_mc)]};
   document.getElementById('rpw').style.display='block';
   document.getElementById('btn-cancel-run').style.display='inline-block';
   document.getElementById('btn-self-run').disabled=true;
-  document.getElementById('rpl').textContent=(isGrd?'🔷 ':(cursed?'💜 ':uniq?'🟠 ':'')+'')+md.em+' '+(isGrd&&md.boss?md.boss:md.nm)+' ['+(isGrd?'Стражник':'T'+tier)+']';
+  document.getElementById('rpl').textContent=(isGrd?'🔷 ':(cursed?'💜 ':uniq?'🟠 ':'')+'')+md.em+' '+(isGrd&&md.boss?md.boss:md.nm)+' ['+(isGrd?'Страж':isBoss?'БОСС':'T'+tier)+']';
   updateRunVis(md,false,isGrd,isBoss);renderMaps();
   log('⚡ Портал: '+(cursed?'💜 ЗАРАЖЁННАЯ ':uniq?'🟠 УНИКАЛЬНАЯ ':'')+'T'+tier+' '+md.nm,'info');
 }
@@ -475,15 +488,39 @@ function resetRunUI(){
   const f=document.getElementById('rpf');if(f)f.style.width='0%';
   const p=document.getElementById('rpp');if(p)p.textContent='0%';
 }
+
+function checkT16BossUnlock(){
+  if(G.pendingBoss)return; // already have a boss pending
+  G.t16RunsSinceBoss=(G.t16RunsSinceBoss||0)+1;
+  if(G.t16RunsSinceBoss>=28){
+    G.pendingBoss=Math.random()<.5?'exarch':'eater';
+    G.t16RunsSinceBoss=0;
+    const pb=BOSSES.find(b=>b.id===G.pendingBoss);
+    log('💥 '+pb.nm+' пробудился! Портал доступен.','ev');
+    showN('💥 '+pb.nm+' вызван!','pur');
+    renderMaps();
+  }
+}
 function completeSelfRun(){
   // Save everything from selfRun BEFORE nulling it
   const {md,tier,cursed,uniq,isGrd,isBoss,grdId,bossId,cost}=G.selfRun;
   const grdMapData=grdId?GUARDIAN_MAPS.find(g=>g.id===grdId):null;
   const bossMapData=bossId?BOSSES.find(b=>b.id===bossId):null;
   const power=sDmg()+sSurv();
-  const chMod=(cursed?-.2:0)+(uniq?-.1:0)+(isGrd?-.15:0)+(isBoss?-.1:0);
-  const bossDgr=isBoss&&bossMapData?bossMapData.dgr:null;
-  const ch=Math.max(.03,calcCh(power,tier,bossDgr)+chMod);
+  // Cursed/uniq = 1 tier harder, grd/boss use their own dgr
+  const effTier=tier+(cursed?1:0)+(uniq?1:0);
+  const chMod=(isGrd?-.15:0)+(isBoss?-.05:0);
+  if(isBoss&&bossMapData){
+    // Boss: uncapped chance, requires significantly more power
+    const bossDgr=bossMapData.dgr;
+    const rawCh=(power/bossDgr-0.2)/0.7;
+    const bossCap=bossId==='shaper'?0.70:0.80;
+    const bossCh=Math.max(.03,Math.min(bossCap,rawCh)+chMod);
+    var ch=bossCh;
+  } else {
+    const bossDgr=null;
+    var ch=Math.max(.03,calcCh(power,Math.min(16,effTier))+chMod);
+  }
   const ok=Math.random()<ch;
   G.stats.mr++;G.totalRuns++;
   if(!G.stats.tierRuns)G.stats.tierRuns={};
@@ -494,18 +531,33 @@ function completeSelfRun(){
     if(!isGrd&&!isBoss){G.cleared[tier]=true;if(tier>G.maxTier)G.maxTier=tier;}
     if(isBoss&&bossMapData){
       G.bossKills[bossId]=(G.bossKills[bossId]||0)+1;
-      // Deduct fragments
-      Object.entries(bossMapData.req).forEach(([k,v])=>{G.guardianPieces[k]=Math.max(0,(G.guardianPieces[k]||0)-v);});
+      G.bossTriesLeft=0;G.activeBossId=null;if(bossId==='exarch'||bossId==='eater')G.pendingBoss=null;
       // Drop boss unique item
-      const bossUniqPool2=[
-        {nm:'Клинок Катиной',      em:'⚔️',slot:'weapon',mods:[{stat:'dmgPhys',value:280},{stat:'critChance',value:60},{stat:'atkSpd',value:40},{stat:'str',value:80}]},
-        {nm:'Скипетр Шейпера',     em:'🔮',slot:'weapon',mods:[{stat:'dmgSpell',value:260},{stat:'critSpell',value:55},{stat:'castSpd',value:50},{stat:'int',value:90}]},
-        {nm:'Орб Созидания',       em:'💠',slot:'weapon',mods:[{stat:'minionDmg',value:300},{stat:'dmgSpell',value:200},{stat:'int',value:100},{stat:'energyShield',value:150}]},
-        {nm:'Броня Создателя',     em:'🛡',slot:'armor', mods:[{stat:'armor',value:350},{stat:'energyShield',value:200},{stat:'hp',value:250},{stat:'allRes',value:80}]},
-        {nm:'Диадема Атзири',      em:'👑',slot:'helmet',mods:[{stat:'hp',value:300},{stat:'allRes',value:70},{stat:'dmgSpell',value:150},{stat:'critChance',value:40}]},
-        {nm:'Кольцо Созидания',    em:'💍',slot:'ring',  mods:[{stat:'allRes',value:80},{stat:'hp',value:200},{stat:'dmgPhys',value:120},{stat:'str',value:60}]},
-        {nm:'Тюрьма Создателя',    em:'⛓️',slot:'ring',  mods:[{stat:'allRes',value:90},{stat:'int',value:80},{stat:'dmgSpell',value:140},{stat:'critSpell',value:50}]},
-      ];
+      // Real PoE Shaper unique items (translated)
+      // Boss drop pools by id
+      const _bossPools={
+        shaper:[
+          {nm:'Звёздная Кузня',         em:'⚔️',slot:'weapon',mods:[{stat:'dmgPhys',value:350},{stat:'critChance',value:70},{stat:'str',value:100},{stat:'atkSpd',value:50}]},
+          {nm:'Эфемерное Лезвие',       em:'💫',slot:'weapon',mods:[{stat:'dmgSpell',value:320},{stat:'energyShield',value:180},{stat:'critSpell',value:65},{stat:'int',value:90}]},
+          {nm:'Прикосновение Создателя',em:'🧤',slot:'armor', mods:[{stat:'armor',value:300},{stat:'energyShield',value:250},{stat:'hp',value:300},{stat:'allRes',value:90}]},
+          {nm:'Семя Создателя',         em:'💠',slot:'armor', mods:[{stat:'energyShield',value:400},{stat:'int',value:120},{stat:'allRes',value:80},{stat:'dmgSpell',value:150}]},
+          {nm:'Корона Ааруля',          em:'👑',slot:'helmet',mods:[{stat:'hp',value:350},{stat:'allRes',value:80},{stat:'dmgSpell',value:180},{stat:'critSpell',value:50}]},
+          {nm:'Кольцо Созидания',       em:'💍',slot:'ring',  mods:[{stat:'allRes',value:90},{stat:'hp',value:250},{stat:'dmgPhys',value:150},{stat:'str',value:70}]},
+        ],
+        exarch:[
+          {nm:'Чёрная Звезда',      em:'🌟',slot:'weapon',mods:[{stat:'dmgPhys',value:300},{stat:'dmgSpell',value:220},{stat:'critChance',value:55},{stat:'str',value:90}]},
+          {nm:'Венец Пламени',      em:'🔥',slot:'helmet',mods:[{stat:'hp',value:320},{stat:'allRes',value:75},{stat:'dmgSpell',value:200},{stat:'critSpell',value:45}]},
+          {nm:'Доспех Экзарха',     em:'🛡️',slot:'armor', mods:[{stat:'armor',value:320},{stat:'hp',value:280},{stat:'allRes',value:85},{stat:'energyShield',value:180}]},
+          {nm:'Кольцо Экзарха',     em:'💍',slot:'ring',  mods:[{stat:'allRes',value:80},{stat:'hp',value:220},{stat:'dmgSpell',value:140},{stat:'str',value:65}]},
+        ],
+        eater:[
+          {nm:'Семя Пустоты',       em:'🌑',slot:'weapon',mods:[{stat:'minionDmg',value:320},{stat:'dmgSpell',value:240},{stat:'int',value:110},{stat:'energyShield',value:160}]},
+          {nm:'Пожирающий Осколок', em:'💀',slot:'weapon',mods:[{stat:'dmgPhys',value:260},{stat:'critChance',value:50},{stat:'allRes',value:55},{stat:'str',value:85}]},
+          {nm:'Щит Пожирателя',     em:'🔵',slot:'armor', mods:[{stat:'energyShield',value:380},{stat:'hp',value:260},{stat:'allRes',value:80},{stat:'int',value:100}]},
+          {nm:'Кольцо Пустоты',     em:'💍',slot:'ring',  mods:[{stat:'allRes',value:85},{stat:'int',value:90},{stat:'dmgSpell',value:150},{stat:'critSpell',value:48}]},
+        ],
+      };
+      const bossUniqPool2=_bossPools[bossId]||_bossPools.shaper;
       const bUI2=bossUniqPool2[Math.floor(Math.random()*bossUniqPool2.length)];
       const bItem={id:++G.iid,name:bUI2.nm,em:bUI2.em,cls:'warrior',slot:bUI2.slot,
         quality:'unique',mods:bUI2.mods,tier:16,sellPrice:5000};
@@ -519,18 +571,29 @@ function completeSelfRun(){
       const gtype=(grdMapData&&grdMapData.type)||'shaper';
       G.guardianPieces[gtype]=(G.guardianPieces[gtype]||0)+1;
       const pieces=G.guardianPieces[gtype];
-      log('🔷 Стражник повержен! Фрагмент Создателя: '+pieces+'/4','ev');
+      log('🔷 Страж повержен! Фрагмент Создателя: '+pieces+'/4','ev');
       showN('🔷 Фрагмент Создателя '+pieces+'/4','pur');
       checkBossUnlocks();
     }
-    const suffix=cursed?' (x3 лут)':uniq?' (x2 лут)':isGrd?' [Стражник]':isBoss?'':'';
-    if(!isBoss){const g=goldReward(md,power,cost);G.gold+=g;G.stats.ge+=g;log('✅ Пройдено! +'+g+'💰'+suffix,'ge');floatT('+'+g+'💰','#f0d080');}
+    const suffix=cursed?' (x3 лут)':uniq?' (x2 лут)':isGrd?' [Страж]':isBoss?'':'';
+    if(!isBoss){const g=goldReward(md,power,cost);G.gold+=g;G.stats.ge+=g;log('✅ Пройдено! +'+g+'💰'+suffix,'ge');floatT('+'+g+'💰','#f0d080');
+      if(tier===16&&!cursed&&!uniq&&!isGrd)checkT16BossUnlock();
+    }
     if(!isBoss){for(let i=0;i<lm;i++)tryItem(md,G.selfCls,1);tryMap(md);}
     addXPSelf(xpAmt(tier));
     checkAchs();renderAtlasBar();renderShop();
   }else{
-    log('💀 Вы пали в T'+tier+(cursed?' [ЗАРАЖЁННАЯ]':uniq?' [УНИКАЛЬНАЯ]':isGrd?' [СТРАЖНИК]':'')+'!','ev');
-    showN('Вы погибли!','red');
+    if(isBoss){
+      G.bossTriesLeft=Math.max(0,(G.bossTriesLeft||0)-1);
+      if(G.bossTriesLeft<=0){G.activeBossId=null;if(bossId==='exarch'||bossId==='eater')G.pendingBoss=null;}
+      const bname=bossMapData?bossMapData.nm:'Босс';
+      log('💀 '+bname+' устоял! Осталось '+G.bossTriesLeft+' попыток.','ev');
+      showN(bname+' победил! '+G.bossTriesLeft+' осталось','red');
+      renderMaps();
+    } else {
+      log('💀 Вы пали в T'+tier+(cursed?' [ЗАРАЖЁННАЯ]':uniq?' [УНИКАЛЬНАЯ]':isGrd?' [СТРАЖ]':'')+'!','ev');
+      showN('Вы погибли!','red');
+    }
   }
   const isBossCard=G.selMap&&String(G.selMap).startsWith('boss_');
   if(G.selMap&&!isBossCard){const selMd=getMd(G.selMap);const _sg=String(G.selMap);updateRunVis(selMd,true,_sg.startsWith('grd_'),_sg.startsWith('boss_'));}else updateRunVis(null);
@@ -548,10 +611,10 @@ function updateRunVis(md,idle,isGrd,isBoss){
     return;
   }
   const col=isGrd?'#44aaff':tcol(md.t);
-  let ch='';if(idle){const cv=calcCh(sDmg()+sSurv(),md.t);ch='<div style="margin-top:4px;font-size:12px;color:'+chcol(cv)+'">Ваш шанс: '+Math.round(cv*100)+'%</div>';}
+  let ch='';if(idle){const _sk=String(G.selMap||'');const _eff=md.t+(_sk.startsWith('c')?1:0)+(_sk.startsWith('u')?1:0);const cv=calcCh(sDmg()+sSurv(),Math.min(16,_eff));ch='<div style="margin-top:4px;font-size:12px;color:'+chcol(cv)+'">Ваш шанс: '+Math.round(cv*100)+'%</div>';}
   const cost=SHOP_COSTS[md.t]||0;
   el.innerHTML='<div class="run-nm" style="color:'+col+'">'+md.em+' '+(isGrd&&md.boss?md.boss:md.nm)+'</div>'+
-    '<div class="dim" style="font-size:10px;letter-spacing:2px;margin-bottom:4px">'+(isGrd?'КАРТА СТРАЖНИКА':'КАРТА ТИРА '+md.t)+'</div>'+
+    '<div class="dim" style="font-size:10px;letter-spacing:2px;margin-bottom:4px">'+(isGrd?'КАРТА СТРАЖА':isBoss?'ПОРТАЛ СОЗДАТЕЛЯ':'КАРТА ТИРА '+md.t)+'</div>'+
     '<div style="font-size:12px;color:var(--txt-d)">⏱ ~'+md.time+'с &nbsp; 💰'+(goldMin(md,cost))+(goldMax(md,cost)>goldMin(md,cost)?'-'+goldMax(md,cost):'')+' + предметы</div>'+ch;
 }
 function startAct(id){
@@ -591,7 +654,8 @@ function sendWorker(id){
 }
 function resolveWorker(w,md){
   const power=w.dmg+w.surv;
-  const ch=Math.max(.03,calcCh(power,md.t)-(w.cursed?.2:0)-(w.uniq?.1:0));
+  const wEffTier=md.t+(w.cursed?1:0)+(w.uniq?1:0);
+  const ch=Math.max(.03,calcCh(power,Math.min(16,wEffTier)));
   const ok=Math.random()<ch;
   G.stats.mr++;G.totalRuns++;w.runsCompleted=(w.runsCompleted||0)+1;
   if(!G.stats.tierRuns)G.stats.tierRuns={};
@@ -603,15 +667,15 @@ function resolveWorker(w,md){
   const cost=SHOP_COSTS[md.t]||0;
   const lm=w.cursed?3:w.uniq?2:1;
   const g=goldReward(md,power,cost);G.gold+=g;G.stats.ge+=g;
-  if(!w.isGrd){G.cleared[md.t]=true;if(md.t>G.maxTier)G.maxTier=md.t;}
+  if(!w.isGrd){G.cleared[md.t]=true;if(md.t>G.maxTier)G.maxTier=md.t;if(md.t===16&&!w.cursed&&!w.uniq)checkT16BossUnlock();}
   if(w.isGrd){
     const gtype=(md.type)||'shaper';
     G.guardianPieces[gtype]=(G.guardianPieces[gtype]||0)+1;
-    log('🔷 '+w.name+' поверг стражника! Фрагмент Создателя: '+G.guardianPieces[gtype]+'/4','ev');
+    log('🔷 '+w.name+' поверг стража! Фрагмент Создателя: '+G.guardianPieces[gtype]+'/4','ev');
     showN('🔷 Фрагмент '+G.guardianPieces[gtype]+'/4','pur');
     checkBossUnlocks();renderMaps();
   }
-  log('💰 '+w.name+' T'+md.t+(w.isGrd?' [Стражник]':w.cursed?' 💜':w.uniq?' 🟠':'')+(lm>1?' x'+lm:'')+' +'+g+'💰','ge');
+  log('💰 '+w.name+' T'+md.t+(w.isGrd?' [Страж]':w.cursed?' 💜':w.uniq?' 🟠':'')+' +'+g+'💰'+(lm>1?' ×'+lm:''),'ge');
   floatT('+'+g+'💰','#f0d080');
   for(let i=0;i<lm;i++)tryItem(md,w.cls,1);tryMap(md);addXP(w,xpAmt(md.t));
   // Small self XP from workers
@@ -631,8 +695,10 @@ function resolveExpStep(w){
     else{w.status='injured';w.injuredAt=G.gt;G.stats.inj++;log('💔 '+w.name+' ранен в экспедиции!','ev');}
     w.expTiers=[];w.expIdx=0;renderWorkers();renderInv();updateRes();return;
   }
-  const g=Math.floor(goldReward(md,power,0)*1.2);G.gold+=g;G.stats.ge+=g;
+  const ecost=SHOP_COSTS[tier]||0;
+  const g=Math.floor(goldReward(md,power,ecost)*1.2);G.gold+=g;G.stats.ge+=g;
   G.cleared[tier]=true;if(tier>G.maxTier)G.maxTier=tier;
+  if(tier===16)checkT16BossUnlock();
   log('💰 '+w.name+' экспед. T'+tier+' +'+g+'💰','ge');
   tryItem(md,w.cls,1.5);tryMap(md);addXP(w,xpAmt(tier));
   addXPSelf(Math.floor(xpAmt(tier)*.15));
@@ -670,7 +736,9 @@ function sellAllNormal(){
 // ══════════ BOSS SYSTEM ═══════════════════════════════════════
 function checkBossUnlocks(){
   BOSSES.forEach(b=>{
-    const ready=Object.entries(b.req).every(([k,v])=>(G.guardianPieces[k]||0)>=v);
+    // shaper uses fragments; exarch/eater use pendingBoss
+    const isAlt=b.id==='exarch'||b.id==='eater';
+    const ready=isAlt?(G.pendingBoss===b.id):(Object.entries(b.req).every(([k,v])=>(G.guardianPieces[k]||0)>=v));
     if(ready&&!G.bossAttempts[b.id]){
       log('💠 ВНИМАНИЕ: Открыт доступ к '+b.nm+'!','ev');
       showN('💠 '+b.nm+' ждёт!','pur');
@@ -693,15 +761,29 @@ function tryBoss(id){
     const g=Math.floor(Math.random()*(b.g[1]-b.g[0])+b.g[0]);G.gold+=g;G.stats.ge+=g;
     // Guaranteed unique item
     // Boss unique item — proper slot based on item name, high power mods
-    const bossUniqPool=[
-      {nm:'Клинок Катиной',      em:'⚔️',slot:'weapon',mods:[{stat:'dmgPhys',value:280},{stat:'critChance',value:60},{stat:'atkSpd',value:40},{stat:'str',value:80}]},
-      {nm:'Скипетр Шейпера',     em:'🔮',slot:'weapon',mods:[{stat:'dmgSpell',value:260},{stat:'critSpell',value:55},{stat:'castSpd',value:50},{stat:'int',value:90}]},
-      {nm:'Орб Созидания',       em:'💠',slot:'weapon',mods:[{stat:'minionDmg',value:300},{stat:'dmgSpell',value:200},{stat:'int',value:100},{stat:'energyShield',value:150}]},
-      {nm:'Броня Создателя',     em:'🛡',slot:'armor', mods:[{stat:'armor',value:350},{stat:'energyShield',value:200},{stat:'hp',value:250},{stat:'allRes',value:80}]},
-      {nm:'Диадема Атзири',      em:'👑',slot:'helmet',mods:[{stat:'hp',value:300},{stat:'allRes',value:70},{stat:'dmgSpell',value:150},{stat:'critChance',value:40}]},
-      {nm:'Кольцо Созидания',    em:'💍',slot:'ring',  mods:[{stat:'allRes',value:80},{stat:'hp',value:200},{stat:'dmgPhys',value:120},{stat:'str',value:60}]},
-      {nm:'Тюрьма Создателя',    em:'⛓️',slot:'ring',  mods:[{stat:'allRes',value:90},{stat:'int',value:80},{stat:'dmgSpell',value:140},{stat:'critSpell',value:50}]},
-    ];
+    const _bp2={
+      shaper:[
+        {nm:'Звёздная Кузня',         em:'⚔️',slot:'weapon',mods:[{stat:'dmgPhys',value:350},{stat:'critChance',value:70},{stat:'str',value:100},{stat:'atkSpd',value:50}]},
+        {nm:'Эфемерное Лезвие',       em:'💫',slot:'weapon',mods:[{stat:'dmgSpell',value:320},{stat:'energyShield',value:180},{stat:'critSpell',value:65},{stat:'int',value:90}]},
+        {nm:'Прикосновение Создателя',em:'🧤',slot:'armor', mods:[{stat:'armor',value:300},{stat:'energyShield',value:250},{stat:'hp',value:300},{stat:'allRes',value:90}]},
+        {nm:'Семя Создателя',         em:'💠',slot:'armor', mods:[{stat:'energyShield',value:400},{stat:'int',value:120},{stat:'allRes',value:80},{stat:'dmgSpell',value:150}]},
+        {nm:'Корона Ааруля',          em:'👑',slot:'helmet',mods:[{stat:'hp',value:350},{stat:'allRes',value:80},{stat:'dmgSpell',value:180},{stat:'critSpell',value:50}]},
+        {nm:'Кольцо Созидания',       em:'💍',slot:'ring',  mods:[{stat:'allRes',value:90},{stat:'hp',value:250},{stat:'dmgPhys',value:150},{stat:'str',value:70}]},
+      ],
+      exarch:[
+        {nm:'Чёрная Звезда',   em:'🌟',slot:'weapon',mods:[{stat:'dmgPhys',value:300},{stat:'dmgSpell',value:220},{stat:'critChance',value:55},{stat:'str',value:90}]},
+        {nm:'Венец Пламени',   em:'🔥',slot:'helmet',mods:[{stat:'hp',value:320},{stat:'allRes',value:75},{stat:'dmgSpell',value:200},{stat:'critSpell',value:45}]},
+        {nm:'Доспех Экзарха',  em:'🛡️',slot:'armor', mods:[{stat:'armor',value:320},{stat:'hp',value:280},{stat:'allRes',value:85},{stat:'energyShield',value:180}]},
+        {nm:'Кольцо Экзарха',  em:'💍',slot:'ring',  mods:[{stat:'allRes',value:80},{stat:'hp',value:220},{stat:'dmgSpell',value:140},{stat:'str',value:65}]},
+      ],
+      eater:[
+        {nm:'Семя Пустоты',       em:'🌑',slot:'weapon',mods:[{stat:'minionDmg',value:320},{stat:'dmgSpell',value:240},{stat:'int',value:110},{stat:'energyShield',value:160}]},
+        {nm:'Пожирающий Осколок', em:'💀',slot:'weapon',mods:[{stat:'dmgPhys',value:260},{stat:'critChance',value:50},{stat:'allRes',value:55},{stat:'str',value:85}]},
+        {nm:'Щит Пожирателя',     em:'🔵',slot:'armor', mods:[{stat:'energyShield',value:380},{stat:'hp',value:260},{stat:'allRes',value:80},{stat:'int',value:100}]},
+        {nm:'Кольцо Пустоты',     em:'💍',slot:'ring',  mods:[{stat:'allRes',value:85},{stat:'int',value:90},{stat:'dmgSpell',value:150},{stat:'critSpell',value:48}]},
+      ],
+    };
+    const bossUniqPool=_bp2[bossId]||_bp2.shaper;
     const bUI=bossUniqPool[Math.floor(Math.random()*bossUniqPool.length)];
     const uniqIt={id:++G.iid,name:bUI.nm,em:bUI.em,cls:'warrior',slot:bUI.slot,
       quality:'unique',mods:bUI.mods,tier:16,sellPrice:5000};
@@ -913,9 +995,11 @@ function renderMaps(){
   const grdKeys=Object.keys(G.maps).filter(k=>k.startsWith('grd_')&&G.maps[k]>0);
   // Boss portal cards
   const bossCards=BOSSES.filter(b=>{
-    const pieces=G.guardianPieces[b.id.replace('shaper','shaper')]||G.guardianPieces.shaper||0;
-    const everSeen=pieces>0||(G.bossAttempts[b.id]||0)>0||(G.bossKills[b.id]||0)>0;
-    return everSeen;
+    const isAltB=b.id==='exarch'||b.id==='eater';
+    if(isAltB) return G.pendingBoss===b.id||(G.bossTriesLeft>0&&G.activeBossId===b.id)||(G.bossKills[b.id]||0)>0;
+    // shaper: show if have any fragments, ever attempted, or ever killed
+    const pieces=G.guardianPieces.shaper||0;
+    return pieces>0||(G.bossAttempts[b.id]||0)>0||(G.bossKills[b.id]||0)>0;
   }).map(b=>({t:17,k:'boss_'+b.id,type:'boss'}));
   const items=[
     ...normal.map(t=>({t,k:String(t),type:'normal'})),
@@ -929,24 +1013,34 @@ function renderMaps(){
     // Boss card rendering
     if(type==='boss'){
       const bid=k.slice(5);const b=BOSSES.find(x=>x.id===bid);if(!b)return;
-      const pieces=G.guardianPieces.shaper||0;const maxP=4;
-      const ready=pieces>=maxP;
+      const isAlt=bid==='exarch'||bid==='eater';
+      const pieces=isAlt?0:(G.guardianPieces.shaper||0);const maxP=isAlt?0:4;
+      const hasTries=G.bossTriesLeft>0&&G.activeBossId===bid;
+      // Ready if has fragments OR has remaining tries (for any boss type)
+      const ready=hasTries||(isAlt?(G.pendingBoss===bid):(pieces>=maxP));
       const isSel=String(G.selMap)===k;
       html+='<div class="mcard '+(isSel?'sel':'')+'" style="border-color:'+(ready?'#0088cc':'#335566')+';cursor:'+(ready?'pointer':'default')+'" '+(ready?'data-mapkey="'+k+'"':'')+'>'+
         '<div class="mtier" style="color:#44aaff">💠</div>'+
         '<div style="flex:1">'+
           '<div class="mname" style="color:'+(ready?'#44aaff':'#6699bb')+'">'+b.em+' '+b.nm+
-            (ready?'':' <span style="font-size:10px;color:var(--txt-d)">['+pieces+'/'+maxP+' фрагментов]</span>')+'</div>'+
+            (!ready?' <span style="font-size:10px;color:var(--txt-d)">['+pieces+'/'+maxP+' фрагментов]</span>':hasTries?' <span style="font-size:10px;color:#ffaa44">['+G.bossTriesLeft+'/6 попыток]</span>':'')+'</div>'+
           '<div class="mreward">💰3000-6000 + уникальный предмет</div>'+
           (ready?'<div style="font-size:11px;color:#44aaff;margin-top:2px">✨ Портал открыт!</div>':
-                  '<div style="font-size:11px;color:var(--txt-d);margin-top:2px">Убейте 4 стражников на T16</div>')+
+                  (isAlt?(
+  G.pendingBoss===bid||hasTries
+    ?'<div style="font-size:11px;color:#ffaa44;margin-top:2px">⚔️ Попыток: '+(G.bossTriesLeft)+'/6</div>'
+    :'<div style="margin-top:4px"><div style="font-size:10px;color:var(--txt-d);margin-bottom:2px">'+
+      (G.t16RunsSinceBoss||0)+'/28 T16 карт</div>'+
+      '<div style="height:3px;background:var(--bg2);border-radius:2px"><div style="height:100%;width:'+
+      Math.round(((G.t16RunsSinceBoss||0)/28)*100)+'%;background:#44aaff;border-radius:2px"></div></div></div>'
+):'<div style="font-size:11px;color:var(--txt-d);margin-top:2px">Убейте 4 стражей на T16</div>'))+
         '</div></div>';
       return;
     }
     if(!(G.maps[k]>0))return;
     if(!(G.maps[k]>0))return;
     const md=MAP_TIERS[t-1];
-    const chMod=type==='cursed'?-.2:type==='uniq'?-.1:0;
+    const chMod=0;const chTier=md.t+(type==='cursed'?1:0)+(type==='uniq'?1:0);
     const ch=Math.max(.03,calcCh(power,t)+chMod);
     const cc=chcol(ch);
     const sel=String(G.selMap)===k?'sel':'';
@@ -1002,7 +1096,8 @@ function renderShop(){
   const locked=all.filter(it=>G.maxTier<it.mt);
   let html=unlocked.map(it=>{
     const n=parseInt(it.id.slice(1));const md=n>=1&&n<=16?MAP_TIERS[n-1]:null;
-    const desc=md?'💰'+md.g[0]+'-'+md.g[1]+'+ предметы':it.nm.includes('Смена класса')?'Выберите другой класс':'';;
+    const n2=parseInt(it.id.slice(1));const cost2=SHOP_COSTS[n2]||0;
+    const desc=md?'💰'+(goldMin(md,cost2))+(goldMax(md,cost2)>goldMin(md,cost2)?'–'+goldMax(md,cost2):'')+' + предметы':it.nm.includes('Смена класса')?'Выберите другой класс':'';;
     return '<div class="srow"><span style="font-size:16px">'+(md?'🗺':'🔄')+'</span>'+
       '<div class="si"><div class="snm">'+it.nm+'</div><div class="sds">'+desc+'</div></div>'+
       '<div style="text-align:right"><div class="spr">💰'+it.cost+'</div>'+
@@ -1023,11 +1118,13 @@ function renderInv(){
   if(!G.inv.length){el.innerHTML='<div class="dim" style="text-align:center;padding:14px;font-style:italic">Склад пуст</div>';return;}
   const ns=G.inv.filter(x=>x.quality==='normal');
   const ms=G.inv.filter(x=>x.quality==='magic');
-  let html='<div style="display:flex;gap:4px;margin-bottom:6px;flex-wrap:wrap">';
-  if(ns.length)html+='<button class="btn btn-sm" style="flex:1" id="btn-sell-all">💰 Обычные ('+ns.length+'шт='+ns.reduce((s,x)=>s+x.sellPrice,0)+')</button>';
-  if(ms.length)html+='<button class="btn btn-sm btn-p" style="flex:1" id="btn-sell-magic">💰 Волшебные ('+ms.length+'шт='+ms.reduce((s,x)=>s+x.sellPrice,0)+')</button>';
-  html+='</div>';
-  if(!ns.length&&!ms.length)html='';
+  const rs=G.inv.filter(x=>x.quality==='rare');
+  const hasSell=ns.length||ms.length||rs.length;
+  let html=hasSell?'<div style="display:flex;gap:4px;margin-bottom:6px;flex-wrap:wrap">':'';
+  if(ns.length)html+='<button class="btn btn-sm" style="flex:1;min-width:80px;border-color:var(--brd);color:var(--txt)" id="btn-sell-all">Обычные: '+ns.length+' шт – '+ns.reduce((s,x)=>s+(parseInt(x.sellPrice)||0),0)+'💰</button>';
+  if(ms.length)html+='<button class="btn btn-sm btn-p" style="flex:1;min-width:80px" id="btn-sell-magic">Волшебные: '+ms.length+' шт – '+ms.reduce((s,x)=>s+(parseInt(x.sellPrice)||0),0)+'💰</button>';
+  if(rs.length)html+='<button class="btn btn-sm" style="flex:1;min-width:80px;border-color:var(--gold);color:var(--gold)" id="btn-sell-rare">Редкие: '+rs.length+' шт – '+rs.reduce((s,x)=>s+(parseInt(x.sellPrice)||0),0)+'💰</button>';
+  if(hasSell)html+='</div>';
   html+='<div class="igrid">'+
     G.inv.map(it=>'<div class="iico '+it.quality[0]+'" style="border-color:'+qcol(it.quality)+'77" data-iid="'+it.id+'" data-tip="'+it.id+'">'+it.em+
       '<span class="isp" style="font-size:12px;color:'+qcol(it.quality)+'">'+it.sellPrice+'💰</span></div>').join('')+
@@ -1144,7 +1241,7 @@ function renderAtlasTab(){
   }
   html+='</div>';
   // Guardians section
-  html+='<div style="margin-top:12px;font-family:Cinzel,serif;font-size:11px;color:var(--gold-d);margin-bottom:6px;letter-spacing:2px">🔷 СТРАЖНИКИ</div>';
+  html+='<div style="margin-top:12px;font-family:Cinzel,serif;font-size:11px;color:var(--gold-d);margin-bottom:6px;letter-spacing:2px">🔷 СТРАЖИ</div>';
   GUARDIAN_MAPS.forEach(gm=>{
     const key='grd_'+gm.id;const runs=G.stats.tierRuns&&G.stats.tierRuns[key]||0;
     const killed=(G.guardianPieces&&G.guardianPieces.shaper)||0;
@@ -1209,7 +1306,7 @@ function updateStats(){
     '<div>💔 Ранений: <span style="color:var(--org)">'+G.stats.inj+'</span></div>'+
     (G.prestige?'<div>✨ Возвышение: <span style="color:#ffaa00">'+G.prestige+'x (+'+G.prestigeBonus+'%💰)</span></div>':'')+
     (G.bossKills.shaper?'<div>💠 Создатель убит: <span style="color:#44aaff">'+G.bossKills.shaper+'x</span></div>':'')+
-    '<div>🔷 Фрагментов стражников: <span style="color:#44aaff">'+(G.guardianPieces.shaper||0)+'/4</span></div>';
+    '<div>🔷 Фрагментов Создателя: <span style="color:#44aaff">'+(G.guardianPieces.shaper||0)+'/4</span></div>';
 }
 function updateSelfStats(){
   if(!document.getElementById('s-dmg'))return; // after reset DOM may be replaced
@@ -1243,9 +1340,13 @@ function updateSelfStats(){
       const k=String(G.selMap);
       const t=parseMapKey(k);
       const isC=k.startsWith('c');const isU=k.startsWith('u');const isG=k.startsWith('grd_');
-      const mod=isC?-.2:isU?-.1:isG?-.15:0;
-      const ch=Math.max(.03,calcCh(d+s,t)+mod);
-      ec.innerHTML='<span style="color:'+chcol(ch)+'">'+(isG?'🔷 ':'')+Math.round(ch*100)+'% '+(isG?'[Стражник]':'T'+t)+'</span>';
+      const isB=k.startsWith('boss_');
+      const effT=t+(isC?1:0)+(isU?1:0);
+      const mod=isG?-.15:isB?-.05:0;
+      let ch;
+      if(isB){const bD=BOSSES.find(b=>'boss_'+b.id===k);const bDgr=bD?bD.dgr:1800;const bCap=bD&&bD.id==='shaper'?0.70:0.80;const raw=((d+s)/bDgr-0.2)/0.7;ch=Math.max(.03,Math.min(bCap,raw)+mod);}
+      else ch=Math.max(.03,calcCh(d+s,Math.min(16,effT))+mod);
+      ec.innerHTML='<span style="color:'+chcol(ch)+'">'+(isG?'🔷 ':'')+Math.round(ch*100)+'% '+(isG?'[Страж]':'T'+t)+'</span>';
     }else ec.textContent='— (нет карты)';
   }
 }
@@ -1398,7 +1499,7 @@ function openDebug(){
     return 'T'+m.t+':'+(Math.floor(base*mult));
   }).join(' ');
   const rows=[
-    ['version','v0.018'],['gold',G.gold],['totalRuns',G.totalRuns],['prestige',G.prestige],['bonus',G.prestigeBonus+'%'],
+    ['version','v0.022'],['gold',G.gold],['totalRuns',G.totalRuns],['prestige',G.prestige],['bonus',G.prestigeBonus+'%'],
     ['selfPower',sp],['chances',[1,3,5,8,10,12,16].map(t=>'T'+t+':'+Math.round(calcCh(sp,t)*100)+'%').join(' ')],
     ['cleared',Object.keys(G.cleared).sort((a,b)=>a-b).join(',')],
     ['maps',Object.keys(G.maps).filter(k=>G.maps[k]>0).map(k=>k+':'+G.maps[k]).join(',')],
@@ -1491,7 +1592,7 @@ function save(){
     selfCls:G.selfCls,clsLocked:G.clsLocked,selfXp:G.selfXp,selfLevel:G.selfLevel,selfPendingLevel:G.selfPendingLevel,lastExpSlots:G.lastExpSlots,
     stats:G.stats,iid:G.iid,wid:G.wid,
     maxTier:G.maxTier,cleared:G.cleared,achs:G.achs,achsPending:G.achsPending,prestige:G.prestige,prestigeBonus:G.prestigeBonus,
-    guardianPieces:G.guardianPieces,bossAttempts:G.bossAttempts,bossKills:G.bossKills,
+    guardianPieces:G.guardianPieces,bossAttempts:G.bossAttempts,bossKills:G.bossKills,bossTriesLeft:G.bossTriesLeft||0,activeBossId:G.activeBossId||null,t16RunsSinceBoss:G.t16RunsSinceBoss||0,pendingBoss:G.pendingBoss||null,
   }));}catch(e){}
 }
 function load(){
@@ -1504,7 +1605,7 @@ if(s.v&&s.v>=9){/* compatible enough */}
     if(!G.cleared)G.cleared={};if(!G.achs)G.achs={};if(!G.achsPending)G.achsPending={};
     if(!G.prestige)G.prestige=0;if(!G.prestigeBonus)G.prestigeBonus=0;
     if(!G.selfCls)G.selfCls=null;if(G.clsLocked===undefined)G.clsLocked=false;if(!G.lastExpSlots)G.lastExpSlots=null;
-    if(!G.guardianPieces)G.guardianPieces={shaper:0,elder:0};if(!G.bossAttempts)G.bossAttempts={};if(!G.bossKills)G.bossKills={};
+    if(!G.guardianPieces)G.guardianPieces={shaper:0,elder:0};if(!G.bossAttempts)G.bossAttempts={};if(!G.bossKills)G.bossKills={};if(G.bossTriesLeft===undefined)G.bossTriesLeft=0;if(G.t16RunsSinceBoss===undefined)G.t16RunsSinceBoss=0;if(G.pendingBoss===undefined)G.pendingBoss=null;
     // Restore active tab
     if(G.activeTab){
       document.querySelectorAll('.tab-btn').forEach(b=>b.classList.toggle('active',b.dataset.tab===G.activeTab));
@@ -1692,7 +1793,7 @@ function init(){
   load();renderAll();
   window._tickId=setInterval(tick,200);
   window._saveId=setInterval(save,8000);
-  log('🌟 Добро пожаловать! Картоходец v0.018','info');
+  log('🌟 Добро пожаловать! Картоходец v0.022','info');
 }
 init();
 </script>
