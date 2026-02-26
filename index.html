@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Картоходец v0.015</title>
+<title>Картоходец v0.018</title>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;900&family=Crimson+Pro:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
 <style>
 :root{--gold:#c8a96e;--gold-b:#f0d080;--gold-d:#8a6a2e;--blood:#8b1a1a;--blood-b:#c0392b;--bg0:#0a0806;--bg1:#110e09;--bg2:#1a1510;--bg3:#1f1912;--bg4:#241d14;--brd:#3a2e1e;--brd-g:#5a4a2a;--txt:#d4c4a0;--txt-d:#8a7a60;--txt-b:#f0e0b0;--mag:#8888ff;--rare:#f0d060;--uniq:#e87020;--norm:#b0b0b0;--grn:#4a9a4a;--cyn:#4ab0b0;--red:#c03030;--org:#cc7700;}
@@ -12,7 +12,7 @@ body{background:var(--bg0);color:var(--txt);font-family:'Crimson Pro',Georgia,se
 body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;background:radial-gradient(ellipse 80% 50% at 50% 0%,rgba(100,60,10,.15) 0%,transparent 70%);}
 #app{position:relative;z-index:1;max-width:1440px;margin:0 auto;padding:8px;}
 header{text-align:center;padding:12px 0 8px;border-bottom:1px solid var(--brd-g);margin-bottom:10px;position:relative;}
-header::after{content:'⚙ МАШИНА КАЛЬГУРА ⚙';position:absolute;bottom:-7px;left:50%;transform:translateX(-50%);background:var(--bg0);padding:0 10px;font-family:'Cinzel',serif;font-size:9px;color:var(--gold-d);letter-spacing:3px;}
+header::after{content:'⚙ МАШИНА КАЛГУУРА ⚙';position:absolute;bottom:-7px;left:50%;transform:translateX(-50%);background:var(--bg0);padding:0 10px;font-family:'Cinzel',serif;font-size:9px;color:var(--gold-d);letter-spacing:3px;}
 h1{font-family:'Cinzel',serif;font-size:22px;font-weight:900;color:var(--gold);text-shadow:0 0 25px rgba(200,169,110,.4);letter-spacing:4px;display:flex;align-items:center;justify-content:center;gap:10px;}
 .ver{font-size:10px;color:var(--gold-d);border:1px solid var(--gold-d);padding:2px 6px;letter-spacing:2px;font-weight:400;}
 .sub{font-size:10px;color:var(--txt-d);letter-spacing:2px;margin-top:2px;font-style:italic;}
@@ -104,7 +104,7 @@ h1{font-family:'Cinzel',serif;font-size:22px;font-weight:900;color:var(--gold);t
 <body>
 <div id="app">
 <header>
-  <h1>КАРТОХОДЕЦ <span class="ver">v0.015</span></h1>
+  <h1>КАРТОХОДЕЦ <span class="ver">v0.018</span></h1>
 </header>
 <div id="res-bar">
   <div class="ri"><span class="ri-ico">💰</span><div><span class="ri-lbl">ЗОЛОТО</span><span class="ri-val" id="r-gold">0</span></div></div>
@@ -124,17 +124,17 @@ h1{font-family:'Cinzel',serif;font-size:22px;font-weight:900;color:var(--gold);t
 <div>
   <div class="panel">
     <div class="tabs">
-      <button class="tab-btn active" data-tab="maps">🗺 КАРТЫ</button>
+      <button class="tab-btn" data-tab="maps">🗺 КАРТЫ</button>
       <button class="tab-btn" data-tab="shop">🏪 ЛАВКА</button>
       <button class="tab-btn" data-tab="inv">🎒 СКЛАД</button>
-      <button class="tab-btn" data-tab="acts">🏕 АКТЫ</button>
+      <button class="tab-btn active" data-tab="acts">🏕 АКТЫ</button>
       <button class="tab-btn" data-tab="atlas">🌐 АТЛАС</button>
       <button class="tab-btn" data-tab="ach">🏆 АРХИВ</button>
     </div>
-    <div id="tab-maps" class="tabpanel active"></div>
+    <div id="tab-maps" class="tabpanel"></div>
     <div id="tab-shop" class="tabpanel"></div>
     <div id="tab-inv" class="tabpanel"></div>
-    <div id="tab-acts" class="tabpanel"></div>
+    <div id="tab-acts" class="tabpanel active"></div>
     <div id="tab-atlas" class="tabpanel"></div>
     <div id="tab-ach" class="tabpanel"></div>
   </div>
@@ -156,7 +156,7 @@ h1{font-family:'Cinzel',serif;font-size:22px;font-weight:900;color:var(--gold);t
       <div><div class="tiny">⚔️ УРОН</div><div class="gt" style="font-family:'Cinzel',serif;font-size:16px" id="s-dmg">5</div></div>
       <div><div class="tiny">🛡 ВЫЖИВАЕМОСТЬ</div><div class="grnt" style="font-family:'Cinzel',serif;font-size:16px" id="s-surv">10</div></div>
       <div><div class="tiny">✅ ШАНС</div><div style="font-family:'Cinzel',serif;font-size:13px" id="s-ch">—</div></div>
-      <div style="flex:1;min-width:120px"><div class="tiny">⭐ УРОВЕНЬ <span id="s-lvl-xp" style="color:var(--mag)"></span></div><div style="display:flex;align-items:center;gap:6px;margin-top:2px"><span class="gt" style="font-family:'Cinzel',serif;font-size:16px" id="s-lvl">0</span><button class="btn btn-sm btn-p" id="btn-self-lvlup" style="display:none;padding:2px 8px;font-size:12px">+ Повысить</button></div><div style="height:3px;background:var(--bg2);border:1px solid var(--brd);margin-top:3px;width:100%"><div id="s-xp-bar" style="height:100%;background:linear-gradient(90deg,#553388,#aa66ff);width:0%"></div></div></div>
+      <div style="flex:1;min-width:120px"><div class="tiny">⭐ УРОВЕНЬ <span id="s-lvl-xp" style="color:var(--mag)"></span></div><div style="display:flex;align-items:center;gap:6px;margin-top:2px"><span class="gt" style="font-family:'Cinzel',serif;font-size:16px" id="s-lvl">0</span><button class="btn btn-sm btn-p" id="btn-self-lvlup" style="display:none;padding:2px 8px;font-size:12px">Повысить</button></div><div style="height:3px;background:var(--bg2);border:1px solid var(--brd);margin-top:3px;width:100%"><div id="s-xp-bar" style="height:100%;background:linear-gradient(90deg,#553388,#aa66ff);width:0%"></div></div></div>
     </div>
   </div>
   <div class="panel">
@@ -184,7 +184,7 @@ h1{font-family:'Cinzel',serif;font-size:22px;font-weight:900;color:var(--gold);t
 <!-- RIGHT -->
 <div>
   <div class="panel">
-    <div class="ptitle">⚙ МАШИНА КАЛЬГУРА</div>
+    <div class="ptitle">⚙ МАШИНА КАЛГУУРА</div>
     <div id="upgrades"></div>
   </div>
   <div class="panel" style="margin-top:8px">
@@ -231,9 +231,9 @@ const WCLS={
 };
 const WNAMES=['Харальд','Сигрид','Торвальд','Астрид','Рагнар','Хильда','Эйнар','Фрейя','Бьёрн','Ингрид','Гуннар','Брунхильд','Свейн','Олаф','Магнус','Лейф','Хельга','Ивар'];
 const ACTS=[
-  {id:'a1',nm:'Акт 1: Зона новичков',em:'🏕',time:20,g:[3,8]},
-  {id:'a2',nm:'Акт 2: Лагерь бродяг',em:'🌄',time:30,g:[6,14]},
-  {id:'a3',nm:'Акт 3: Поля сражений',em:'🗡️',time:45,g:[10,22]},
+  {id:'a1',nm:'Акт 1: Зона новичков',em:'🏕',time:14,g:[3,8]},
+  {id:'a2',nm:'Акт 2: Лагерь бродяг',em:'🌄',time:21,g:[6,14]},
+  {id:'a3',nm:'Акт 3: Поля сражений',em:'🗡️',time:31,g:[10,22]},
 ];
 const WLVLS=[0,50,150,350,750,1500,3000,5500,9000,14000,21000];
 const SLOTS=['weapon','armor','helmet','ring'];
@@ -305,7 +305,7 @@ const ACHDEFS=[
   {id:'rare_item', ico:'🌟',nm:'Первая редкость', ds:'Найти редкий предмет',         rw:'+60💰'},
   {id:'uniq_item', ico:'💎',nm:'Уникальность',   ds:'Найти уникальный предмет',     rw:'+250💰'},
   {id:'sell500',   ico:'💰',nm:'Торговец',        ds:'Продать предметов на 500💰',   rw:'+100💰'},
-  {id:'all16',     ico:'🌐',nm:'Атлас завершён', ds:'Пройти все 16 тиров',          rw:'Открывает Престиж'},
+  {id:'all16',     ico:'🌐',nm:'Атлас завершён', ds:'Пройти все 16 тиров',          rw:'Открывает Возвышение'},
 ];
 
 // ══════════ STATE ══════════════════════════════════════════════
@@ -316,7 +316,7 @@ function freshG(){
     selfRun:null,actRun:null,selMap:null,maxTier:2,
     cleared:{},achs:{},prestige:0,prestigeBonus:0,
     guardianPieces:{shaper:0,elder:0},bossAttempts:{},bossKills:{},
-    selfCls:null,selfXp:0,selfLevel:0,selfLevelUp:false,clsLocked:false,
+    selfCls:null,selfXp:0,selfLevel:0,selfPendingLevel:0,selfLevelUp:false,clsLocked:false,
     stats:{ge:0,fi:0,mr:0,ar:0,sold:0,sg:0,cap:0,inj:0,tierRuns:{}},achsPending:{},
     gt:0,iid:0,wid:0};
 }
@@ -336,7 +336,7 @@ const calcCh=(power,tier,dgrOverride)=>{
 // Parse any map key (normal "5", cursed "c5", uniq "u5", guardian "grd_g_hydra") → tier int
 const parseMapKey=k=>{
   const s=String(k);
-  if(s.startsWith('grd_'))return 16;
+  if(s.startsWith('grd_')||s.startsWith('boss_'))return 16;
   if(s.startsWith('c')||s.startsWith('u'))return parseInt(s.slice(1))||1;
   return parseInt(s)||1;
 };
@@ -344,6 +344,7 @@ const parseMapKey=k=>{
 const getMd=k=>{
   const s=String(k);
   if(s.startsWith('grd_')){const gm=GUARDIAN_MAPS.find(g=>'grd_'+g.id===s);return gm||MAP_TIERS[15];}
+  if(s.startsWith('boss_')){const b=BOSSES.find(b2=>'boss_'+b2.id===s);return b||BOSSES[0];}
   return MAP_TIERS[(parseMapKey(k)-1)]||MAP_TIERS[0];
 };
 const chcol=ch=>ch>=0.8?'#4acf4a':ch>=0.5?'#cfcf4a':ch>=0.25?'#cf8040':'#cf4040';
@@ -354,17 +355,31 @@ const sSurv=()=>{const sc=G.selfCls||'warrior';let v=5+G.selfLevel*2;SLOTS.forEa
 function recalcW(w){let d=4+w.level*2,s=4+w.level*2;SLOTS.forEach(sl=>{if(w.eq[sl]){d+=iDmg(w.eq[sl],w.cls);s+=iSurv(w.eq[sl],w.cls);}});w.dmg=d;w.surv=s;}
 function addXPSelf(amt){
   G.selfXp+=amt;const mx=WLVLS.length-1;
-  while(G.selfLevel<mx&&G.selfXp>=WLVLS[G.selfLevel+1]){G.selfLevel++;G.selfLevelUp=true;log('⭐ Уровень '+G.selfLevel+' достигнут! Нажмите + для применения','info');showN('Ур.'+G.selfLevel+'! Нажмите +','pur');}
+  while(G.selfXp>=WLVLS[Math.min(mx,G.selfPendingLevel+1)]&&G.selfPendingLevel<mx){G.selfPendingLevel++;G.selfLevelUp=true;log('⭐ Уровень '+(G.selfPendingLevel)+' готов! Нажмите 🆙','info');showN('🆙 Ур.'+G.selfPendingLevel+' готов!','pur');}
 }
 function addXP(w,amt){
   w.xp+=amt;const mx=WLVLS.length-1;
   while(w.level<mx&&w.xp>=WLVLS[w.level+1]){w.level++;recalcW(w);log('⭐ '+w.name+' — Ур.'+w.level+'!','info');showN(w.name+' — Ур.'+w.level+'!','pur');}
 }
 const xpAmt=tier=>tier*8+12;
-const goldReward=(md,power,mapCost=0)=>{
-  const base=Math.max(mapCost,ri(md.g[0],md.g[1]));
-  const mult=Math.min(1.6,1+(power*.003)*(1+G.prestigeBonus*.01));
-  return Math.floor(base*mult);
+// Gold formula: rand(mapCost, mapCost*(1+variance)) * prestige
+// variance = (g1-g0)/g0 — natural spread of the tier
+const goldReward=(md,_power,mapCost=0)=>{
+  const pm=1+(G.prestigeBonus||0)/100;
+  const base=mapCost||md.g[0]||1;
+  const variance=(md.g[1]-md.g[0])/Math.max(1,md.g[0]);
+  const rnd=base+Math.floor(Math.random()*(base*variance+1));
+  return Math.floor(rnd*pm);
+};
+const goldMin=(md,mapCost=0)=>{
+  const pm=1+(G.prestigeBonus||0)/100;
+  return Math.floor((mapCost||md.g[0]||1)*pm);
+};
+const goldMax=(md,mapCost=0)=>{
+  const pm=1+(G.prestigeBonus||0)/100;
+  const base=mapCost||md.g[0]||1;
+  const variance=(md.g[1]-md.g[0])/Math.max(1,md.g[0]);
+  return Math.floor(base*(1+variance)*pm);
 };
 const canPrestige=()=>[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16].every(t=>G.cleared[t]);
 
@@ -395,10 +410,10 @@ function tryMap(md){
   if(Math.random()>(md.md||0))return;
   const dt=Math.max(1,Math.min(16,(md.t||16)+ri(0,Math.min(3,(md.mx||16)-(md.t||16)))));
   // Guardian maps drop from T16
-  if(md.t>=14&&Math.random()<.15){
+  if(md.t>=14&&Math.random()<.25){
     const gm=GUARDIAN_MAPS[Math.floor(Math.random()*GUARDIAN_MAPS.length)];
     G.maps['grd_'+gm.id]=(G.maps['grd_'+gm.id]||0)+1;
-    log('🗺🔷 СТРАЖ карта «'+gm.nm+'» ['+gm.boss+'] упала!','ev');
+    log('🔷 Карта стражника «'+gm.nm+'» упала!','ev');
     renderMaps();return;
   }
   if(md.t>=12&&Math.random()<.10){
@@ -430,19 +445,26 @@ function selfRun(){
     const pieces=G.guardianPieces.shaper||0;
     if(pieces<4){showN('Нужно 4 фрагмента стражников!');return;}
   }
-  if(!(G.maps[key]>0)){showN('Нет карт!');return;}
-  G.maps[key]--;
+  if(isBoss){
+    // Boss needs fragments, not a card
+    if((G.guardianPieces.shaper||0)<4){showN('Нужно 4 фрагмента!');return;}
+  } else {
+    if(!(G.maps[key]>0)){showN('Нет карт!');return;}
+    G.maps[key]--;
+  }
   // Lock class on first run
   G.clsLocked=true;
   if(!G.selfCls)G.selfCls='warrior';
   const md=isGrd?(grdMapData||MAP_TIERS[15]):isBoss?(bossData||BOSSES[0]):MAP_TIERS[tier-1];
   const cost=(isGrd||isBoss)?0:SHOP_COSTS[tier]||0;
-  G.selfRun={md,tier,cursed,uniq,isGrd,isBoss,grdId:isGrd?key.slice(4):null,bossId:isBoss?key.slice(5):null,elapsed:0,cost};
+  const _mc=(isGrd||isBoss)?0:SHOP_COSTS[tier]||0;
+  G.selfRun={md,tier,cursed,uniq,isGrd,isBoss,grdId:isGrd?key.slice(4):null,bossId:isBoss?key.slice(5):null,elapsed:0,cost,
+    goldRange:[goldMin(md,_mc),goldMax(md,_mc)]};
   document.getElementById('rpw').style.display='block';
   document.getElementById('btn-cancel-run').style.display='inline-block';
   document.getElementById('btn-self-run').disabled=true;
   document.getElementById('rpl').textContent=(isGrd?'🔷 ':(cursed?'💜 ':uniq?'🟠 ':'')+'')+md.em+' '+(isGrd&&md.boss?md.boss:md.nm)+' ['+(isGrd?'Стражник':'T'+tier)+']';
-  updateRunVis(md,false,isGrd);renderMaps();
+  updateRunVis(md,false,isGrd,isBoss);renderMaps();
   log('⚡ Портал: '+(cursed?'💜 ЗАРАЖЁННАЯ ':uniq?'🟠 УНИКАЛЬНАЯ ':'')+'T'+tier+' '+md.nm,'info');
 }
 function cancelRun(){if(!G.selfRun)return;G.selfRun=null;resetRunUI();log('⚠ Отступили.','ev');}
@@ -511,10 +533,10 @@ function completeSelfRun(){
     showN('Вы погибли!','red');
   }
   const isBossCard=G.selMap&&String(G.selMap).startsWith('boss_');
-  if(G.selMap&&!isBossCard){const selMd=getMd(G.selMap);updateRunVis(selMd,true,String(G.selMap).startsWith('grd_'));}else updateRunVis(null);
-  renderMaps();renderInv();updateRes();
+  if(G.selMap&&!isBossCard){const selMd=getMd(G.selMap);const _sg=String(G.selMap);updateRunVis(selMd,true,_sg.startsWith('grd_'),_sg.startsWith('boss_'));}else updateRunVis(null);
+  renderMaps();renderInv();renderUpgrades();updateRes();
 }
-function updateRunVis(md,idle,isGrd){
+function updateRunVis(md,idle,isGrd,isBoss){
   const el=document.getElementById('run-con');if(!el)return;
   if(!md){
     const showActHint=G.selfLevel<2;
@@ -530,7 +552,7 @@ function updateRunVis(md,idle,isGrd){
   const cost=SHOP_COSTS[md.t]||0;
   el.innerHTML='<div class="run-nm" style="color:'+col+'">'+md.em+' '+(isGrd&&md.boss?md.boss:md.nm)+'</div>'+
     '<div class="dim" style="font-size:10px;letter-spacing:2px;margin-bottom:4px">'+(isGrd?'КАРТА СТРАЖНИКА':'КАРТА ТИРА '+md.t)+'</div>'+
-    '<div style="font-size:12px;color:var(--txt-d)">⏱ ~'+md.time+'с &nbsp; 💰'+(goldReward(md,sDmg()+sSurv(),cost))+' (макс.)</div>'+ch;
+    '<div style="font-size:12px;color:var(--txt-d)">⏱ ~'+md.time+'с &nbsp; 💰'+(goldMin(md,cost))+(goldMax(md,cost)>goldMin(md,cost)?'-'+goldMax(md,cost):'')+' + предметы</div>'+ch;
 }
 function startAct(id){
   if(G.actRun){showN('Уже в акте!');return;}if(G.selfRun){showN('Уже в походе!');return;}
@@ -563,7 +585,7 @@ function sendWorker(id){
   const grdMapData=isGrd?GUARDIAN_MAPS.find(g=>'grd_'+g.id===key):null;
   if(!(G.maps[key]>0)){showN('Нет карт!');return;}
   G.maps[key]--;
-  w.status='running';w.curMap=tier;w.cursed=cursed;w.uniq=uniq;w.elapsed=0;w.prog=0;
+  w.status='running';w.curMap=tier;w.curMapKey=key;w.cursed=cursed;w.uniq=uniq;w.isGrd=isGrd;w.elapsed=0;w.prog=0;
   log('🚀 '+w.name+' → '+(cursed?'💜 ':uniq?'🟠 ':'')+'T'+tier,'info');
   renderWorkers();renderMaps();
 }
@@ -581,13 +603,20 @@ function resolveWorker(w,md){
   const cost=SHOP_COSTS[md.t]||0;
   const lm=w.cursed?3:w.uniq?2:1;
   const g=goldReward(md,power,cost);G.gold+=g;G.stats.ge+=g;
-  G.cleared[md.t]=true;if(md.t>G.maxTier)G.maxTier=md.t;
-  log('💰 '+w.name+' T'+md.t+(w.cursed?' 💜':w.uniq?' 🟠':'')+(lm>1?' x'+lm:'')+' +'+g+'💰','ge');
+  if(!w.isGrd){G.cleared[md.t]=true;if(md.t>G.maxTier)G.maxTier=md.t;}
+  if(w.isGrd){
+    const gtype=(md.type)||'shaper';
+    G.guardianPieces[gtype]=(G.guardianPieces[gtype]||0)+1;
+    log('🔷 '+w.name+' поверг стражника! Фрагмент Создателя: '+G.guardianPieces[gtype]+'/4','ev');
+    showN('🔷 Фрагмент '+G.guardianPieces[gtype]+'/4','pur');
+    checkBossUnlocks();renderMaps();
+  }
+  log('💰 '+w.name+' T'+md.t+(w.isGrd?' [Стражник]':w.cursed?' 💜':w.uniq?' 🟠':'')+(lm>1?' x'+lm:'')+' +'+g+'💰','ge');
   floatT('+'+g+'💰','#f0d080');
   for(let i=0;i<lm;i++)tryItem(md,w.cls,1);tryMap(md);addXP(w,xpAmt(md.t));
   // Small self XP from workers
   addXPSelf(Math.floor(xpAmt(md.t)*.25));
-  w.prog=0;w.elapsed=0;checkAchs();renderAtlasBar();renderShop();renderWorkers();renderInv();updateRes();
+  w.prog=0;w.elapsed=0;checkAchs();renderAtlasBar();renderShop();renderUpgrades();renderWorkers();renderInv();updateRes();
 }
 function resolveExpStep(w){
   const tier=w.expTiers[w.expIdx];const md=MAP_TIERS[tier-1];const power=w.dmg+w.surv;
@@ -714,7 +743,7 @@ function checkAchs(){
 
 // ══════════ PRESTIGE ══════════════════════════════════════════
 function doPrestige(){
-  if(!canPrestige()){showN('Нужно пройти все 16 тиров!');return;}
+  if(!canPrestige()){showN('Нужно пройти все 16 тиров для Возвышения!');return;}
   const np=G.prestige+1,nb=np*15,kg=Math.floor(G.gold*.15);
   // Save lifetime stats and achievements across prestige
   const lstats={...G.stats};
@@ -724,7 +753,7 @@ function doPrestige(){
   G=freshG();
   G.prestige=np;G.prestigeBonus=nb;G.gold=kg+100;G.maps={1:5,2:3,3:1};
   G.stats=lstats;G.totalRuns=lruns;G.achs=lachs;G.achsPending=lpend;
-  closeM();log('✨ ПРЕСТИЖ '+np+'! +'+nb+'% золота навсегда!','info');showN('✨ Престиж '+np+'!','pur');
+  closeM();log('✨ ВОЗВЫШЕНИЕ '+np+'! +'+nb+'% золота навсегда!','info');showN('✨ Возвышение '+np+'!','pur');
   renderAll();save();
 }
 
@@ -732,7 +761,7 @@ function doPrestige(){
 function openExpedition(){
   if(!G.workers.length){showN('Нет работников!');return;}
   const idle=G.workers.filter(w=>w.status==='idle');
-  if(!idle.length){showN('Нет свободных работников!');return;}
+  // Don't block opening — show 'no free workers' inside modal instead
   // Build tier availability (normal maps only)
   const tierCounts={};
   Object.keys(G.maps).filter(k=>!isNaN(k)&&G.maps[k]>0).forEach(k=>{
@@ -790,15 +819,20 @@ function openExpedition(){
     html+=chHtml;
     // Worker
     html+='<div style="font-size:12px;color:var(--txt-d);margin-bottom:6px">Работник:</div>';
-    html+=idle.map(iw=>{
-      const sel=wid===iw.id;
-      return '<div class="srow" style="cursor:pointer;border-color:'+(sel?'var(--gold)':'var(--brd)')+'" data-xworker="'+iw.id+'">'+
-        '<div class="wavat" style="border-color:'+WCLS[iw.cls].col+'">'+WCLS[iw.cls].em+'</div>'+
-        '<div class="si"><div class="snm">'+iw.name+' <span class="lvl-b">Ур.'+iw.level+'</span></div>'+
-        '<div style="font-size:12px;color:var(--txt-d)">⚔️'+iw.dmg+' 🛡'+iw.surv+'</div></div>'+
-        (sel?'<span class="gt" style="font-size:16px">✓</span>':'')+'</div>';
-    }).join('');
-    const canGo=slots.every(Boolean)&&wid;
+    const currentIdle=G.workers.filter(w=>w.status==='idle');
+    if(!currentIdle.length){
+      html+='<div style="padding:10px;background:var(--bg2);border:1px solid var(--brd);color:var(--txt-d);font-size:13px;text-align:center">Нет свободных работников</div>';
+    }else{
+      html+=currentIdle.map(iw=>{
+        const sel=wid===iw.id;
+        return '<div class="srow" style="cursor:pointer;border-color:'+(sel?'var(--gold)':'var(--brd)')+'" data-xworker="'+iw.id+'">'+
+          '<div class="wavat" style="border-color:'+WCLS[iw.cls].col+'">'+WCLS[iw.cls].em+'</div>'+
+          '<div class="si"><div class="snm">'+iw.name+' <span class="lvl-b">Ур.'+iw.level+'</span></div>'+
+          '<div style="font-size:12px;color:var(--txt-d)">⚔️'+iw.dmg+' 🛡'+iw.surv+'</div></div>'+
+          (sel?'<span class="gt" style="font-size:16px">✓</span>':'')+'</div>';
+      }).join('');
+    }
+    const canGo=slots.every(Boolean)&&wid&&currentIdle.find(w=>w.id===wid);
     html+='<div style="display:flex;gap:6px;margin-top:10px">'+
       '<button class="btn btn-p" id="btn-xgo"'+(canGo?'':' disabled')+'>🗺 Отправить</button>'+
       '<button class="btn btn-r btn-sm" id="btn-close-m">Отмена</button></div>';
@@ -847,7 +881,7 @@ function tick(){
     if(w.status==='running'||w.status==='exp'){
       w.elapsed+=200;
       const tier=w.status==='exp'?w.expTiers[w.expIdx]:w.curMap;
-      const md=MAP_TIERS[tier-1];
+      const md=w.isGrd&&w.curMapKey?getMd(w.curMapKey):(MAP_TIERS[tier-1]||MAP_TIERS[15]);
       const spd=w.cls==='ranger'?1.25:1;
       w.prog=Math.min(1,w.elapsed/(md.time*1000/spd));
       if(w.prog>=1){if(w.status==='running')resolveWorker(w,md);else resolveExpStep(w);wch=true;}
@@ -925,7 +959,7 @@ function renderMaps(){
       '<div class="mtier" style="color:'+tcol(t)+'">'+prefix+'T'+t+'</div>'+
       '<div style="flex:1">'+
         '<div class="mname">'+(type==='guardian'?'🔷 <span style="color:#44aaff">'+(grdData?grdData.nm:'Гвардейская')+'</span> <span style="color:#44aaff;font-size:10px">[СТРАЖ]</span>':type==='uniq'?(()=>{const ud=G.uniqMapData&&G.uniqMapData[k];return (ud?ud.em:md.em)+' <span style="color:#e87020">'+(ud?ud.nm:md.nm)+'</span>';})():md.em+' '+md.nm)+' '+badge+'</div>'+
-        '<div style="font-size:11px;color:var(--txt-d)">💰'+(goldReward(md,sDmg()+sSurv(),SHOP_COSTS[md.t]||0))+' (база '+md.g[0]+'-'+md.g[1]+')</div>'+
+        '<div style="font-size:11px;color:var(--txt-d)">💰'+(goldMin(md,SHOP_COSTS[md.t]||0))+(goldMax(md,SHOP_COSTS[md.t]||0)>goldMin(md,SHOP_COSTS[md.t]||0)?'-'+goldMax(md,SHOP_COSTS[md.t]||0):'')+' + предметы</div>'+
         '<div class="mch-wrap"><div class="mch-bg"><div class="mch-fill" style="width:'+(Math.min(1,ch)*100)+'%;background:'+cc+'"></div></div>'+
         '<div class="mch-pct" style="color:'+cc+'">'+Math.round(Math.min(1,ch)*100)+'%</div></div>'+
       '</div>'+
@@ -937,7 +971,7 @@ function selectMap(key){
   G.selMap=String(key);renderMaps();
   const k=String(key);const isGrdKey=k.startsWith('grd_');
   const md=getMd(k);
-  if(!G.selfRun)updateRunVis(md,false,isGrdKey);
+  if(!G.selfRun)updateRunVis(md,false,isGrdKey,String(G.selMap||'').startsWith('boss_'));
   updateSelfStats();renderWorkers();
 }
 
@@ -1049,7 +1083,7 @@ function renderWorkers(){
       '<div class="winfo">'+
         '<div class="wname">'+w.name+' <span class="lvl-b">Ур.'+w.level+'</span></div>'+
         '<div class="wcls">'+cls.nm.toUpperCase()+'</div>'+
-        '<div class="tiny">⚔️'+w.dmg+' 🛡'+w.surv+(ch?' · <span style="color:'+cc+'">'+Math.round(ch*100)+'%</span>':'')+'</div>'+
+        '<div class="tiny">⚔️'+w.dmg+' 🛡'+w.surv+(ch?' · <span style="color:'+cc+'">'+Math.round(ch*100)+'% T'+(selTier||'')+'</span>':'')+'</div>'+
         '<div class="wxp"><div class="wxp-f" style="width:'+(xpp*100)+'%"></div></div>'+
       '</div>'+
       '<div style="display:flex;flex-direction:column;gap:3px;align-items:flex-end">'+
@@ -1078,7 +1112,7 @@ function renderUpgrades(){
   if(canPrestige())html+=
     '<div style="margin-top:8px;padding:8px;border:1px solid #553388;background:rgba(85,51,136,.15);text-align:center">'+
     '<div style="font-family:Cinzel,serif;color:#ffaa00;font-size:12px;margin-bottom:6px">✨ ВЫ ПРОШЛИ ВСЕ 16 ТИРОВ!</div>'+
-    '<button class="btn btn-p" id="btn-prestige">✨ Престиж — сброс с бонусом</button></div>';
+    '<button class="btn btn-p" id="btn-prestige">✨ Возвышение — сброс с бонусом</button></div>';
   document.getElementById('upgrades').innerHTML=html;
   // Sync atlas bar prestige button
   renderAtlasBar();
@@ -1089,15 +1123,15 @@ function renderAtlasBar(){
   ct.innerHTML=[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16].map(t=>'<div class="pt-t '+(G.cleared[t]?'done':'')+'" title="T'+t+' '+MAP_TIERS[t-1].nm+'">'+t+'</div>').join('');
   const hint=document.getElementById('pt-hint');if(!hint)return;
   const cl=Object.keys(G.cleared).length;
-  if(G.prestige>0)hint.innerHTML='Престиж '+G.prestige+' · +'+G.prestigeBonus+'% золота';
-  else if(canPrestige())hint.innerHTML='<span style="color:#ffaa00;font-weight:bold">✨ Атлас завершён!</span> <button class="btn btn-sm btn-p" id="btn-prestige-bar" style="margin-left:6px">✨ Престиж</button>';
+  if(G.prestige>0)hint.innerHTML='Возвышение '+G.prestige+' · +'+G.prestigeBonus+'% золота';
+  else if(canPrestige())hint.innerHTML='<span style="color:#ffaa00;font-weight:bold">✨ Атлас завершён!</span> <button class="btn btn-sm btn-p" id="btn-prestige-bar" style="margin-left:6px">✨ Возвышение</button>';
   else hint.textContent='Тиров пройдено: '+cl+'/16';
   const rip=document.getElementById('ri-pres');if(rip)rip.style.display=G.prestige>0?'flex':'none';
   const rpp=document.getElementById('r-pres');if(rpp)rpp.textContent=G.prestige;
 }
 function renderAtlasTab(){
   const el=document.getElementById('tab-atlas');if(!el)return;
-  let html='<div style="font-size:12px;color:var(--txt-d);margin-bottom:8px">Зелёный = пройден. Пройдите все 16 для Престижа.</div><div id="atlas-grid">';
+  let html='<div style="font-size:12px;color:var(--txt-d);margin-bottom:8px">Зелёный = пройден. Пройдите все 16 для Возвышениеа.</div><div id="atlas-grid">';
   for(let t=1;t<=16;t++){
     const md=MAP_TIERS[t-1];const done=!!G.cleared[t];
     const runs=(G.stats.tierRuns&&G.stats.tierRuns[t])||0;
@@ -1173,7 +1207,7 @@ function updateStats(){
     '<div>⚔️ Предметов найдено: <span class="gt">'+G.stats.fi+'</span></div>'+
     '<div>⛓ Захвачено: <span style="color:var(--red)">'+G.stats.cap+'</span></div>'+
     '<div>💔 Ранений: <span style="color:var(--org)">'+G.stats.inj+'</span></div>'+
-    (G.prestige?'<div>✨ Престиж: <span style="color:#ffaa00">'+G.prestige+'x (+'+G.prestigeBonus+'%💰)</span></div>':'')+
+    (G.prestige?'<div>✨ Возвышение: <span style="color:#ffaa00">'+G.prestige+'x (+'+G.prestigeBonus+'%💰)</span></div>':'')+
     (G.bossKills.shaper?'<div>💠 Создатель убит: <span style="color:#44aaff">'+G.bossKills.shaper+'x</span></div>':'')+
     '<div>🔷 Фрагментов стражников: <span style="color:#44aaff">'+(G.guardianPieces.shaper||0)+'/4</span></div>';
 }
@@ -1186,11 +1220,12 @@ function updateSelfStats(){
   const xpBar=document.getElementById('s-xp-bar');
   const xpTxt=document.getElementById('s-lvl-xp');
   const mx=WLVLS.length-1;
-  if(G.selfLevel>=mx){if(xpBar)xpBar.style.width='100%';if(xpTxt)xpTxt.textContent='MAX';}
-  else{const xpPct=Math.min(1,(G.selfXp-WLVLS[G.selfLevel])/(WLVLS[G.selfLevel+1]-WLVLS[G.selfLevel]));if(xpBar)xpBar.style.width=(xpPct*100)+'%';if(xpTxt)xpTxt.textContent=(WLVLS[G.selfLevel+1]-G.selfXp)+' до Ур.'+(G.selfLevel+1);}
+  const dispLvl=G.selfPendingLevel||G.selfLevel;
+  if(dispLvl>=mx){if(xpBar)xpBar.style.width='100%';if(xpTxt)xpTxt.textContent='MAX';}
+  else{const xpPct=Math.min(1,(G.selfXp-WLVLS[dispLvl])/(WLVLS[dispLvl+1]-WLVLS[dispLvl]));if(xpBar)xpBar.style.width=(xpPct*100)+'%';if(xpTxt)xpTxt.textContent=(WLVLS[dispLvl+1]-G.selfXp)+' до Ур.'+(dispLvl+1);}
   // Level up button
   const lvlBtn=document.getElementById('btn-self-lvlup');
-  if(lvlBtn)lvlBtn.style.display=G.selfLevelUp?'inline-block':'none';
+  if(lvlBtn){lvlBtn.style.display=G.selfLevelUp?'inline-block':'none';if(G.selfLevelUp)lvlBtn.textContent='Повысить';}
   // Class buttons
   // Show noble class if prestige unlocked
   const nb=document.getElementById('cls-noble');
@@ -1358,12 +1393,12 @@ function openDebug(){
   const sp=sDmg()+sSurv();
   // Average rewards per tier at power=100
   const avgRew=MAP_TIERS.map(m=>{
-    const base=(m.g[0]+m.g[1])/2;
+    const base=(goldMin(m,SHOP_COSTS[m.t]||0)+goldMax(m,SHOP_COSTS[m.t]||0))/2;
     const mult=Math.min(1.6,1+(100*.003));
     return 'T'+m.t+':'+(Math.floor(base*mult));
   }).join(' ');
   const rows=[
-    ['version','v0.015'],['gold',G.gold],['totalRuns',G.totalRuns],['prestige',G.prestige],['bonus',G.prestigeBonus+'%'],
+    ['version','v0.018'],['gold',G.gold],['totalRuns',G.totalRuns],['prestige',G.prestige],['bonus',G.prestigeBonus+'%'],
     ['selfPower',sp],['chances',[1,3,5,8,10,12,16].map(t=>'T'+t+':'+Math.round(calcCh(sp,t)*100)+'%').join(' ')],
     ['cleared',Object.keys(G.cleared).sort((a,b)=>a-b).join(',')],
     ['maps',Object.keys(G.maps).filter(k=>G.maps[k]>0).map(k=>k+':'+G.maps[k]).join(',')],
@@ -1453,7 +1488,7 @@ function save(){
   try{localStorage.setItem('kartahodec_save',JSON.stringify({
     v:14,gold:G.gold,totalRuns:G.totalRuns,maps:G.maps,inv:G.inv,workers:G.workers,
     ups:G.ups,selfEq:G.selfEq,
-    selfCls:G.selfCls,clsLocked:G.clsLocked,selfXp:G.selfXp,selfLevel:G.selfLevel,lastExpSlots:G.lastExpSlots,
+    selfCls:G.selfCls,clsLocked:G.clsLocked,selfXp:G.selfXp,selfLevel:G.selfLevel,selfPendingLevel:G.selfPendingLevel,lastExpSlots:G.lastExpSlots,
     stats:G.stats,iid:G.iid,wid:G.wid,
     maxTier:G.maxTier,cleared:G.cleared,achs:G.achs,achsPending:G.achsPending,prestige:G.prestige,prestigeBonus:G.prestigeBonus,
     guardianPieces:G.guardianPieces,bossAttempts:G.bossAttempts,bossKills:G.bossKills,
@@ -1470,7 +1505,18 @@ if(s.v&&s.v>=9){/* compatible enough */}
     if(!G.prestige)G.prestige=0;if(!G.prestigeBonus)G.prestigeBonus=0;
     if(!G.selfCls)G.selfCls=null;if(G.clsLocked===undefined)G.clsLocked=false;if(!G.lastExpSlots)G.lastExpSlots=null;
     if(!G.guardianPieces)G.guardianPieces={shaper:0,elder:0};if(!G.bossAttempts)G.bossAttempts={};if(!G.bossKills)G.bossKills={};
+    // Restore active tab
+    if(G.activeTab){
+      document.querySelectorAll('.tab-btn').forEach(b=>b.classList.toggle('active',b.dataset.tab===G.activeTab));
+      document.querySelectorAll('.tabpanel').forEach(p=>p.classList.toggle('active',p.id==='tab-'+G.activeTab));
+    } else if(!G.totalRuns){
+      // New player: default to acts
+      document.querySelectorAll('.tab-btn').forEach(b=>b.classList.toggle('active',b.dataset.tab==='acts'));
+      document.querySelectorAll('.tabpanel').forEach(p=>p.classList.toggle('active',p.id==='tab-acts'));
+      G.activeTab='acts';
+    }
     if(!G.selfXp)G.selfXp=0;if(!G.selfLevel)G.selfLevel=0;if(G.selfLevelUp===undefined)G.selfLevelUp=false;
+    if(G.selfPendingLevel===undefined)G.selfPendingLevel=G.selfLevel;
     G.workers.forEach(w=>{
       if(w.status==='running'||w.status==='exp'){w.status='idle';w.prog=0;w.elapsed=0;}
       if(!w.xp)w.xp=0;if(!w.level)w.level=0;
@@ -1490,7 +1536,7 @@ document.addEventListener('click',function(e){
   // Tabs
   const tabBtn=cl('.tab-btn');
   if(tabBtn&&tabBtn.dataset.tab){
-    const tab=tabBtn.dataset.tab;
+    const tab=tabBtn.dataset.tab;G.activeTab=tab;
     document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
     document.querySelectorAll('.tabpanel').forEach(p=>p.classList.remove('active'));
     const ep=document.getElementById('tab-'+tab);if(ep)ep.classList.add('active');
@@ -1508,10 +1554,12 @@ document.addEventListener('click',function(e){
   }
   // Self level up
   if(t.id==='btn-self-lvlup'){
+    G.selfLevel=G.selfPendingLevel;
     G.selfLevelUp=false;
-    log('⭐ Уровень повышен! (Ур.'+G.selfLevel+') +3⚔️ +3🛡','info');
-    showN('Уровень повышен!','pur');
-    updateSelfStats();return;
+    const d=sDmg(),s=sSurv();
+    log('⭐ Ур.'+G.selfLevel+' применён! ⚔️'+d+' 🛡'+s,'info');
+    showN('Ур.'+G.selfLevel+'! ⚔️'+d+' 🛡'+s,'pur');
+    updateSelfStats();save();return;
   }
   // Fixed buttons
   if(t.id==='btn-self-run'){selfRun();return;}
@@ -1578,12 +1626,12 @@ document.addEventListener('click',function(e){
   // Prestige
   // Boss is now handled via map card click
   if(t.id==='btn-prestige'||t.id==='btn-prestige-bar'){
-    openM('✨ ПРЕСТИЖ',
+    openM('✨ ВОЗВЫШЕНИЕ',
       '<div style="margin-bottom:12px;font-size:14px">Вы прошли все 16 тиров!<br><br>'+
       '<span class="gt">Бонусы:</span><br>• +15% золота навсегда (суммируется)<br>• Сохраняется 15% текущего золота<br>• Начинаете с T1–T3 картами<br>• 🆕 Открывается класс <span style="color:#e8c020">👸 Дворянка</span><br><br>'+
       'Текущий: <span class="gt">'+G.prestige+'</span> → <span style="color:#ffaa00">'+(G.prestige+1)+'</span> (+'+((G.prestige+1)*15)+'% золота)</div>'+
       '<div style="display:flex;gap:6px">'+
-        '<button class="btn btn-p" id="btn-confirm-prestige">✨ Вознестись!</button>'+
+        '<button class="btn btn-p" id="btn-confirm-prestige">✨ Возвыситься!</button>'+
         '<button class="btn btn-sm" id="btn-close-m">Отмена</button></div>');
     return;
   }
@@ -1644,7 +1692,7 @@ function init(){
   load();renderAll();
   window._tickId=setInterval(tick,200);
   window._saveId=setInterval(save,8000);
-  log('🌟 Добро пожаловать! Картоходец v0.015','info');
+  log('🌟 Добро пожаловать! Картоходец v0.018','info');
 }
 init();
 </script>
