@@ -369,6 +369,14 @@ const ACHDEFS=[
   {id:'uniq_item', ico:'💎',nm:'Уникальность',   ds:'Найти уникальный предмет',     rw:'+250💰'},
   {id:'sell500',   ico:'💰',nm:'Торговец',        ds:'Продать предметов на 500💰',   rw:'+100💰'},
   {id:'all16',     ico:'🌐',nm:'Атлас завершён', ds:'Пройти все 16 тиров',          rw:'Открывает Возвышение'},
+  {id:'con_first', ico:'📋',nm:'Первый контракт',ds:'Выполнить 1 контракт',          rw:'+100💰'},
+  {id:'con_10',    ico:'🗡️',nm:'Синдикат чтит', ds:'Выполнить 10 контрактов',       rw:'+300💰'},
+  {id:'con_25',    ico:'💀',nm:'Ветеран улиц',   ds:'Выполнить 25 контрактов',       rw:'+800💰'},
+  {id:'master_1',  ico:'⚔️',nm:'Ликвидатор',    ds:'Выполнить мастер-контракт',     rw:'+500💰'},
+  {id:'del_first', ico:'🌫️',nm:'Первый делириум',ds:'Пройти 1 волну делириума',     rw:'+150💰'},
+  {id:'del_wave5', ico:'👁', nm:'Выживший',      ds:'Дойти до 5-й волны',            rw:'+400💰'},
+  {id:'del_wave10',ico:'🔮',nm:'Взгляд в бездну',ds:'Дойти до 10-й волны',          rw:'+1000💰'},
+  {id:'del_wave20',ico:'💠',nm:'Симулякра',      ds:'Дойти до 20-й волны',           rw:'+3000💰'},
 ];
 
 // ══════════ STATE ══════════════════════════════════════════════
@@ -590,7 +598,7 @@ function completeSelfRun(){
   G.stats.mr++;G.totalRuns++;
   if(!G.stats.tierRuns)G.stats.tierRuns={};
   G.stats.tierRuns[tier]=(G.stats.tierRuns[tier]||0)+1;
-  G.selfRun=null;resetRunUI();checkContractRun(tier,ok?'ok':'fail');tryAddMasterContract();  // null AFTER extracting all data
+  G.selfRun=null;resetRunUI();checkContractRun(tier,ok?'ok':'fail');
   if(ok){
     const lm=cursed?3:uniq?2:1;
     if(!isGrd&&!isBoss){G.cleared[tier]=true;if(tier>G.maxTier)G.maxTier=tier;}
@@ -941,6 +949,14 @@ function checkAchs(){
   if(allEq.some(x=>x.quality==='unique'))grant('uniq_item');
   if(G.stats.sg>=500)grant('sell500');
   if(canPrestige())grant('all16');
+  if((G.stats.contractsDone||0)>=1)grant('con_first');
+  if((G.stats.contractsDone||0)>=10)grant('con_10');
+  if((G.stats.contractsDone||0)>=25)grant('con_25');
+  if((G.stats.mastersDone||0)>=1)grant('master_1');
+  if((G.stats.delWaves||0)>=1)grant('del_first');
+  if((G.stats.delMaxWave||0)>=5)grant('del_wave5');
+  if((G.stats.delMaxWave||0)>=10)grant('del_wave10');
+  if((G.stats.delMaxWave||0)>=20)grant('del_wave20');
 }
 
 // ══════════ PRESTIGE ══════════════════════════════════════════
@@ -1174,7 +1190,7 @@ function genContract(){
   if(_hasT10c&&Math.random()<0.15&&!(G.contracts||[]).some(x=>x.type==='delirium_wave')){
     const waveTarget=Math.floor(2+Math.random()*4); // 2-5 (reachable early)
     const rwd=Math.floor(goldMax(MAP_TIERS[14])*(1+(G.prestigeBonus||0)/100)*2);
-    return {type:'delirium_wave',nm:'👁 Делириум: волна '+waveTarget,em:'👁',
+    return {id:++G.iid,type:'delirium_wave',nm:'👁 Делириум: волна '+waveTarget,em:'👁',
       desc:'Войдите в Делириум и доберитесь до волны '+waveTarget+' живым (без провала).',
       need:waveTarget,progress:0,reward:{gold:rwd},done:false,failed:false};
   }
@@ -1270,7 +1286,7 @@ function completeContract(con){
   renderContracts();save();
 }
 function claimContract(cid){
-  const con=(G.contracts||[]).find(x=>x.id===cid&&x.done&&x.needsClaim);if(!con)return;
+  const con=(G.contracts||[]).find(x=>String(x.id)===String(cid)&&x.done&&x.needsClaim);if(!con)return;
   con.needsClaim=false;
   G.stats.contractsDone=(G.stats.contractsDone||0)+1;
   if(con.type&&con.type.startsWith('master_'))G.stats.mastersDone=(G.stats.mastersDone||0)+1;
@@ -1291,7 +1307,7 @@ function renderContracts(){
       html+='<div style="background:var(--bg3);border:1px solid #335533;border-radius:5px;padding:7px 9px;margin-bottom:5px;opacity:.6">'+
         '<div style="display:flex;justify-content:space-between;align-items:center">'+
           '<span style="font-size:12px;color:#888;text-decoration:line-through">'+con.nm+'</span>'+
-          (con.needsClaim?'<button class="btn btn-sm" style="padding:1px 8px;font-size:11px;margin-right:5px;background:#553300;border-color:#ffa000;color:#ffcc44" data-claim-id="'+con.id+'">💰 Получить</button><span style="font-size:12px;color:#ffaa44">'+((con.reward&&con.reward.gold)||0)+'💰</span>':'<button class="btn btn-sm" style="padding:1px 8px;font-size:11px;margin-right:5px;background:#333;border-color:#444;color:#777" disabled>✅ Получено</button><span style="font-size:12px;color:#555">'+((con.reward&&con.reward.gold)||0)+'💰</span>')+
+          (con.needsClaim?'<div style="display:flex;align-items:center;gap:5px"><button class="btn btn-sm" style="padding:1px 8px;font-size:11px;background:#553300;border-color:#ffa000;color:#ffcc44" data-claim-id="'+con.id+'">💰 Получить</button><span style="font-size:12px;color:#ffaa44">'+((con.reward&&con.reward.gold)||0)+'💰</span></div>':'<div style="display:flex;align-items:center;gap:5px"><button class="btn btn-sm" style="padding:1px 8px;font-size:11px;background:#333;border-color:#444;color:#777" disabled>✅ Получено</button><span style="font-size:12px;color:#555">'+((con.reward&&con.reward.gold)||0)+'💰</span></div>')+
         '</div></div>';
       return;
     }
@@ -1524,7 +1540,7 @@ function advanceDeliriumWave(){
   if(window._delTimer)clearInterval(window._delTimer);
   renderDelirium();
   let progress=0;
-  const waveTime=2000+G.deliriumWave*300;
+  const waveTime=Math.floor((2000+G.deliriumWave*300)*1.2);
   const steps=waveTime/50;
   window._delTimer=setInterval(()=>{
     progress+=1/steps;
