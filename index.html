@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Картоходец v0.036</title>
+<title>Картоходец v0.062</title>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;900&family=Crimson+Pro:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
 <style>
 :root{--gold:#c8a96e;--gold-b:#f0d080;--gold-d:#8a6a2e;--blood:#8b1a1a;--blood-b:#c0392b;--bg0:#0a0806;--bg1:#110e09;--bg2:#1a1510;--bg3:#1f1912;--bg4:#241d14;--brd:#3a2e1e;--brd-g:#5a4a2a;--txt:#d4c4a0;--txt-d:#8a7a60;--txt-b:#f0e0b0;--mag:#8888ff;--rare:#f0d060;--uniq:#e87020;--norm:#b0b0b0;--grn:#4a9a4a;--cyn:#4ab0b0;--red:#c03030;--org:#cc7700;}
@@ -104,13 +104,15 @@ h1{font-family:'Cinzel',serif;font-size:22px;font-weight:900;color:var(--gold);t
 <body>
 <div id="app">
 <header>
-  <h1>КАРТОХОДЕЦ <span class="ver">v0.036</span></h1>
+  <h1>КАРТОХОДЕЦ <span class="ver">v0.062</span></h1>
 </header>
 <div id="res-bar">
   <div class="ri"><span class="ri-ico">💰</span><div><span class="ri-lbl">ЗОЛОТО</span><span class="ri-val" id="r-gold">0</span></div></div>
   <div class="ri"><span class="ri-ico">🗺</span><div><span class="ri-lbl">КАРТЫ</span><span class="ri-val" id="r-maps">0</span></div></div>
   <div class="ri"><span class="ri-ico">⚔️</span><div><span class="ri-lbl">ПРЕДМЕТЫ</span><span class="ri-val" id="r-items">0</span></div></div>
   <div class="ri"><span class="ri-ico">👥</span><div><span class="ri-lbl">РАБОТНИКИ</span><span class="ri-val" id="r-workers">0</span></div></div>
+  <div class="ri" id="ri-del-orbs-ri" style="display:none"><span class="ri-ico">🔮</span><div><span class="ri-lbl">ОРБЫ</span><span class="ri-val" id="r-del-orbs">0</span></div></div>
+  <div class="ri" id="ri-del-spl-ri" style="display:none"><span class="ri-ico">👁</span><div><span class="ri-lbl">ОСКОЛКИ</span><span class="ri-val" id="r-del-spl">0</span></div></div>
   <div class="ri"><span class="ri-ico">🔄</span><div><span class="ri-lbl">ПРОЙДЕНО</span><span class="ri-val" id="r-runs">0</span></div></div>
   <div class="ri" id="ri-pres" style="display:none"><span class="ri-ico">✨</span><div><span class="ri-lbl">ПРЕСТИЖ</span><span class="ri-val" id="r-pres">0</span></div></div>
 </div>
@@ -130,6 +132,7 @@ h1{font-family:'Cinzel',serif;font-size:22px;font-weight:900;color:var(--gold);t
       <button class="tab-btn active" data-tab="acts">🏕 АКТЫ</button>
       <button class="tab-btn" data-tab="atlas">🌐 АТЛАС</button>
       <button class="tab-btn" data-tab="ach">🏆 АРХИВ</button>
+
     </div>
     <div id="tab-maps" class="tabpanel"></div>
     <div id="tab-shop" class="tabpanel"></div>
@@ -159,21 +162,31 @@ h1{font-family:'Cinzel',serif;font-size:22px;font-weight:900;color:var(--gold);t
       <div style="flex:1;min-width:120px"><div class="tiny">⭐ УРОВЕНЬ <span id="s-lvl-xp" style="color:var(--mag)"></span></div><div style="display:flex;align-items:center;gap:6px;margin-top:2px"><span class="gt" style="font-family:'Cinzel',serif;font-size:16px" id="s-lvl">0</span><button class="btn btn-sm btn-p" id="btn-self-lvlup" style="display:none;padding:2px 8px;font-size:12px">Повысить</button></div><div style="height:3px;background:var(--bg2);border:1px solid var(--brd);margin-top:3px;width:100%"><div id="s-xp-bar" style="height:100%;background:linear-gradient(90deg,#553388,#aa66ff);width:0%"></div></div></div>
     </div>
   </div>
-  <div class="panel">
-    <div class="ptitle">🌀 ПОРТАЛ КАРТЫ</div>
-    <div class="run-vis"><div class="run-bg"></div><div class="run-con" id="run-con"><div class="dim" style="font-style:italic">Выберите карту слева</div></div></div>
-    <div class="prog-wrap" id="rpw" style="display:none">
-      <div class="prog-lbl"><span id="rpl">Прогресс</span><span id="rpp">0%</span></div>
-      <div class="prog-bar"><div class="prog-fill" id="rpf" style="width:0%"></div></div>
+  <div class="panel" id="center-panel">
+    <div id="center-tabs" style="display:flex;gap:0;margin-bottom:8px;border-bottom:1px solid var(--brd)">
+      <button class="tab-btn active" id="ctab-portal" onclick="switchCenterTab('portal')" style="font-size:11px;padding:4px 10px;border:1px solid var(--brd);border-radius:4px 4px 0 0">🌀 ПОРТАЛ КАРТЫ</button>
+      <button class="tab-btn" id="ctab-delirium" onclick="switchCenterTab('delirium')" style="font-size:11px;padding:4px 10px;display:none;background:rgba(80,0,100,.25);border:1px solid #553377;border-radius:4px 4px 0 0;color:#bb88ff">🌫️ ДЕЛИРИУМ</button>
     </div>
-    <div style="display:flex;gap:5px;flex-wrap:wrap;margin-top:6px">
-      <button class="btn" id="btn-self-run">⚔ Пройти самому</button>
-      <button class="btn btn-r" id="btn-cancel-run" style="display:none">✖ Отступить</button>
+    <div id="ctab-content-portal">
+      <div class="run-vis"><div class="run-bg"></div><div class="run-con" id="run-con"><div class="dim" style="font-style:italic">Выберите карту слева</div></div></div>
+      <div class="prog-wrap" id="rpw" style="display:none">
+        <div class="prog-lbl"><span id="rpl">Прогресс</span><span id="rpp">0%</span></div>
+        <div class="prog-bar"><div class="prog-fill" id="rpf" style="width:0%"></div></div>
+      </div>
+      <div style="display:flex;gap:5px;flex-wrap:wrap;margin-top:6px">
+        <button class="btn" id="btn-self-run">⚔ Пройти самому</button>
+        <div id="orb-btn-wrap" style="margin-top:4px"></div>
+        <button class="btn btn-r" id="btn-cancel-run" style="display:none">✖ Отступить</button>
+      </div>
+    </div>
+    <div id="ctab-content-delirium" style="display:none">
+      <div id="delirium-portal"></div>
     </div>
   </div>
   <div class="panel" style="margin-top:8px">
-    <div class="ptitle">👥 РАБОТНИКИ <button class="btn btn-sm btn-p" id="btn-expedition">🗺 Экспедиция</button></div>
+    <div class="ptitle" id="workers-panel-title">👥 РАБОТНИКИ <button class="btn btn-sm btn-p" id="btn-expedition">🗺 Экспедиция</button></div>
     <div id="workers-list"></div>
+    <div id="contracts-panel" style="display:none"></div>
     <div style="margin-top:7px" id="hire-btn-wrap"></div>
   </div>
   <div class="panel" style="margin-top:8px">
@@ -217,7 +230,7 @@ const MAP_TIERS=[
   {t:10,nm:'Ледяные хижины',       em:'🏔️',time:22,g:[195,345], drop:.46,md:.16,mx:11,dgr:298},
   {t:11,nm:'Кислотные пещеры',      em:'🧪',time:25,g:[240,410], drop:.48,md:.17,mx:12,dgr:354},
   {t:12,nm:'Пурпурный храм',       em:'🟣',time:28,g:[290,480], drop:.50,md:.18,mx:13,dgr:416},
-  {t:13,nm:'Погребальные камеры',   em:'🪦',time:30,g:[350,570], drop:.52,md:.19,mx:14,dgr:484},
+  {t:13,nm:'Погребальные камеры',   em:'⚰️',time:30,g:[350,570], drop:.52,md:.19,mx:14,dgr:484},
   {t:14,nm:'Гробница паука',        em:'🕷️',time:33,g:[420,670], drop:.55,md:.20,mx:15,dgr:558},
   {t:15,nm:'Арена',                 em:'🏟️',time:36,g:[500,790], drop:.58,md:.22,mx:16,dgr:638},
   {t:16,nm:'Пляж',                  em:'🌊',time:40,g:[600,900], drop:.62,md:.25,mx:16,dgr:725},
@@ -231,13 +244,13 @@ const WCLS={
 };
 const WNAMES=['Харальд','Сигрид','Торвальд','Астрид','Рагнар','Хильда','Эйнар','Фрейя','Бьёрн','Ингрид','Гуннар','Брунхильд','Свейн','Олаф','Магнус','Лейф','Хельга','Ивар'];
 const ACTS=[
-  {id:'a1',nm:'Акт 1: Зона новичков',em:'🏕',time:14,g:[3,8]},
-  {id:'a2',nm:'Акт 2: Лагерь бродяг',em:'🌄',time:21,g:[6,14]},
-  {id:'a3',nm:'Акт 3: Поля сражений',em:'🗡️',time:31,g:[10,22]},
+  {id:'a1',nm:'Акт 1: Зона новичков',em:'🏕',time:15,g:[3,8],   xp:30},
+  {id:'a2',nm:'Акт 2: Лагерь бродяг',em:'🌄',time:22,g:[6,14],  xp:45},
+  {id:'a3',nm:'Акт 3: Поля сражений',em:'🗡️',time:30,g:[10,22], xp:60},
 ];
 const WLVLS=[0,50,150,350,750,1500,3000,5500,9000,14000,21000];
-const SLOTS=['weapon','armor','helmet','ring'];
-const SLOTNM={weapon:'⚔️ Оружие',weapon2:'⚔️ Оружие 2',armor:'🛡️ Броня',helmet:'⛑️ Шлем',ring:'💍 Кольцо'};
+const SLOTS=['weapon','armor','helmet','ring','cluster'];
+const SLOTNM={weapon:'⚔️ Оружие',weapon2:'⚔️ Оружие 2',armor:'🛡️ Броня',helmet:'⛑️ Шлем',ring:'💍 Кольцо',cluster:'🔮 Кластерный самоцвет'};
 const STATNM={dmgPhys:'Физ. урон',dmgSpell:'Урон заклин.',dmgArea:'Урон по области',minionDmg:'Урон призывов',critChance:'Шанс крита',critMult:'Множитель крита',critSpell:'Крит заклин.',castSpd:'Скорость каста',atkSpd:'Скорость атаки',str:'Сила',int:'Интеллект',dex:'Ловкость',hp:'Очки здоровья',energyShield:'Энергощит',armor:'Броня',evasion:'Уклонение',blockChance:'Шанс блока',allRes:'Все сопр.',fireRes:'Огн. сопр.',coldRes:'Хол. сопр.',moveSpd:'Скор. движения'};
 const CDMG={warrior:['dmgPhys','dmgArea','critChance','critMult','atkSpd','str'],mage:['dmgSpell','minionDmg','critSpell','castSpd','int'],ranger:['dmgPhys','critChance','critMult','atkSpd','dex'],noble:['dmgPhys','dmgSpell','dmgArea','minionDmg','critChance','critMult','critSpell','atkSpd','str','int','dex','castSpd']};
 const CSURV={warrior:['armor','hp','blockChance','str','allRes','fireRes'],mage:['energyShield','int','allRes'],ranger:['evasion','hp','dex','allRes','coldRes'],noble:['armor','energyShield','evasion','hp','blockChance','allRes','fireRes','coldRes','moveSpd','str','int','dex']};
@@ -249,7 +262,7 @@ const IBASES=[
   {nm:'Латные поножи',    em:'🥾',cls:'warrior',slot:'armor', mods:['armor','hp','str','fireRes']},
   {nm:'Шлем паладина',    em:'⛑️',cls:'warrior',slot:'helmet',mods:['armor','hp','str','fireRes']},
   {nm:'Кольцо воина',     em:'🔴',cls:'warrior',slot:'ring',  mods:['hp','str','allRes','armor']},
-  {nm:'Жезл силы',        em:'🪄',cls:'mage',   slot:'weapon',mods:['dmgSpell','castSpd','critSpell','int']},
+  {nm:'Жезл силы',        em:'🔱',cls:'mage',   slot:'weapon',mods:['dmgSpell','castSpd','critSpell','int']},
   {nm:'Посох мага',       em:'🦯',cls:'mage',   slot:'weapon',mods:['dmgSpell','castSpd','int','energyShield']},
   {nm:'Свиток призыва',   em:'📜',cls:'mage',   slot:'weapon',mods:['minionDmg','dmgSpell','int','castSpd']},
   {nm:'Мантия архимага',  em:'🧥',cls:'mage',   slot:'armor', mods:['energyShield','int','allRes','castSpd']},
@@ -315,8 +328,8 @@ const FACTIONS={
     restrict:{noWorkers:true},
     bonus:{extraWeaponSlot:true,startLevel:1},
     levels:[
-      {xp:0, reward:null, desc:'Особенности: работники недоступны · +1 слот оружия · старт с Ур.1'},
-      {xp:1, reward:{type:'startUniq'}, desc:'Стартовый Клинок Синдиката в инвентаре каждого рана'},
+      {xp:0, reward:null, desc:'Особенности: работники недоступны · +1 слот оружия · старт с Ур.1 · доска контрактов'},
+      {xp:1, reward:{type:'startUniq',runSpeed:true}, desc:'Стартовый Клинок Синдиката + скорость карт +50%'},
       {xp:2, reward:null, desc:'???'},
     ]
   },
@@ -362,20 +375,21 @@ const ACHDEFS=[
 function freshG(){
   return {gold:50,totalRuns:0,maps:{1:5,2:2},inv:[],workers:[],
     ups:{slots:0,rescue:0,heal:0},
-    selfEq:{weapon:null,weapon2:null,armor:null,helmet:null,ring:null},
+    selfEq:{weapon:null,weapon2:null,armor:null,helmet:null,ring:null,cluster:null},
     selfRun:null,actRun:null,selMap:null,maxTier:2,
     cleared:{},achs:{},prestige:0,prestigeBonus:0,
     guardianPieces:{shaper:0,elder:0},bossAttempts:{},bossKills:{},bossTriesLeft:0,activeBossId:null,t16RunsSinceBoss:0,pendingBoss:null,
     selfCls:null,selfXp:0,selfLevel:0,selfPendingLevel:0,selfLevelUp:false,clsLocked:false,
     stats:{ge:0,fi:0,mr:0,ar:0,sold:0,sg:0,cap:0,inj:0,tierRuns:{}},achsPending:{},
-    gt:0,iid:0,wid:0,faction:'none',factionXp:{syndicate:0,maraketh:0},factionUnlocks:{},autoExp:false,autoRescue:false,autoHeal:false,autoBuyMaps:false};
+    gt:0,iid:0,wid:0,faction:'none',factionXp:{syndicate:0,maraketh:0},factionUnlocks:{},autoExp:false,autoRescue:false,autoHeal:false,autoBuyMaps:false,syndRunSpeed:1.0,contracts:[],contractRunsDone:0,
+    deliriumOrbs:0,deliriumSplinters:0,deliriumActive:false,deliriumWave:0,deliriumPending:[],deliriumRunning:false,autoOrb:false,contractRerolls:0};
 }
 let G=freshG();
 
 // ══════════ HELPERS ═══════════════════════════════════════════
 const ri=(a,b)=>Math.floor(Math.random()*(b-a+1))+a;
 const fN=n=>n>=1e6?(n/1e6).toFixed(1)+'M':n>=1e3?(n/1e3).toFixed(1)+'K':Math.floor(n)+'';
-const qcol=q=>({normal:'#b0b0b0',magic:'#8888ff',rare:'#f0d060',unique:'#e87020'}[q]||'#fff');
+const qcol=q=>({normal:'#b0b0b0',magic:'#8888ff',rare:'#f0d060',unique:'#e87020',cluster:'#cc88ff'}[q]||'#fff');
 const qlbl=q=>({normal:'Обычный',magic:'Магический',rare:'Редкий',unique:'Уникальный'}[q]||q);
 const tcol=t=>t<=3?'#aaa':t<=6?'#5599ff':t<=10?'#bb55ff':t<=14?'#ff8844':'#ff4422';
 const calcCh=(power,tier,dgrOverride)=>{
@@ -400,8 +414,8 @@ const getMd=k=>{
 const chcol=ch=>ch>=0.8?'#4acf4a':ch>=0.5?'#cfcf4a':ch>=0.25?'#cf8040':'#cf4040';
 const iDmg=(it,cls)=>{if(!it||!it.mods)return 0;const r=CDMG[cls]||[];return Math.floor(it.mods.reduce((s,m)=>s+(r.includes(m.stat)?m.value*1:m.value*.08),0));};
 const iSurv=(it,cls)=>{if(!it||!it.mods)return 0;const r=CSURV[cls]||[];return Math.floor(it.mods.reduce((s,m)=>s+(r.includes(m.stat)?m.value*1:m.value*.08),0));};
-const sDmg=()=>{const sc=G.selfCls||'warrior';let v=3+G.selfLevel*2;const ss=G.syndExtraWeapon?[...SLOTS,'weapon2']:SLOTS;ss.forEach(s=>{if(G.selfEq[s])v+=iDmg(G.selfEq[s],sc);});return v;};
-const sSurv=()=>{const sc=G.selfCls||'warrior';let v=5+G.selfLevel*2;const ss=G.syndExtraWeapon?[...SLOTS,'weapon2']:SLOTS;ss.forEach(s=>{if(G.selfEq[s])v+=iSurv(G.selfEq[s],sc);});return v;};
+const sDmg=()=>{const sc=G.selfCls||'warrior';let v=3+G.selfLevel*2;const ss=G.syndExtraWeapon?[...SLOTS,'weapon2']:SLOTS;ss.forEach(s=>{if(G.selfEq[s]&&s!=='cluster')v+=iDmg(G.selfEq[s],sc);});const _cl=G.selfEq&&G.selfEq.cluster;const _dp=_cl?(_cl.mods||[]).reduce((a,m)=>a+(m.stat==='dmgPct'?m.value:0),0):0;return Math.floor(v*(1+_dp/100));};
+const sSurv=()=>{const sc=G.selfCls||'warrior';let v=5+G.selfLevel*2;const ss=G.syndExtraWeapon?[...SLOTS,'weapon2']:SLOTS;ss.forEach(s=>{if(G.selfEq[s]&&s!=='cluster')v+=iSurv(G.selfEq[s],sc);});const _cl=G.selfEq&&G.selfEq.cluster;const _sp=_cl?(_cl.mods||[]).reduce((a,m)=>a+(m.stat==='survPct'?m.value:0),0):0;return Math.floor(v*(1+_sp/100));};
 function recalcW(w){const nb=w.isNamed?6:0;let d=4+w.level*2+nb,s=4+w.level*2+nb;SLOTS.forEach(sl=>{if(w.eq[sl]){d+=iDmg(w.eq[sl],w.cls);s+=iSurv(w.eq[sl],w.cls);}});w.dmg=d;w.surv=s;}
 function addXPSelf(amt){
   G.selfXp+=amt;const mx=WLVLS.length-1;
@@ -416,10 +430,11 @@ const xpAmt=tier=>tier*8+12;
 // variance = (g1-g0)/g0 — natural spread of the tier
 const goldReward=(md,_power,mapCost=0)=>{
   const pm=1+(G.prestigeBonus||0)/100;
+  const _clu=G.selfEq&&G.selfEq.cluster;const _gp=_clu?(_clu.mods||[]).reduce((s,m)=>s+(m.stat==='goldPct'?m.value:0),0):0;
   const base=mapCost||md.g[0]||1;
   const variance=(md.g[1]-md.g[0])/Math.max(1,md.g[0]);
   const rnd=base+Math.floor(Math.random()*(base*variance+1));
-  return Math.floor(rnd*pm);
+  return Math.floor(rnd*pm*(1+_gp/100));
 };
 const goldMin=(md,mapCost=0)=>{
   const pm=1+(G.prestigeBonus||0)/100;
@@ -452,6 +467,7 @@ function genItem(tier,workerCls){
 function tryItem(md,cls,mult=1){
   if(Math.random()>md.drop*mult)return;
   const it=genItem(md.t,cls);G.inv.push(it);G.stats.fi++;
+  checkContractFind(it.quality);
   log(it.em+' <span style="color:'+qcol(it.quality)+'">'+it.name+'</span> ['+qlbl(it.quality)+']','i-'+it.quality[0]);
   checkAchs();
 }
@@ -516,7 +532,7 @@ function selfRun(){
   const cost=(isGrd||isBoss)?0:SHOP_COSTS[tier]||0;
   const _mc=(isGrd||isBoss)?0:SHOP_COSTS[tier]||0;
   G.selfRun={md,tier,cursed,uniq,isGrd,isBoss,grdId:isGrd?key.slice(4):null,bossId,elapsed:0,cost,
-    goldRange:[goldMin(md,_mc),goldMax(md,_mc)]};
+    goldRange:[goldMin(md,_mc),goldMax(md,_mc)],mapKey:key};
   document.getElementById('rpw').style.display='block';
   document.getElementById('btn-cancel-run').style.display='inline-block';
   document.getElementById('btn-self-run').disabled=true;
@@ -547,7 +563,7 @@ function checkT16BossUnlock(){
 }
 function completeSelfRun(){
   // Save everything from selfRun BEFORE nulling it
-  const {md,tier,cursed,uniq,isGrd,isBoss,grdId,bossId,cost}=G.selfRun;
+  const {md,tier,cursed,uniq,isGrd,isBoss,grdId,bossId,cost,mapKey:_runMapKey}=G.selfRun;
   const grdMapData=grdId?GUARDIAN_MAPS.find(g=>g.id===grdId):null;
   const bossMapData=bossId?BOSSES.find(b=>b.id===bossId):null;
   const power=sDmg()+sSurv();
@@ -569,7 +585,7 @@ function completeSelfRun(){
   G.stats.mr++;G.totalRuns++;
   if(!G.stats.tierRuns)G.stats.tierRuns={};
   G.stats.tierRuns[tier]=(G.stats.tierRuns[tier]||0)+1;
-  G.selfRun=null;resetRunUI();  // null AFTER extracting all data
+  G.selfRun=null;resetRunUI();checkContractRun(tier,ok?'ok':'fail');tryAddMasterContract();  // null AFTER extracting all data
   if(ok){
     const lm=cursed?3:uniq?2:1;
     if(!isGrd&&!isBoss){G.cleared[tier]=true;if(tier>G.maxTier)G.maxTier=tier;}
@@ -620,12 +636,12 @@ function completeSelfRun(){
       checkBossUnlocks();
     }
     const suffix=cursed?' (x3 лут)':uniq?' (x2 лут)':isGrd?' [Страж]':isBoss?'':'';
-    if(!isBoss){const g=goldReward(md,power,cost);G.gold+=g;G.stats.ge+=g;log('✅ Пройдено! +'+g+'💰'+suffix,'ge');floatT('+'+g+'💰','#f0d080');
+    if(!isBoss){const _autoOrbBonus=(G.autoOrb&&(G.deliriumOrbs||0)>0)?1.2:1.0;if(G.autoOrb&&_autoOrbBonus>1){G.deliriumOrbs--;if(G.deliriumOrbs<=0){G.deliriumOrbs=0;G.autoOrb=false;showN('🔮 Орбы закончились — авто-орб выключен','red');}}const _db=_autoOrbBonus;const g=Math.round(goldReward(md,power,cost)*_db);G.gold+=g;G.stats.ge+=g;log('✅ Пройдено! +'+g+'💰'+(_db>1?' 🔮':'')+(suffix),'ge');sfxGold();floatT('+'+g+'💰','#f0d080');
       if(tier===16&&!cursed&&!uniq&&!isGrd)checkT16BossUnlock();
     }
     if(!isBoss){for(let i=0;i<lm;i++)tryItem(md,G.selfCls,1);tryMap(md);}
     addXPSelf(xpAmt(tier));
-    checkAchs();renderAtlasBar();renderShop();
+    checkAchs();renderAtlasBar();renderShop();updateDeliriumTab();
   }else{
     if(isBoss){
       G.bossTriesLeft=Math.max(0,(G.bossTriesLeft||0)-1);
@@ -635,7 +651,7 @@ function completeSelfRun(){
       showN(bname+' победил! '+G.bossTriesLeft+' осталось','red');
       renderMaps();
     } else {
-      log('💀 Вы пали в T'+tier+(cursed?' [ЗАРАЖЁННАЯ]':uniq?' [УНИКАЛЬНАЯ]':isGrd?' [СТРАЖ]':'')+'!','ev');
+      sfxDeath();log('💀 Вы пали в T'+tier+(cursed?' [ЗАРАЖЁННАЯ]':uniq?' [УНИКАЛЬНАЯ]':isGrd?' [СТРАЖ]':'')+'!','ev');
       showN('Вы погибли!','red');
     }
   }
@@ -655,11 +671,25 @@ function updateRunVis(md,idle,isGrd,isBoss){
     return;
   }
   const col=isGrd?'#44aaff':tcol(md.t);
-  let ch='';if(idle){const _sk=String(G.selMap||'');const _eff=md.t+(_sk.startsWith('c')?1:0)+(_sk.startsWith('u')?1:0);const _grdMod=_sk.startsWith('grd_')?-.12:0;const cv=Math.max(.03,calcCh(sDmg()+sSurv(),Math.min(16,_eff))+_grdMod);ch='<div style="margin-top:4px;font-size:12px;color:'+chcol(cv)+'">Ваш шанс: '+Math.round(cv*100)+'%</div>';}
+  let ch='';if(idle){const _sk=String(G.selMap||'');const _eff=md.t+(_sk.startsWith('c')?1:0)+(_sk.startsWith('u')?1:0);const _grdMod=_sk.startsWith('grd_')?-.12:0;const _rawCv=calcCh(sDmg()+sSurv(),Math.min(16,_eff))+_grdMod;const cv=Math.max(.03,_sk.startsWith('grd_')?Math.min(0.85,_rawCv):_rawCv);ch='<div style="margin-top:4px;font-size:12px;color:'+chcol(cv)+'">Ваш шанс: '+Math.round(cv*100)+'%</div>';}
   const cost=SHOP_COSTS[md.t]||0;
+  // Orb button
+  const _orbWrap=document.getElementById('orb-btn-wrap');
+  if(_orbWrap){
+    if(G.cleared&&G.cleared[16]&&!isGrd&&!isBoss){
+      const _aOn=G.autoOrb;
+      const _hasOrbs=(G.deliriumOrbs||0)>0;
+      if(_aOn)
+        _orbWrap.innerHTML='<button class="btn btn-sm" style="background:#330055;border-color:#aa66ff;color:#cc99ff;margin-bottom:4px" data-orb-toggle="1">🔮 Авто-орб: ВКЛ ('+G.deliriumOrbs+' шт) ✓</button>';
+      else if(_hasOrbs)
+        _orbWrap.innerHTML='<button class="btn btn-sm" style="background:var(--bg3);border-color:#553377;color:#9966cc;margin-bottom:4px" data-orb-toggle="1">🔮 Авто-орб: ВЫКЛ ('+G.deliriumOrbs+' шт)</button>';
+      else
+        _orbWrap.innerHTML='<button class="btn btn-sm" style="opacity:.35;cursor:not-allowed;margin-bottom:4px" disabled>🔮 Нет орбов делириума</button>';
+    }else{_orbWrap.innerHTML='';}
+  }
   el.innerHTML='<div class="run-nm" style="color:'+col+'">'+md.em+' '+(isGrd&&md.boss?md.boss:md.nm)+'</div>'+
     '<div class="dim" style="font-size:10px;letter-spacing:2px;margin-bottom:4px">'+(isGrd?'КАРТА СТРАЖА':isBoss?'ПОРТАЛ СОЗДАТЕЛЯ':'КАРТА ТИРА '+md.t)+'</div>'+
-    '<div style="font-size:12px;color:var(--txt-d)">⏱ ~'+md.time+'с &nbsp; 💰'+(goldMin(md,cost))+(goldMax(md,cost)>goldMin(md,cost)?'-'+goldMax(md,cost):'')+' + предметы</div>'+ch;
+    '<div style="font-size:12px;color:var(--txt-d)">⏱ ~'+(()=>{const spd=G.syndRunSpeed||1.0;const t=Math.round(md.time/spd);return t;})()+(()=>{const spd2=G.syndRunSpeed||1.0;return 'с'+(spd2>1.0?' <span style="color:#ffaa44">(×'+spd2.toFixed(1)+'⚡)</span>':'')+' &nbsp; ';})()+'💰'+(goldMin(md,cost))+(goldMax(md,cost)>goldMin(md,cost)?'-'+goldMax(md,cost):'')+' + предметы</div>'+ch;
 }
 function startAct(id){
   if(G.actRun){showN('Уже в акте!');return;}if(G.selfRun){showN('Уже в походе!');return;}
@@ -670,7 +700,7 @@ function startAct(id){
 function completeAct(){
   const act=G.actRun.act;const g=ri(act.g[0],act.g[1]);G.gold+=g;G.stats.ge+=g;G.stats.ar++;G.actRun=null;
   // Acts give small self XP
-  const xpGain=Math.floor(xpAmt(1)*1.5);addXPSelf(xpGain);
+  const xpGain=act.xp||Math.floor(xpAmt(1)*1.5);addXPSelf(xpGain);
   log('🏕 '+act.nm+' завершён — +'+g+'💰 +'+xpGain+'XP','ge');floatT('+'+g+'💰','#c8a96e');
   const btn=document.getElementById('abtn-'+act.id);if(btn)btn.disabled=false;
   const fill=document.getElementById('apf-'+act.id);if(fill)fill.style.width='0%';
@@ -700,7 +730,9 @@ function sendWorker(id){
 function resolveWorker(w,md){
   const power=w.dmg+w.surv;
   const wEffTier=md.t+(w.cursed?1:0)+(w.uniq?1:0);
-  const ch=Math.max(.03,calcCh(power,Math.min(16,wEffTier)));
+  const isGrdMap=w.isGrd||false;
+  const rawChW=calcCh(power,Math.min(16,wEffTier));
+  const ch=Math.max(.03,isGrdMap?Math.min(0.85,rawChW-0.12):rawChW);
   const ok=Math.random()<ch;
   G.stats.mr++;G.totalRuns++;w.runsCompleted=(w.runsCompleted||0)+1;
   if(!G.stats.tierRuns)G.stats.tierRuns={};
@@ -739,30 +771,15 @@ function tryAutoExp(w){
     const t=parseInt(k);tierCounts[t]=(tierCounts[t]||0)+G.maps[k];
   });
   if(Object.keys(tierCounts).length<1)return;
-  // Pick slots: reuse last or fill with best available
+  // Strict mode: only use lastExpSlots, skip if not enough cards
+  if(!G.lastExpSlots||!G.lastExpSlots.length)return;
   const tc2={...tierCounts};
-  let slots=[];
-  // Try last exp slots first
-  if(G.lastExpSlots){
-    G.lastExpSlots.slice(0,maxSlots).forEach(t=>{
-      if(t&&tc2[t]>0){slots.push(t);tc2[t]--;}
-    });
+  const slots=[];
+  for(const t of G.lastExpSlots.slice(0,maxSlots)){
+    if(t&&tc2[t]>0){slots.push(t);tc2[t]--;}
+    else if(t){return;} // missing a required tier — don't go
   }
-  // Fill remaining with highest tier available
-  const tiers=Object.keys(tc2).map(Number).sort((a,b)=>b-a);
-  while(slots.length<maxSlots){
-    const best=tiers.find(t=>tc2[t]>0);
-    if(!best)break;
-    slots.push(best);tc2[best]--;
-  }
-  if(slots.length<1)return;
-  // Pad to maxSlots if needed (fill with lowest available)
-  while(slots.length<maxSlots){
-    const t=tiers.slice().reverse().find(t=>tc2[t]>0);
-    if(!t)break;
-    slots.push(t);tc2[t]--;
-  }
-  if(slots.filter(Boolean).length<1)return;
+  if(slots.length<3)return; // need at least 3
   // Consume maps
   const filledSlots=slots.filter(Boolean);
   const needed={};filledSlots.forEach(t=>{needed[t]=(needed[t]||0)+1;});
@@ -817,6 +834,7 @@ function rescueW(id){
 function sellItem(id){
   const it=G.inv.find(x=>x.id===id);if(!it)return;
   const sp=parseInt(it.sellPrice)||0;G.gold+=sp;G.stats.sg+=sp;G.stats.sold++;
+  checkContractSell(it.quality,sp);
   G.inv=G.inv.filter(x=>x.id!==id);
   log('💰 '+it.em+' '+it.name+' +'+it.sellPrice+'💰','ge');floatT('+'+it.sellPrice+'💰','#c8a96e');
   checkAchs();closeM();renderInv();updateRes();
@@ -825,6 +843,7 @@ function sellAllNormal(){
   const ns=G.inv.filter(x=>x.quality==='normal');if(!ns.length){showN('Нет обычных!');return;}
   const tot=ns.reduce((s,x)=>s+(parseInt(x.sellPrice)||0),0);G.inv=G.inv.filter(x=>x.quality!=='normal');
   G.gold+=tot;G.stats.sg+=tot;G.stats.sold+=ns.length;
+  ns.forEach(it=>checkContractSell(it.quality,parseInt(it.sellPrice)||0));
   log('💰 Продано '+ns.length+'x обычных +'+tot+'💰','ge');floatT('+'+tot+'💰','#c8a96e');
   checkAchs();renderInv();updateRes();
 }
@@ -989,22 +1008,24 @@ function confirmPrestige(factionId){
   G.faction=factionId||'none';
   // Apply faction start bonuses
   applyFactionStart();
+  G.contracts=[];G.contractRunsDone=0;if(G.faction==='syndicate')refreshContracts();
   closeM();
   log('✨ ВОЗВЫШЕНИЕ '+np+'! Фракция: '+FACTIONS[G.faction].nm,'info');
   showN('✨ Возвышение '+np+'! '+FACTIONS[G.faction].em+' '+FACTIONS[G.faction].nm,'pur');
-  renderAll();save();
+  renderAll();updateDeliriumTab();save();
 }
 function applyFactionStart(){
   const f=FACTIONS[G.faction||'none'];if(!f)return;
   const xp=G.factionXp[G.faction]||0;
   // Syndicate bonuses
   if(G.faction==='syndicate'){
-    // +1 start level
     G.selfLevel=1;G.selfPendingLevel=1;
-    // Extra weapon slot — stored as flag, handled in renderInv
     G.syndExtraWeapon=true;
-    // Level 1 reward: start uniq weapon
-    if(xp>=2){
+    // Level 2 (xp>=1): +50% run speed + клинок
+    const _syndLvls=f.levels||[];
+    G.syndRunSpeed=_syndLvls.some(l=>l.xp<=xp&&l.reward&&l.reward.runSpeed)?1.50:1.0;
+    // Level 2 reward: start uniq weapon
+    if(xp>=1){
       const wu={id:++G.iid,name:'Клинок Синдиката',em:'🗡️',slot:'weapon',cls:'warrior',quality:'unique',tier:8,
         mods:[{stat:'dmgPhys',value:22},{stat:'critChance',value:12}],sellPrice:25};
       G.inv.push(wu);
@@ -1130,20 +1151,577 @@ function startExpedition(wid){
   setTimeout(()=>openExpedition(),50);
 }
 
+
+// ══════════ CONTRACTS ════════════════════════════════════════
+const CONTRACT_TYPES=[
+  {id:'run_tier',    gen:(t)=>({type:'run_tier',    tier:t, nm:'Пройти карту T'+t+'+',           desc:'Пройти любую карту тира '+t+' или выше',        progress:0, need:1,   reward:{gold:Math.floor(goldMax(MAP_TIERS[Math.min(15,t-1)]||(MAP_TIERS[15]))*(1+(G.prestigeBonus||0)/100))},done:false})},
+  {id:'sell_items',  gen:(n)=>({type:'sell_items',  nm:'Продать '+n+' предметов',                desc:'Продать '+n+' предметов любого качества',         progress:0, need:n,   reward:{gold:Math.floor(n*goldMax(MAP_TIERS[Math.min(15,(G.maxTier||1)-1)])*(1+(G.prestigeBonus||0)/100)*0.6)},done:false})},
+  {id:'find_rare',   gen:()=>({type:'find_rare',    nm:'Найти редкий предмет',                   desc:'Найти предмет качества Редкий или Уникальный',    progress:0, need:1,   reward:{gold:500,item:true},done:false})},
+  {id:'run_streak',  gen:(n)=>({type:'run_streak',  streak:n, nm:'Пройти '+n+' карт подряд',    desc:'Пройти '+n+' карт подряд без травмы',              progress:0, need:n,   reward:{gold:n*120},done:false,curStreak:0})},
+  {id:'sell_gold',   gen:(g)=>({type:'sell_gold',   goldNeed:g, nm:'Продать предметов на '+g+'💰', desc:'Продать предметов суммарно на '+g+' золота',   progress:0, need:g,   reward:{gold:Math.floor(g*0.8)},done:false})},
+  {id:'find_uniq',   gen:()=>({type:'find_uniq',    nm:'Найти уникальный предмет',               desc:'Найти предмет качества Уникальный',               progress:0, need:1,   reward:{gold:900,item:true},done:false})},
+  {id:'run_grd',     gen:()=>({type:'run_grd',      nm:'Пройти карту Стража',                    desc:'Пройти любую карту стража',                        progress:0, need:1,   reward:{gold:800},done:false})},
+];
+function genContract(){
+  const tier=Math.min(16,Math.max(1,(G.maxTier||1)-2+Math.floor(Math.random()*4)));
+  // Delirium wave contract — T16 only, rare
+  const _hasT10c=Object.keys(G.cleared||{}).some(k=>parseInt(k)>=10&&G.cleared[k]);
+  if(_hasT10c&&Math.random()<0.15&&!(G.contracts||[]).some(x=>x.type==='delirium_wave')){
+    const waveTarget=Math.floor(2+Math.random()*4); // 2-5 (reachable early)
+    const rwd=Math.floor(goldMax(MAP_TIERS[14])*(1+(G.prestigeBonus||0)/100)*2);
+    return {type:'delirium_wave',nm:'👁 Делириум: волна '+waveTarget,em:'👁',
+      desc:'Войдите в Делириум и доберитесь до волны '+waveTarget+' живым (без провала).',
+      need:waveTarget,progress:0,reward:{gold:rwd},done:false,failed:false};
+  }
+  const opts=CONTRACT_TYPES.filter(ct=>{
+    if(ct.id==='run_grd'&&!(G.maxTier>=16))return false;
+    if(ct.id==='find_uniq'&&!(G.maxTier>=10))return false;
+    return true;
+  });
+  const ct=opts[Math.floor(Math.random()*opts.length)];
+  let c;
+  if(ct.id==='run_tier')    c=ct.gen(Math.max(3,tier));
+  else if(ct.id==='sell_items') c=ct.gen([3,5,8][Math.floor(Math.random()*3)]);
+  else if(ct.id==='run_streak') c=ct.gen([3,5][Math.floor(Math.random()*2)]);
+  else if(ct.id==='sell_gold'){const _gv=Math.floor(goldMax(MAP_TIERS[Math.min(15,(G.maxTier||1)-1)])*(1+(G.prestigeBonus||0)/100));const _gt=Math.floor(_gv*[2,3,5][Math.floor(Math.random()*3)]);c=ct.gen(Math.max(100,_gt));}
+  else c=ct.gen();
+  c.id='con_'+Date.now()+'_'+Math.random().toString(36).slice(2,6);
+  return c;
+}
+function refreshContracts(){
+  if(!hasFaction('syndicate'))return;
+  // Remove done/failed contracts to make room
+  G.contracts=G.contracts.filter(x=>!x.done&&!x.failed);
+  const usedTypes=new Set(G.contracts.map(x=>x.type));
+  // Always fill 4 normal contracts
+  let attempts=0;
+  while(G.contracts.filter(x=>!x.done&&!x.failed&&!(x.type&&x.type.startsWith('master_'))&&x.type!=='delirium_wave').length<4&&attempts<30){
+    attempts++;
+    const nc=genContract();
+    // genContract may return delirium_wave — only allow 1
+    if(nc.type==='delirium_wave'){
+      if(!usedTypes.has('delirium_wave')){usedTypes.add('delirium_wave');G.contracts.push(nc);}
+    }else{
+      if(!usedTypes.has(nc.type)){usedTypes.add(nc.type);G.contracts.push(nc);}
+    }
+  }
+  // Master contract: every 3rd reroll as 5th BONUS slot (doesn't displace normal ones)
+  G.contractRerolls=(G.contractRerolls||0)+1;
+  if(!G.contracts.some(x=>x.type&&x.type.startsWith('master_')&&!x.done&&!x.failed)){
+    if(G.contractRerolls%3===0){tryAddMasterContract(true);}
+  }
+  renderContracts();
+}
+function tickContracts(){
+  if(!hasFaction('syndicate'))return;
+  G.contractRunsDone=(G.contractRunsDone||0);
+}
+function checkContractRun(tier,result){
+  // result: 'ok'|'injured'|'captured'
+  if(!hasFaction('syndicate'))return;
+  G.contractRunsDone=(G.contractRunsDone||0)+1;
+  G.contracts.forEach(con=>{
+    if(con.done)return;
+    if(con.type==='run_tier'&&tier>=con.tier&&result==='ok'){con.progress=Math.min(con.need,con.progress+1);}
+    if(con.type==='run_streak'){
+      if(result==='ok'){con.curStreak=(con.curStreak||0)+1;con.progress=Math.min(con.need,con.curStreak);}
+      else{con.curStreak=0;con.progress=0;}
+    }
+    if(con.type==='run_grd'&&tier>=16&&result==='ok'){con.progress=Math.min(con.need,con.progress+1);}
+    if(con.progress>=con.need)completeContract(con);
+  });
+  // Refresh contracts every 5 runs
+  if(G.contractRunsDone%5===0){
+    G.contracts=G.contracts.filter(c=>!c.done);
+    refreshContracts();
+  }
+  renderContracts();
+}
+function checkContractSell(itemQuality,goldAmt){
+  if(!hasFaction('syndicate'))return;
+  G.contracts.forEach(con=>{
+    if(con.done)return;
+    if(con.type==='sell_items'){con.progress=Math.min(con.need,con.progress+1);}
+    if(con.type==='sell_gold'){con.progress=Math.min(con.need,con.progress+goldAmt);}
+    if(con.progress>=con.need)completeContract(con);
+  });
+  renderContracts();
+}
+function checkContractFind(quality){
+  if(!hasFaction('syndicate'))return;
+  G.contracts.forEach(con=>{
+    if(con.done)return;
+    if(con.type==='find_rare'&&(quality==='rare'||quality==='unique')){con.progress=Math.min(con.need,con.progress+1);}
+    if(con.type==='find_uniq'&&quality==='unique'){con.progress=Math.min(con.need,con.progress+1);}
+    if(con.progress>=con.need)completeContract(con);
+  });
+  renderContracts();
+}
+function completeContract(con){
+  if(con.done)return;con.done=true;
+  const r=con.reward||{};
+  if(r.gold){G.gold+=r.gold;G.stats.ge+=r.gold;sfxContract();log('📋 Контракт выполнен: '+con.nm+' +'+r.gold+'💰','info');showN('📋 '+con.nm+' +'+r.gold+'💰','pur');}
+  if(r.item){const it=genItem(Math.max(1,G.maxTier-2),G.selfCls||'warrior');G.inv.push(it);log('📦 Награда: '+it.em+' '+it.name,'i-'+it.quality[0]);}
+  checkAchs();updateRes();save();
+}
+function renderContracts(){
+  const el=document.getElementById('contracts-panel');if(!el)return;
+  if(!hasFaction('syndicate')){el.style.display='none';return;}
+  el.style.display='';
+  if(!G.contracts||!G.contracts.length)refreshContracts();
+  const active=G.contracts;
+  let html='';
+  active.forEach(con=>{
+    if(con.done){
+      html+='<div style="background:var(--bg3);border:1px solid #335533;border-radius:5px;padding:7px 9px;margin-bottom:5px;opacity:.6">'+
+        '<div style="display:flex;justify-content:space-between;align-items:center">'+
+          '<span style="font-size:12px;color:#888;text-decoration:line-through">'+con.nm+'</span>'+
+          '<span style="font-size:12px;color:#44cc44;font-weight:600">✅ ВЫПОЛНЕНО</span>'+
+        '</div></div>';
+      return;
+    }
+    if(con.failed){
+      html+='<div style="background:var(--bg3);border:1px solid #550000;border-radius:5px;padding:7px 9px;margin-bottom:5px;opacity:.6">'+
+        '<div style="display:flex;justify-content:space-between;align-items:center">'+
+          '<span style="font-size:12px;color:#888;text-decoration:line-through">'+con.nm+'</span>'+
+          '<span style="font-size:12px;color:#cc4444;font-weight:600">❌ ПРОВАЛЕНО</span>'+
+        '</div></div>';
+      return;
+    }
+    // Master contract — fight button
+    if(con.type&&con.type.startsWith('master_')){
+      const chCol=con.ch>=70?'#44cc44':con.ch>=50?'#cccc44':'#cc4444';
+      const r=con.reward||{};
+      const rwdStr=r.gold?(r.item?r.gold+'💰 + предмет':r.gold+'💰'):(r.item?'предмет':'');
+      if(con.active){
+        html+='<div style="background:var(--bg3);border:2px solid #884400;border-radius:5px;padding:7px 9px;margin-bottom:5px">'+
+          '<div style="display:flex;justify-content:space-between;margin-bottom:4px">'+
+            '<span style="font-size:12px;color:#ffaa44;font-weight:700">'+con.em+' '+con.nm+'</span>'+
+            '<span style="font-size:11px;color:var(--gold)">'+rwdStr+'</span>'+
+          '</div>'+
+          '<div id="mcon-lbl-'+con.id+'" style="font-size:11px;color:var(--txt-d);margin-bottom:4px">Вступаете в бой...</div>'+
+          '<div style="height:5px;background:var(--bg2);border-radius:3px"><div id="mcon-prog-'+con.id+'" style="height:100%;width:0%;background:linear-gradient(90deg,#882200,#ff6600);border-radius:3px;transition:width .05s"></div></div>'+
+        '</div>';
+      }else{
+        html+='<div style="background:var(--bg3);border:2px solid #553300;border-radius:5px;padding:7px 9px;margin-bottom:5px">'+
+          '<div style="display:flex;justify-content:space-between;margin-bottom:3px">'+
+            '<span style="font-size:12px;color:#ffaa44;font-weight:700">'+con.em+' '+con.nm+'</span>'+
+            '<span style="font-size:11px;color:var(--gold)">'+rwdStr+'</span>'+
+          '</div>'+
+          '<div style="font-size:11px;color:var(--txt-d);margin-bottom:5px">'+con.desc+'</div>'+
+          '<div style="display:flex;justify-content:space-between;align-items:center">'+
+            '<span style="font-size:12px;color:'+chCol+'">Шанс успеха: '+con.ch+'%</span>'+
+            '<button class="btn btn-sm btn-p" style="background:#553300;border-color:#aa6600" data-master-id="'+con.id+'">⚔️ Принять бой</button>'+
+          '</div>'+
+        '</div>';
+      }
+      return;
+    }
+    const pct=Math.min(100,Math.round((con.progress/con.need)*100));
+    const r=con.reward||{};
+    const rwdStr=r.gold?(r.item?r.gold+'💰 + предмет':r.gold+'💰'):(r.item?'предмет':'');
+    html+='<div style="background:var(--bg3);border:1px solid #553333;border-radius:5px;padding:7px 9px;margin-bottom:5px">'+
+      '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:3px">'+
+        '<span style="font-size:12px;color:#ffaa66;font-weight:600">'+con.nm+'</span>'+
+        '<span style="font-size:11px;color:var(--gold)">'+rwdStr+'</span>'+
+      '</div>'+
+      '<div style="font-size:11px;color:var(--txt-d);margin-bottom:4px">'+con.desc+'</div>'+
+      '<div style="display:flex;align-items:center;gap:6px">'+
+        '<div style="flex:1;height:4px;background:var(--bg2);border-radius:2px">'+
+          '<div style="height:100%;width:'+pct+'%;background:#cc4444;border-radius:2px;transition:width .3s"></div>'+
+        '</div>'+
+        '<span style="font-size:11px;color:var(--txt-d);min-width:35px;text-align:right">'+con.progress+'/'+con.need+'</span>'+
+      '</div>'+
+    '</div>';
+  });
+  if(!active.length)html='<div style="font-size:12px;color:var(--txt-d);padding:8px;text-align:center">Все контракты выполнены! Новые через '+Math.max(0,5-(G.contractRunsDone%5))+' карт.</div>';
+  const _rerollCost=Math.max(50,Math.floor(goldMax(MAP_TIERS[Math.min(15,(G.maxTier||1)-1)])*(1+(G.prestigeBonus||0)/100)*0.3));
+  el.innerHTML='<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">'+
+    '<div style="font-size:11px;color:#cc4444;font-family:Cinzel,serif">📋 КОНТРАКТЫ</div>'+
+    '<button class="btn btn-sm" style="font-size:10px;padding:2px 7px" id="btn-reroll-contracts">🔄 Обновить ('+_rerollCost+'💰)</button>'+
+  '</div>'+
+  '<div style="font-size:10px;color:var(--txt-d);margin-bottom:6px">Авто-обновление через '+Math.max(0,5-(G.contractRunsDone%5))+' карт</div>'+html;
+}
+
+
+
+const CLUSTER_STATS=[
+  {stat:'goldPct',     nm:'Золото',    desc:'% к золоту',        type:'gold'},
+  {stat:'dropPct',     nm:'Дроп',      desc:'% к дропу предметов',type:'drop'},
+  {stat:'dmgPct',      nm:'Урон',      desc:'% к урону',         type:'dmg'},
+  {stat:'survPct',     nm:'Выживаем.', desc:'% к выживаемости',  type:'surv'},
+  {stat:'mapDropPct',  nm:'Дроп карт', desc:'% к дропу карт',    type:'map'},
+  {stat:'grdDropPct',  nm:'Стражи',    desc:'% к дропу стражей', type:'grd'},
+];
+function genCluster(wave){
+  const num=2;
+  const pool=[...CLUSTER_STATS];
+  const picked=[];
+  for(let i=0;i<num;i++){const idx=Math.floor(Math.random()*pool.length);picked.push(pool.splice(idx,1)[0]);}
+  const mods=picked.map(s=>({stat:s.stat,value:Math.floor(5+wave*1.5+Math.random()*10)}));
+  const nm='Кластерный Самоцвет';
+  return {id:++G.iid,name:nm,em:'🔮',slot:'cluster',cls:'noble',quality:'cluster',tier:Math.min(16,wave),
+    mods,sellPrice:Math.floor(200+wave*50)};
+}
+// ══════════ DELIRIUM ══════════════════════════════════════════
+
+// Wave descriptors — flavor text for each wave range
+const DELIRIUM_WAVES=[
+  {min:1,max:3,   em:'👁',  nm:'Первый туман',           mobs:'Лунатики, Разбитые умы',                boss:null},
+  {min:4,max:6,   em:'💀',  nm:'Пробуждение ужаса',      mobs:'Косикс — Сотня личин, Омнифобия — Всечудовище', boss:'Косикс, Омнифобия'},
+  {min:7,max:10,  em:'🔥',  nm:'Натиск симулякра',       mobs:'Стражи Симулякра, Испорченные тени',    boss:'Ксибакуа, Непостижимый'},
+  {min:11,max:15, em:'⚡',  nm:'Расколотая реальность',  mobs:'Осколки Толана, Зеркальные Рейкары',    boss:'Толан, Повелитель видений'},
+  {min:16,max:20, em:'🌑',  nm:'Апофеоз Делириума',      mobs:'Эхо Зерхула, Манифестации тьмы',        boss:'Зерхул, Ночной король'},
+  {min:21,max:99, em:'☠️', nm:'Бесконечный Делириум',   mobs:'Ущербные, Аватары Делириума',            boss:'Исстенн, Разрушительница Миров'},
+];
+function getDelWave(n){
+  return DELIRIUM_WAVES.find(w=>n>=w.min&&n<=w.max)||DELIRIUM_WAVES[DELIRIUM_WAVES.length-1];
+}
+// Chance to pass wave n (decreases with power scaling)
+function delWaveCh(wave){
+  const power=sDmg()+sSurv();
+  const baseDgr=300+wave*120; // scales up per wave
+  const raw=(power/baseDgr-0.2)/0.7;
+  return Math.max(0.05,Math.min(0.95,raw));
+}
+// Rewards per wave
+function delWaveReward(wave){
+  // Splinters main currency; guaranteed orb every wave 5+
+  const splinters=wave<=2?1:wave<=5?2:Math.floor(1+wave*0.6);
+  const orbs=wave>=5?1:0;
+  return {orbs,splinters};
+}
+
+
+function switchCenterTab(tab){
+  document.getElementById('ctab-content-portal').style.display=tab==='portal'?'':'none';
+  document.getElementById('ctab-content-delirium').style.display=tab==='delirium'?'':'none';
+  document.getElementById('ctab-portal').classList.toggle('active',tab==='portal');
+  document.getElementById('ctab-delirium').classList.toggle('active',tab==='delirium');
+  if(tab==='delirium')renderDelirium();
+}
+function openDelirium(){renderDelirium();}
+
+function renderDelirium(){
+  const el=document.getElementById('delirium-portal');if(!el)return;
+  if(G.deliriumRunning&&window._delTimer){return;} // don't clobber animation
+  // T5-T9: teaser only
+  const _hasT5=Object.keys(G.cleared||{}).some(k=>parseInt(k)>=5&&G.cleared[k]);
+  const _hasT10=Object.keys(G.cleared||{}).some(k=>parseInt(k)>=10&&G.cleared[k]);
+  const _hasT16=G.cleared&&G.cleared[16];
+  if(_hasT5&&!_hasT10){
+    el.innerHTML='<div style="text-align:center;padding:20px;border:1px solid #332244;border-radius:6px;background:rgba(20,0,30,.4);">'+
+      '<div style="font-size:32px;margin-bottom:8px">🌫️</div>'+
+      '<div style="font-family:Cinzel,serif;color:#664488;font-size:13px;margin-bottom:8px;letter-spacing:1px">ЗЕРКАЛО ДЕЛИРИУМА</div>'+
+      '<div style="font-size:12px;color:#553366;line-height:1.6">Что-то шевелится за гранью реальности...<br>Туман сгущается с каждым пройденным тиром.</div>'+
+      '<div style="font-size:10px;color:#442255;margin-top:10px">Доступ откроется после T10</div>'+
+    '</div>';
+    return;
+  }
+  const wave=G.deliriumWave||0;
+  const pending=G.deliriumPending||[];
+  const ch=delWaveCh(wave+1);
+  const wdef=getDelWave(wave+1);
+  const rwd=delWaveReward(wave+1);
+
+  let html='<div style="padding:8px">';
+
+  // Header + resources
+  html+='<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">';
+  html+='<div style="font-family:Cinzel,serif;font-size:14px;color:#cc88ff">🌫️ ЗЕРКАЛО ДЕЛИРИУМА</div>';
+  html+='<div style="font-size:12px;color:var(--txt-d)">'+
+    '👁 Осколки: <span style="color:#cc88ff">'+G.deliriumSplinters+'</span> &nbsp; '+
+    '🔮 Орбы: <span style="color:#aa66ff">'+G.deliriumOrbs+'</span>'+
+  '</div></div>';
+
+  if(wave===0&&!pending.length){
+    // Intro screen
+    html+='<div style="background:rgba(60,0,80,.3);border:1px solid #553377;border-radius:6px;padding:12px;margin-bottom:10px;font-size:12px;line-height:1.8;color:var(--txt-d)">';
+    html+='Зеркало Делириума открывается перед вами.<br>';
+    html+='Вы входите в волны безумия нарастающей сложности.<br>';
+    html+='<span style="color:#cc88ff">После каждой волны — выбор: идти дальше или выйти.</span><br>';
+    html+='Если погибнете — <span style="color:#ff4444">потеряете все накопленное в этом заходе.</span><br>';
+    html+='Награды: <span style="color:#aa66ff">🔮 Орбы делириума</span> (расходник на карты) + <span style="color:#cc88ff">👁 Осколки делириума</span> (сохраняются навсегда).</div>';
+    html+=nextWaveBlock(wave+1,ch,wdef,rwd);
+    html+='<button class="btn btn-p" style="background:#553377;border-color:#aa55ff;margin-top:8px" onclick="startDeliriumRun()">👁 Войти в Делириум</button>';
+  } else if(G.deliriumRunning){
+    // Wave in progress
+    html+='<div style="text-align:center;padding:20px">';
+    html+='<div style="font-size:32px;margin-bottom:8px">'+wdef.em+'</div>';
+    html+='<div style="font-size:16px;color:#cc88ff;margin-bottom:4px">Волна '+wave+': '+wdef.nm+'</div>';
+    html+='<div style="font-size:12px;color:var(--txt-d);margin-bottom:12px">'+wdef.mobs+(wdef.boss?' · Босс: '+wdef.boss:'')+'</div>';
+    html+='<div class="prog-bar" style="height:8px;max-width:300px;margin:0 auto 16px"><div class="prog-fill purple" id="del-prog" style="width:0%"></div></div>';
+    html+='<div style="font-size:12px;color:var(--txt-d)" id="del-prog-lbl">Сражаетесь...</div>';
+    html+='</div>';
+  } else if(pending.length){
+    // Offer to continue or exit
+    const totalOrbs=pending.reduce((a,r)=>a+r.orbs,0);
+    const totalSpl=pending.reduce((a,r)=>a+r.splinters,0);
+    html+='<div style="background:rgba(60,0,80,.3);border:1px solid #553377;border-radius:6px;padding:10px;margin-bottom:10px">';
+    html+='<div style="font-size:13px;color:#44cc44;margin-bottom:6px">✅ Волна '+wave+' пройдена!</div>';
+    const totalClusters=pending.filter(r=>r.cluster).length;
+    html+='<div style="font-size:12px;color:var(--txt-d);margin-bottom:4px">Накоплено в этом заходе:</div>';
+    html+='<div style="font-size:13px;color:#aa66ff;margin-bottom:10px">🔮 '+totalOrbs+' орбов &nbsp; 👁 '+totalSpl+' осколков'+(totalClusters?' &nbsp; <span style="color:#cc88ff">🔮 '+totalClusters+' самоцвет'+(totalClusters>1?'ов':'')+'</span>':'')+'</div>';
+    if(wave<99){
+      html+=nextWaveBlock(wave+1,ch,wdef,rwd);
+      html+='<div style="display:flex;gap:8px;margin-top:10px">';
+      html+='<button class="btn btn-p" style="background:#553377;border-color:#aa55ff" onclick="continueDelirium()">'+wdef.em+' Продолжить → Волна '+(wave+1)+'</button>';
+      html+='<button class="btn" onclick="exitDelirium(false)">💰 Выйти и забрать награды</button>';
+      html+='</div>';
+    } else {
+      html+='<button class="btn btn-p" onclick="exitDelirium(false)">💰 Забрать награды</button>';
+    }
+    html+='</div>';
+  }
+  el.innerHTML=html;
+}
+
+function nextWaveBlock(n,ch,wdef,rwd){
+  const chColor=ch>=0.7?'#44cc44':ch>=0.4?'#cccc44':'#cc4444';
+  return '<div style="background:rgba(40,0,60,.4);border:1px solid #442255;border-radius:5px;padding:10px;font-size:12px">'+
+    '<div style="color:#cc88ff;font-family:Cinzel,serif;margin-bottom:6px">Следующая: Волна '+n+' — '+wdef.em+' '+wdef.nm+'</div>'+
+    '<div style="color:var(--txt-d);margin-bottom:4px">👾 '+wdef.mobs+(wdef.boss?' · 💀 Босс: <span style="color:#ff7744">'+wdef.boss+'</span>':'')+'</div>'+
+    '<div style="margin-bottom:4px">Шанс пройти: <span style="color:'+chColor+';font-size:13px;font-weight:600">'+Math.round(ch*100)+'%</span></div>'+
+    '<div style="color:#aa66ff">Награда: 🔮 +'+rwd.orbs+' орбов'+(rwd.splinters?' · 👁 +'+rwd.splinters+' осколков':'')+'</div>'+
+  '</div>';
+}
+
+function startDeliriumRun(){
+  if(G.selfRun){showN('Сначала завершите текущий поход!');return;}
+  G.deliriumWave=0;G.deliriumPending=[];G.deliriumRunning=true;
+  advanceDeliriumWave();
+}
+
+function continueDelirium(){
+  if(G.selfRun){showN('Сначала завершите текущий поход!');return;}
+  G.deliriumRunning=true;
+  advanceDeliriumWave();
+}
+
+function advanceDeliriumWave(){
+  G.deliriumWave=(G.deliriumWave||0)+1;
+  G.deliriumRunning=true;
+  if(window._delTimer)clearInterval(window._delTimer);
+  renderDelirium();
+  let progress=0;
+  const waveTime=2000+G.deliriumWave*300;
+  const steps=waveTime/50;
+  window._delTimer=setInterval(()=>{
+    progress+=1/steps;
+    const bar=document.getElementById('del-prog');
+    const lbl=document.getElementById('del-prog-lbl');
+    if(bar)bar.style.width=Math.min(100,Math.round(progress*100))+'%';
+    if(lbl)lbl.textContent=progress<0.5?'Сражаетесь...':progress<0.9?'Финальный натиск...':'Исход решается...';
+    if(progress>=1){clearInterval(window._delTimer);window._delTimer=null;resolveDeliriumWave();}
+  },50);
+}
+
+function resolveDeliriumWave(){
+  const wave=G.deliriumWave;
+  const ch=delWaveCh(wave);
+  const _delOrbActive=G.deliriumMaps&&G.deliriumMaps[String(G.selfRun&&(G.selfRun.mapKey||G.selMap)||'')];
+  const ok=Math.random()<ch;
+  G.deliriumRunning=false;window._delTimer=null;
+  if(!ok){
+    // Death — lose all pending
+    const lostOrbs=G.deliriumPending.reduce((a,r)=>a+r.orbs,0);
+    const lostSpl=G.deliriumPending.reduce((a,r)=>a+r.splinters,0);
+    G.deliriumWave=0;G.deliriumPending=[];
+    sfxDeath();
+    log('💀 Погибли в Делирии на волне '+wave+'! Потеряно: 🔮'+lostOrbs+' 👁'+lostSpl,'ev');
+    showN('💀 Делирий: гибель на волне '+wave+'!','red');
+    const el=document.getElementById('delirium-portal');
+    if(el){
+      const wdef=getDelWave(wave);
+      el.innerHTML='<div style="padding:20px;text-align:center">'+
+        '<div style="font-size:36px;margin-bottom:8px">💀</div>'+
+        '<div style="font-size:16px;color:#ff4444;margin-bottom:6px">Вы пали на волне '+wave+'</div>'+
+        '<div style="font-size:13px;color:var(--txt-d);margin-bottom:4px">'+wdef.em+' '+wdef.nm+' оказался сильнее</div>'+
+        '<div style="font-size:12px;color:#ff6666;margin-bottom:16px">Потеряно: 🔮'+lostOrbs+' орбов · 👁'+lostSpl+' осколков</div>'+
+        '<button class="btn" onclick="renderDelirium()">↩ Попробовать снова</button>'+
+      '</div>';
+    }
+    save();return;
+  }
+  // Success — collect reward
+  const rwd=delWaveReward(wave);
+  // Cluster jewel drop: wave 8+, ~20% chance — store in rwd for pending
+  if(wave>=8&&Math.random()<0.20){rwd.cluster=genCluster(wave);}
+  G.deliriumPending.push(rwd);
+  sfxDeliriumWave();log('✅ Делирий волна '+wave+' пройдена! +👁'+rwd.splinters+(rwd.orbs?' +🔮'+rwd.orbs:''),'info');
+  save();
+  renderDelirium();
+}
+
+function exitDelirium(died){
+  if(died)return; // called from resolveDeliriumWave on death
+  // Collect all pending rewards
+  const totalOrbs=G.deliriumPending.reduce((a,r)=>a+r.orbs,0);
+  const totalSpl=G.deliriumPending.reduce((a,r)=>a+r.splinters,0);
+  G.deliriumOrbs=(G.deliriumOrbs||0)+totalOrbs;
+  G.deliriumSplinters=(G.deliriumSplinters||0)+totalSpl;
+  G.deliriumPending.forEach(r=>{if(r.cluster){G.inv.push(r.cluster);log('🔮 Получен Кластерный Самоцвет: '+r.cluster.name,'i-r');}});
+  // Check delirium wave contracts — highest wave REACHED (pending.length = waves cleared)
+  const _wavesCleared=G.deliriumPending.length; // e.g. cleared waves 1,2,3 = length 3
+  (G.contracts||[]).forEach(con=>{
+    if(con.type==='delirium_wave'&&!con.done&&!con.failed){
+      con.progress=Math.max(con.progress||0,_wavesCleared);
+      if(_wavesCleared>=con.need){completeContract(con);}
+      else{renderContracts();}
+    }
+  });
+  G.deliriumPending=[];G.deliriumWave=0;G.deliriumRunning=false;
+  log('🌫️ Вышли из Делириума. Получено: 🔮'+totalOrbs+' орбов · 👁'+totalSpl+' осколков','info');
+  showN('🌫️ +🔮'+totalOrbs+' орбов · +👁'+totalSpl+' осколков','pur');
+  updateRes();save();renderDelirium();
+}
+
+// Apply delirium orb to selected map
+function applyDeliriumOrb(key){
+  if(!G.deliriumOrbs||G.deliriumOrbs<1){showN('Нет орбов делириума!');return;}
+  if(!G.maps[key]||G.maps[key]<1){showN('Нет такой карты!');return;}
+  if(!G.deliriumMaps)G.deliriumMaps={};
+  if(G.deliriumMaps[key]){showN('Уже применён орб!');return;}
+  G.deliriumOrbs--;G.deliriumMaps[key]=true;
+  showN('🔮 Орб делириума применён! +20% дроп и золото','pur');
+  renderMaps();updateRes();save();
+}
+
+
+// ══════════ MASTER CONTRACTS ══════════════════════════════════
+// Rare missions that appear on the board with a "fight" button
+// Types: brawl (fight enemy, 75-80% success), raid (clear zone T10+), boss_hunt (T16 only, rare)
+const MASTER_CONTRACT_DEFS=[
+  {id:'brawl', nm:'Заказ: Ликвидация цели', em:'⚔️',
+   gen:()=>{
+     const power=sDmg()+sSurv();
+     const ch=Math.min(0.80,Math.max(0.15,(power/600-0.2)/0.7*0.8));
+     const rwd=Math.floor(goldMax(MAP_TIERS[Math.min(15,(G.maxTier||1)-1)])*(1+(G.prestigeBonus||0)/100)*2.5);
+     return {type:'master_brawl',nm:'Заказ: Ликвидация',em:'⚔️',
+       desc:'Синдикат требует устранить цель. Прямое столкновение.',
+       ch:Math.round(ch*100),reward:{gold:rwd},
+       progress:0,need:1,done:false,failed:false,active:false};
+   }},
+  {id:'raid', nm:'Заказ: Зачистка района', em:'🔱',
+   gen:()=>{
+     const power=sDmg()+sSurv();
+     const ch=Math.min(0.78,Math.max(0.12,(power/800-0.2)/0.7*0.75));
+     const rwd=Math.floor(goldMax(MAP_TIERS[Math.min(15,(G.maxTier||1)-1)])*(1+(G.prestigeBonus||0)/100)*3.5);
+     return {type:'master_raid',nm:'Заказ: Зачистка',em:'🔱',
+       desc:'Полностью зачистить укреплённый район от врагов Синдиката.',
+       ch:Math.round(ch*100),reward:{gold:rwd,item:true},
+       progress:0,need:1,done:false,failed:false,active:false};
+   }},
+  {id:'boss_hunt', nm:'Заказ: Охота на босса', em:'💠',
+   gen:()=>{
+     const power=sDmg()+sSurv();
+     const ch=Math.min(0.75,Math.max(0.10,(power/1200-0.2)/0.7*0.70));
+     const rwd=Math.floor(goldMax(MAP_TIERS[14])*(1+(G.prestigeBonus||0)/100)*6);
+     return {type:'master_boss',nm:'Заказ: Охота на босса',em:'💠',
+       desc:'Цель — элитный противник Синдиката. Крайне опасно.',
+       ch:Math.round(ch*100),reward:{gold:rwd,item:true},
+       progress:0,need:1,done:false,failed:false,active:false,isMaster:true};
+   }},
+];
+
+function tryAddMasterContract(forced){
+  if(!hasFaction('syndicate'))return;
+  if(!G.contracts)G.contracts=[];
+  // Check if already have an ACTIVE (not done/failed) master contract
+  if(G.contracts.some(x=>x.type&&x.type.startsWith('master_')&&!x.done&&!x.failed))return;
+  // Allow master as 5th bonus — only block if already have active master
+  if(G.contracts.filter(x=>x.type&&x.type.startsWith('master_')&&!x.done&&!x.failed).length>=1)return;
+  let def=null;
+  if(forced){
+    // Guaranteed — pick brawl or raid (boss_hunt only if T16)
+    def=(G.cleared&&G.cleared[16]&&Math.random()<0.15)?MASTER_CONTRACT_DEFS[2]:MASTER_CONTRACT_DEFS[Math.floor(Math.random()*2)];
+  }else{
+    const roll=Math.random();
+    if(roll<0.20){def=MASTER_CONTRACT_DEFS[Math.floor(Math.random()*2)];}
+    else if(G.cleared&&G.cleared[16]&&roll<0.25){def=MASTER_CONTRACT_DEFS[2];}
+  }
+  if(!def)return;
+  const mc=def.gen();
+  mc.id='master_'+Date.now()+'_'+Math.random().toString(36).slice(2,5);
+  G.contracts.push(mc);
+  log('📋 Новый заказ Синдиката: '+mc.nm,'ev');
+  showN('📋 '+mc.nm+' · '+mc.ch+'% шанс','pur');
+  renderContracts();
+}
+
+function startMasterContract(id){
+  if(G.selfRun||G.actRun){showN('Сначала завершите текущий поход!');return;}
+  const con=G.contracts.find(x=>x.id===id);
+  if(!con||con.done||con.failed||con.active)return;
+  con.active=true;
+  renderContracts();
+  // Animate fight
+  if(window._masterTimer)clearInterval(window._masterTimer);
+  let prog=0;
+  const fightTime=3000+Math.random()*2000;
+  const steps=fightTime/60;
+  window._masterTimer=setInterval(()=>{
+    prog+=1/steps;
+    const bar=document.getElementById('mcon-prog-'+id);
+    const lbl=document.getElementById('mcon-lbl-'+id);
+    if(bar)bar.style.width=Math.min(100,Math.round(prog*100))+'%';
+    if(lbl)lbl.textContent=prog<0.4?'Вступаете в бой...':prog<0.75?'Сражаетесь!':prog<0.95?'Финальный удар...':'Исход...';
+    if(prog>=1){
+      clearInterval(window._masterTimer);window._masterTimer=null;
+      resolveMasterContract(id);
+    }
+  },60);
+}
+
+function resolveMasterContract(id){
+  const con=G.contracts.find(x=>x.id===id);
+  if(!con)return;
+  con.active=false;
+  const ok=Math.random()*100<con.ch;
+  if(ok){
+    completeContract(con);
+  }else{
+    con.failed=true;
+    log('❌ Заказ провален: '+con.nm,'ev');
+    showN('❌ '+con.nm+' — провалено!','red');
+    save();
+  }
+  renderContracts();
+}
+
+
+// ══════════ AUDIO ══════════════════════════════════════════════
+function playTone(freq,dur,type,vol){
+  try{
+    const ctx=window._aC||(window._aC=new(window.AudioContext||window.webkitAudioContext)());
+    const o=ctx.createOscillator(),g=ctx.createGain();
+    o.connect(g);g.connect(ctx.destination);
+    o.type=type||'sine';o.frequency.value=freq;
+    g.gain.setValueAtTime(vol||0.18,ctx.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+dur);
+    o.start();o.stop(ctx.currentTime+dur);
+  }catch(e){}
+}
+function sfxLevelUp(){playTone(523,.12,'sine',.2);setTimeout(()=>playTone(659,.12,'sine',.18),120);setTimeout(()=>playTone(784,.22,'sine',.22),240);}
+function sfxDeath(){playTone(220,.18,'sawtooth',.15);setTimeout(()=>playTone(180,.35,'sawtooth',.12),200);}
+function sfxGold(){playTone(880,.06,'sine',.08);setTimeout(()=>playTone(1047,.1,'sine',.07),80);}
+function sfxDeliriumWave(){playTone(300,.15,'sine',.06);setTimeout(()=>playTone(350,.2,'sine',.05),180);} // subtle low pulse
+function sfxContract(){playTone(660,.1,'sine',.1);setTimeout(()=>playTone(880,.15,'sine',.1),110);}
 // ══════════ TICK ══════════════════════════════════════════════
 function tick(){
   G.gt+=200;
   // Auto-buy maps for Maraketh
   if(G.autoBuyMaps&&hasFaction('maraketh')&&G.lastExpSlots&&G.lastExpSlots.length){
-    const expTiers=[...new Set(G.lastExpSlots.filter(Boolean))];
-    expTiers.forEach(t=>{
-      const cost=SHOP_COSTS[t]||0;
-      if(cost>0&&(G.maps[t]||0)<3&&G.gold>=cost){G.gold-=cost;G.maps[t]=(G.maps[t]||0)+1;}
+    // Count exactly how many of each tier the last expedition needed
+    const needed={};G.lastExpSlots.filter(Boolean).forEach(t=>{needed[t]=(needed[t]||0)+1;});
+    Object.keys(needed).forEach(t=>{
+      const ti=parseInt(t),req=needed[t],cost=SHOP_COSTS[ti]||0;
+      if(cost>0&&(G.maps[ti]||0)<req&&G.gold>=cost){G.gold-=cost;G.maps[ti]=(G.maps[ti]||0)+1;}
     });
   }
   // Self run
   if(G.selfRun){
-    G.selfRun.elapsed+=200;const pct=Math.min(1,G.selfRun.elapsed/(G.selfRun.md.time*1000));
+    G.selfRun.elapsed+=200;const _spd=G.syndRunSpeed||1.0;const pct=Math.min(1,G.selfRun.elapsed/(G.selfRun.md.time*1000/_spd));
     const f=document.getElementById('rpf');if(f)f.style.width=(pct*100)+'%';
     const p=document.getElementById('rpp');if(p)p.textContent=Math.floor(pct*100)+'%';
     if(pct>=1)completeSelfRun();
@@ -1180,7 +1758,7 @@ function tick(){
 }
 
 // ══════════ RENDER ═════════════════════════════════════════════
-function renderAll(){updateAchBadge();renderMaps();renderShop();renderInv();renderActs();renderWorkers();renderUpgrades();renderAtlasBar();renderAtlasTab();renderAchs();updateRes();updateStats();updateSelfStats();}
+function renderAll(){updateAchBadge();renderMaps();renderShop();renderInv();renderActs();renderWorkers();renderUpgrades();renderAtlasBar();renderAtlasTab();renderAchs();renderDelirium();updateRes();updateStats();updateSelfStats();updateDeliriumTab();}
 
 function renderMaps(){
   const el=document.getElementById('tab-maps');if(!el)return;
@@ -1268,6 +1846,7 @@ function renderMaps(){
     if(!(G.maps[k]>0))return;
     const md=MAP_TIERS[t-1];
     const chMod=type==='guardian'?-.12:0;
+    const hasOrb=G.deliriumMaps&&G.deliriumMaps[k];
     const chTier=(md.t||t)+(type==='cursed'?1:0)+(type==='uniq'?1:0);
     const ch=Math.max(.03,calcCh(power,Math.min(16,chTier))+chMod);
     const cc=chcol(ch);
@@ -1296,7 +1875,7 @@ function selectMap(key){
   G.selMap=k;renderMaps();
   const isGrdKey=k.startsWith('grd_');
   const md=getMd(k);
-  if(!G.selfRun)updateRunVis(md,false,isGrdKey,k.startsWith('boss_'));
+  if(!G.selfRun)updateRunVis(md,true,isGrdKey,k.startsWith('boss_'));
   updateSelfStats();renderWorkers();
 }
 
@@ -1322,6 +1901,12 @@ function renderShop(){
   if(G.clsLocked){
     all.push({id:'respec',nm:'🔄 Смена класса',cost:200,mt:-1,fn:()=>{G.clsLocked=false;log('🔄 Смена класса — выберите новый!','info');showN('Выберите новый класс!','pur');updateSelfStats();}});
   }
+  if(G.cleared&&G.cleared[16]){
+    all.push({id:'buyOrb',nm:'🔮 Орб Делириума ×1',cost:0,mt:-1,splCost:5,fn:()=>{
+      if((G.deliriumSplinters||0)<5){showN('Нет осколков! Нужно 5 👁');return false;}
+      G.deliriumSplinters-=5;G.deliriumOrbs=(G.deliriumOrbs||0)+1;
+      log('🔮 Куплен Орб Делириума за 5 осколков','info');updateRes();return true;}});
+  }
   window._shopItems=all;
   const unlocked=all.filter(it=>G.maxTier>=it.mt);
   const locked=all.filter(it=>G.maxTier<it.mt);
@@ -1329,6 +1914,10 @@ function renderShop(){
     const n=parseInt(it.id.slice(1));const md=n>=1&&n<=16?MAP_TIERS[n-1]:null;
     const n2=parseInt(it.id.slice(1));const cost2=SHOP_COSTS[n2]||0;
     const desc=md?'💰'+(goldMin(md,cost2))+(goldMax(md,cost2)>goldMin(md,cost2)?'–'+goldMax(md,cost2):'')+' + предметы':it.nm.includes('Смена класса')?'Выберите другой класс':'';;
+    if(it.splCost!==undefined)return '<div class="srow"><span style="font-size:16px">🔮</span>'+
+      '<div class="si"><div class="snm">'+it.nm+'</div><div class="sds">Обменять осколки Делириума</div></div>'+
+      '<div style="text-align:right"><div class="spr" style="color:#cc88ff">👁'+it.splCost+'</div>'+
+      '<button class="btn btn-sm" style="margin-top:2px;border-color:#553377" data-shop="'+it.id+'">Обменять</button></div></div>';
     return '<div class="srow"><span style="font-size:16px">'+(md?'🗺':'🔄')+'</span>'+
       '<div class="si"><div class="snm">'+it.nm+'</div><div class="sds">'+desc+'</div></div>'+
       '<div style="text-align:right"><div class="spr">💰'+it.cost+'</div>'+
@@ -1339,9 +1928,14 @@ function renderShop(){
 }
 function buyShop(id){
   const it=window._shopItems.find(x=>x.id===id);if(!it)return;
+  if(it.splCost!==undefined){
+    // splinter currency item — fn handles validation and logging
+    it.fn();save();renderShop();updateRes();return;
+  }
   if(G.gold<it.cost){showN('Мало золота!');return;}
-  G.gold-=it.cost;it.fn();
-  log('🛒 Куплено: '+it.nm,'info');updateRes();renderMaps();renderShop();
+  G.gold-=it.cost;const _r=it.fn();
+  if(_r!==false)log('🛒 Куплено: '+it.nm,'info');
+  updateRes();renderMaps();renderShop();
 }
 
 function renderInv(){
@@ -1377,6 +1971,24 @@ function renderActs(){
 function renderWorkers(){
   const el=document.getElementById('workers-list');if(!el)return;
   const hbw=document.getElementById('hire-btn-wrap');
+  const titleEl=document.getElementById('workers-panel-title');
+  const expBtn=document.getElementById('btn-expedition');
+  const cpanel=document.getElementById('contracts-panel');
+  if(hasFaction('syndicate')){
+    // Syndicate: hide workers, show contracts panel instead
+    if(titleEl)titleEl.innerHTML='🗡️ СИНДИКАТ';
+    if(expBtn)expBtn.style.display='none';
+    el.style.display='none';
+    if(hbw)hbw.style.display='none';
+    if(cpanel){cpanel.style.display='';renderContracts();}
+    return;
+  }
+  // Non-syndicate: show workers normally
+  if(titleEl)titleEl.innerHTML='👥 РАБОТНИКИ <button class="btn btn-sm btn-p" id="btn-expedition">🗺 Экспедиция</button>';
+  if(expBtn)expBtn.style.display='';
+  el.style.display='';
+  if(hbw)hbw.style.display='';
+  if(cpanel)cpanel.style.display='none';
   if(hbw){const canH=canHireWorkers();hbw.innerHTML=canH
     ?'<button class="btn" id="btn-hire">+ Нанять работника</button>'
     :'<button class="btn" disabled title="🗡️ Синдикат: работников нельзя нанять" style="opacity:.35;cursor:not-allowed">+ Нанять работника</button>';}
@@ -1387,7 +1999,10 @@ function renderWorkers(){
     const cls=WCLS[w.cls];
     const xpp=w.level>=WLVLS.length-1?1:Math.min(1,Math.max(0,(w.xp-WLVLS[w.level])/(WLVLS[w.level+1]-WLVLS[w.level])));
     const selTier=G.selMap?parseMapKey(G.selMap):null;
-    const ch=selTier?calcCh(w.dmg+w.surv,selTier):null;const cc=ch?chcol(ch):'';
+    const _isGrdSel=String(G.selMap||'').startsWith('grd_');
+    const _chRaw=selTier?calcCh(w.dmg+w.surv,selTier):null;
+    const ch=_chRaw!==null?(_isGrdSel?Math.max(.03,Math.min(0.85,_chRaw-0.12)):_chRaw):null;
+    const cc=ch?chcol(ch):'';
     let sEl='',aEl='';
     if(w.status==='idle'){
       sEl='<span class="wst st-idle">ОЖИДАЕТ</span>';
@@ -1507,7 +2122,7 @@ function renderAtlasBar(){
     const f=FACTIONS[G.faction||'none'];
     const fxp=G.factionXp&&G.factionXp[G.faction]||0;
     const fbar=G.faction&&G.faction!=='none'?
-      ' · <span style="color:'+f.col+'">'+f.em+' '+f.nm+' Ур.'+(f.levels.filter(l=>fxp>=l.xp).length)+'</span>':'';
+      ' · <span style="color:'+f.col+'">'+f.em+' '+f.nm+' Ур.'+Math.min(fxp+1,f.levels?f.levels.length:1)+'</span>':'';
     hint.innerHTML='Возвышение '+G.prestige+' · +'+G.prestigeBonus+'% золота'+fbar;
   }
   else if(canPrestige())hint.innerHTML='<span style="color:#ffaa00;font-weight:bold">✨ Атлас завершён!</span> <button class="btn btn-sm btn-p" id="btn-prestige-bar" style="margin-left:6px">✨ Возвышение</button>';
@@ -1515,8 +2130,18 @@ function renderAtlasBar(){
   const rip=document.getElementById('ri-pres');if(rip)rip.style.display=G.prestige>0?'flex':'none';
   const rpp=document.getElementById('r-pres');if(rpp)rpp.textContent=G.prestige;
 }
+function updateDeliriumTab(){
+  const _dBtn=document.getElementById('ctab-delirium');
+  if(!_dBtn)return;
+  // Show tab: T5 cleared → teaser, T10+ cleared → full access  
+  const _t5=Object.keys(G.cleared||{}).some(k=>parseInt(k)>=5&&G.cleared[k]);
+  if(_t5)_dBtn.style.display='';
+  else _dBtn.style.display='none';
+}
 function renderAtlasTab(){
   const el=document.getElementById('tab-atlas');if(!el)return;
+  updateDeliriumTab();
+
   let html='<div style="font-size:12px;color:var(--txt-d);margin-bottom:8px">Зелёный = пройден. Пройдите все 16 для Возвышениеа.</div><div id="atlas-grid">';
   for(let t=1;t<=16;t++){
     const md=MAP_TIERS[t-1];const done=!!G.cleared[t];
@@ -1581,7 +2206,11 @@ function claimAch(id){
 function updateRes(){
   const tm=Object.keys(G.maps).reduce((s,k)=>s+(G.maps[k]||0),0);
   const set=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=v;};
-  if(isNaN(G.gold))G.gold=0;  set('r-gold',fN(G.gold));set('r-maps',tm);set('r-items',G.inv.length);set('r-workers',G.workers.length);set('r-runs',G.totalRuns);
+  if(isNaN(G.gold))G.gold=0;set('r-gold',fN(G.gold));set('r-maps',tm);set('r-items',G.inv.length);set('r-workers',G.workers.length);set('r-runs',G.totalRuns);
+  const _d16=G.cleared&&G.cleared[16];
+  const _ro=document.getElementById('ri-del-orbs-ri');if(_ro)_ro.style.display=_d16?'':'none';
+  const _rs=document.getElementById('ri-del-spl-ri');if(_rs)_rs.style.display=_d16?'':'none';
+  set('r-del-orbs',G.deliriumOrbs||0);set('r-del-spl',G.deliriumSplinters||0);
 }
 function updateStats(){
   const el=document.getElementById('stats-p');if(!el)return;
@@ -1631,10 +2260,10 @@ function updateSelfStats(){
       const isC=k.startsWith('c');const isU=k.startsWith('u');const isG=k.startsWith('grd_');
       const isB=k.startsWith('boss_');
       const effT=t+(isC?1:0)+(isU?1:0);
-      const mod=isG?-.15:isB?-.05:0;
+      const mod=isG?-.12:isB?-.05:0;
       let ch;
       if(isB){const bD=BOSSES.find(b=>'boss_'+b.id===k);const bDgr=bD?bD.dgr:1800;const bCap=bD&&bD.id==='shaper'?0.70:0.80;const raw=((d+s)/bDgr-0.2)/0.7;ch=Math.max(.03,Math.min(bCap,raw)+mod);}
-      else ch=Math.max(.03,calcCh(d+s,Math.min(16,effT))+mod);
+      else{const rawCh=calcCh(d+s,Math.min(16,effT))+mod;ch=Math.max(.03,isG?Math.min(0.85,rawCh):rawCh);}
       ec.innerHTML='<span style="color:'+chcol(ch)+'">'+(isG?'🔷 ':'')+Math.round(ch*100)+'% '+(isG?'[Страж]':'T'+t)+'</span>';
     }else ec.textContent='— (нет карты)';
   }
@@ -1710,13 +2339,13 @@ function openSelfEq(){
     '<div>⚔️<span class="gt">'+d+'</span></div>'+
     '<div>🛡<span style="color:var(--grn)">'+s+'</span></div></div>'+
     '<div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-bottom:8px">';
-  const selfSlots=G.syndExtraWeapon?['weapon','weapon2','armor','helmet','ring']:SLOTS;
+  const selfSlots=G.syndExtraWeapon?['weapon','weapon2','armor','helmet','ring','cluster']:[...SLOTS];
   selfSlots.forEach(sl=>{
     const eq=G.selfEq[sl];
     html+='<div class="eqsl '+(eq?'filled':'')+'" data-pick-w="0" data-pick-sl="'+sl+'">'+
       '<span class="eqlbl">'+SLOTNM[sl]+'</span>'+
       (eq?'<span style="color:'+qcol(eq.quality)+';font-size:14px">'+eq.em+' '+eq.name+'</span>'+
-          '<span class="tiny">⚔️+'+iDmg(eq,cls)+' 🛡+'+iSurv(eq,cls)+'</span>':
+          (eq.slot==='cluster'?'<span class="tiny" style="color:#cc88ff">'+(eq.mods||[]).map(m=>{const _cs=CLUSTER_STATS.find(x=>x.stat===m.stat);return '+'+m.value+'% '+(_cs?_cs.nm:'?');}).join(' · ')+'</span>':'<span class="tiny">⚔️+'+iDmg(eq,cls)+' 🛡+'+iSurv(eq,cls)+'</span>'):
        '<span class="dim" style="font-size:11px">Пусто</span>')+
     '</div>';
   });
@@ -1739,7 +2368,7 @@ function openSlotPick(ownerId,slot,isWorker){
   if(!compat.length){html+='<div class="dim" style="padding:8px;font-style:italic">Нет подходящих предметов</div>';}
   else{
     html+=compat.map(it=>{
-      const dv=iDmg(it,cls),sv=iSurv(it,cls),cd=cur?iDmg(cur,cls):0,cs=cur?iSurv(cur,cls):0;
+      const _isClu=it.slot==='cluster';const dv=_isClu?0:iDmg(it,cls),sv=_isClu?0:iSurv(it,cls),cd=(!_isClu&&cur)?iDmg(cur,cls):0,cs=(!_isClu&&cur)?iSurv(cur,cls):0;
       const dd=dv-cd,ds=sv-cs;
       const dds=dd>0?'<span style="color:var(--grn)">+'+dd+'</span>':dd<0?'<span style="color:var(--red)">'+dd+'</span>':'<span class="dim">±0</span>';
       const dss=ds>0?'<span style="color:var(--grn)">+'+ds+'</span>':ds<0?'<span style="color:var(--red)">'+ds+'</span>':'<span class="dim">±0</span>';
@@ -1748,7 +2377,7 @@ function openSlotPick(ownerId,slot,isWorker){
         'data-equip-item="'+it.id+'" data-equip-slot="'+slot+'" data-equip-owner="'+ownerId+'" data-equip-isw="'+(isWorker?1:0)+'" data-tip="'+it.id+'">'+
         '<span style="font-size:17px">'+it.em+'</span>'+
         '<div class="si"><div style="color:'+co+';font-size:13px">'+it.name+'</div>'+
-        '<div class="tiny">⚔️'+dv+'('+dds+') 🛡'+sv+'('+dss+') · '+it.sellPrice+'💰</div></div>'+
+        (_isClu?'<div class="tiny" style="color:#cc88ff">'+(it.mods||[]).map(m=>{const _cs=CLUSTER_STATS.find(x=>x.stat===m.stat);return '+'+m.value+'% '+(_cs?_cs.nm:'?');}).join(' · ')+'</div>':'<div class="tiny">⚔️'+dv+'('+dds+') 🛡'+sv+'('+dss+') · '+it.sellPrice+'💰</div>')+'</div>'+
         '<button class="btn btn-sm">Надеть</button></div>';
     }).join('');
   }
@@ -1763,7 +2392,7 @@ function doEquip(ownerId,slot,itemId,isWorker){
     recalcW(w);log('✅ '+w.name+' надел '+item.em+' '+item.name,'info');openWorkerEq(ownerId);
   }else{
     if(G.selfEq[slot])G.inv.push(G.selfEq[slot]);G.selfEq[slot]=item;G.inv=G.inv.filter(x=>x.id!==itemId);
-    log('✅ Вы надели '+item.em+' '+item.name,'info');openSelfEq();
+    log('✅ Вы надели '+item.em+' '+item.name,'info');openSelfEq();updateSelfStats();if(G.selMap){const _m=getMd(G.selMap);const _s=String(G.selMap);if(_m)updateRunVis(_m,true,_s.startsWith('grd_'),_s.startsWith('boss_'));}if(G.deliriumWave===0&&!G.deliriumRunning)renderDelirium();
   }
   renderInv();renderWorkers();renderMaps();updateSelfStats();checkAchs();
 }
@@ -1772,7 +2401,7 @@ function doUnequip(ownerId,slot,isWorker){
     const w=G.workers.find(x=>x.id===ownerId);if(!w||!w.eq[slot])return;
     G.inv.push(w.eq[slot]);w.eq[slot]=null;recalcW(w);openWorkerEq(ownerId);
   }else{
-    if(!G.selfEq[slot])return;G.inv.push(G.selfEq[slot]);G.selfEq[slot]=null;openSelfEq();
+    if(!G.selfEq[slot])return;G.inv.push(G.selfEq[slot]);G.selfEq[slot]=null;openSelfEq();updateSelfStats();if(G.selMap){const _m=getMd(G.selMap);const _s=String(G.selMap);if(_m)updateRunVis(_m,true,_s.startsWith('grd_'),_s.startsWith('boss_'));}if(G.deliriumWave===0&&!G.deliriumRunning)renderDelirium();
   }
   renderInv();renderWorkers();renderMaps();updateSelfStats();
 }
@@ -1798,7 +2427,7 @@ function openDebug(){
     return 'T'+m.t+':'+(Math.floor(base*mult));
   }).join(' ');
   const rows=[
-    ['version','v0.036'],['gold',G.gold],['totalRuns',G.totalRuns],['prestige',G.prestige],['bonus',G.prestigeBonus+'%'],
+    ['version','v0.062'],['gold',G.gold],['totalRuns',G.totalRuns],['prestige',G.prestige],['bonus',G.prestigeBonus+'%'],
     ['selfPower',sp],['chances',[1,3,5,8,10,12,16].map(t=>'T'+t+':'+Math.round(calcCh(sp,t)*100)+'%').join(' ')],
     ['cleared',Object.keys(G.cleared).sort((a,b)=>a-b).join(',')],
     ['maps',Object.keys(G.maps).filter(k=>G.maps[k]>0).map(k=>k+':'+G.maps[k]).join(',')],
@@ -1813,7 +2442,7 @@ function openDebug(){
   openM('🔧 ДЕБАГ',
     '<div id="dbg-out">'+rows.map(([k,v])=>'<div><span style="color:#ffaa44">'+k+':</span> '+JSON.stringify(v)+'</div>').join('')+'</div>'+
     '<div style="margin-top:7px;display:flex;gap:5px">'+
-      '<button class="btn btn-sm" id="btn-copy-debug">📋 Копировать</button>'+'<button class="btn btn-sm btn-p" id="btn-dbg-prestige">✨ Разблокировать возвышение</button>'+
+      '<button class="btn btn-sm" id="btn-copy-debug">📋 Копировать</button> <button class="btn btn-sm btn-p" id="btn-dbg-prestige">✨ Возвышение</button> <button class="btn btn-sm" style="background:#330033;border-color:#990099" id="btn-dbg-imba">👑 Имба</button>'+
       '<button class="btn btn-sm btn-r" id="btn-close-m">Закрыть</button></div>');
   window._debugStr=dataStr;
 }
@@ -1830,6 +2459,7 @@ function doReset(){
   if(window._saveId){clearInterval(window._saveId);window._saveId=null;}
   try{localStorage.removeItem('kartahodec_save');}catch(e){}
   G=freshG();
+  window._tickId=setInterval(tick,200);
   // Hide modal overlay
   const ov=document.getElementById('moverlay');if(ov)ov.classList.remove('on');
   // Replace app
@@ -1851,10 +2481,8 @@ function showTip(e,id){
   document.getElementById('tt').innerHTML=
     '<div class="tt-nm" style="color:'+c+'">'+item.em+' '+item.name+'</div>'+
     '<div class="tt-ty">'+qlbl(item.quality).toUpperCase()+' · Т'+item.tier+' · '+SLOTNM[item.slot]+'</div>'+
-    item.mods.map(m=>'<div class="tt-st">+ '+m.value+' '+STATNM[m.stat]+'</div>').join('')+
-    '<hr class="tt-dv"><div class="tt-sm">Воин: ⚔️'+iDmg(item,'warrior')+' 🛡'+iSurv(item,'warrior')+'<br>'+
-    'Маг: ⚔️'+iDmg(item,'mage')+' 🛡'+iSurv(item,'mage')+'<br>'+
-    'Следопыт: ⚔️'+iDmg(item,'ranger')+' 🛡'+iSurv(item,'ranger')+'</div>'+
+    item.mods.map(m=>{const _cn=(item.slot==='cluster')?CLUSTER_STATS.find(x=>x.stat===m.stat):null;return '<div class="tt-st">+ '+m.value+(_cn?' % '+_cn.nm:' '+(STATNM[m.stat]||m.stat))+'</div>';}).join('')+
+    (item.slot==='cluster'?'<hr class="tt-dv"><div class="tt-sm" style="color:#cc88ff">Кластерный самоцвет — % бонусы к вашим статам</div>':'<hr class="tt-dv"><div class="tt-sm">Воин: ⚔️'+iDmg(item,'warrior')+' 🛡'+iSurv(item,'warrior')+'<br>Маг: ⚔️'+iDmg(item,'mage')+' 🛡'+iSurv(item,'mage')+'<br>Следопыт: ⚔️'+iDmg(item,'ranger')+' 🛡'+iSurv(item,'ranger')+'</div>')+
     '<div class="tt-sv">💰 Продажа: '+item.sellPrice+'💰</div>';
   const tt=document.getElementById('tt');tt.style.display='block';
   let x=e.clientX+14,y=e.clientY+14;
@@ -1892,6 +2520,8 @@ function save(){
     stats:G.stats,iid:G.iid,wid:G.wid,
     maxTier:G.maxTier,cleared:G.cleared,achs:G.achs,achsPending:G.achsPending,prestige:G.prestige,prestigeBonus:G.prestigeBonus,
     guardianPieces:G.guardianPieces,faction:G.faction||'none',factionXp:G.factionXp||{},factionUnlocks:G.factionUnlocks||{},bossAttempts:G.bossAttempts,bossKills:G.bossKills,bossTriesLeft:G.bossTriesLeft||0,activeBossId:G.activeBossId||null,t16RunsSinceBoss:G.t16RunsSinceBoss||0,pendingBoss:G.pendingBoss||null,
+    syndRunSpeed:G.syndRunSpeed||1.0,contracts:G.contracts||[],contractRunsDone:G.contractRunsDone||0,autoExp:G.autoExp||false,autoRescue:G.autoRescue||false,autoHeal:G.autoHeal||false,autoBuyMaps:G.autoBuyMaps||false,
+    deliriumOrbs:G.deliriumOrbs||0,deliriumSplinters:G.deliriumSplinters||0,deliriumMaps:G.deliriumMaps||{},
   }));}catch(e){}
 }
 function load(){
@@ -1905,6 +2535,11 @@ if(s.v&&s.v>=9){/* compatible enough */}
     if(!G.prestige)G.prestige=0;if(!G.prestigeBonus)G.prestigeBonus=0;
     if(!G.selfCls)G.selfCls=null;if(G.clsLocked===undefined)G.clsLocked=false;if(!G.lastExpSlots)G.lastExpSlots=null;
     if(!G.guardianPieces)G.guardianPieces={shaper:0,elder:0};if(!G.faction)G.faction='none';if(!G.factionXp)G.factionXp={};if(!G.factionUnlocks)G.factionUnlocks={};if(!G.bossAttempts)G.bossAttempts={};if(!G.bossKills)G.bossKills={};if(G.bossTriesLeft===undefined)G.bossTriesLeft=0;if(G.t16RunsSinceBoss===undefined)G.t16RunsSinceBoss=0;if(G.pendingBoss===undefined)G.pendingBoss=null;
+    if(!G.contracts)G.contracts=[];if(G.contractRunsDone===undefined)G.contractRunsDone=0;
+    if(!G.deliriumOrbs)G.deliriumOrbs=0;if(!G.deliriumSplinters)G.deliriumSplinters=0;if(G.autoOrb===undefined)G.autoOrb=false;if(!G.contractRerolls)G.contractRerolls=0;if(!G.deliriumWave)G.deliriumWave=0;if(!G.deliriumPending)G.deliriumPending=[];if(!G.deliriumMaps)G.deliriumMaps={};
+    if(G.autoExp===undefined)G.autoExp=false;if(G.autoRescue===undefined)G.autoRescue=false;if(G.autoHeal===undefined)G.autoHeal=false;if(G.autoBuyMaps===undefined)G.autoBuyMaps=false;
+    // Re-apply syndicate flags
+    if(G.faction==='syndicate'){const _sxp=(G.factionXp&&G.factionXp.syndicate)||0;const _sf=FACTIONS.syndicate;G.syndRunSpeed=(_sf.levels||[]).some(l=>l.xp<=_sxp&&l.reward&&l.reward.runSpeed)?1.50:1.0;G.syndExtraWeapon=true;}else{G.syndRunSpeed=1.0;if(G.syndExtraWeapon===undefined)G.syndExtraWeapon=false;}
     // Restore active tab
     if(G.activeTab){
       document.querySelectorAll('.tab-btn').forEach(b=>b.classList.toggle('active',b.dataset.tab===G.activeTab));
@@ -1933,6 +2568,26 @@ if(s.v&&s.v>=9){/* compatible enough */}
 document.addEventListener('click',function(e){
   const t=e.target;const cl=s=>t.closest?t.closest(s):null;
   hideTip();
+  // Orb auto-toggle
+  if(t.dataset.orbToggle){
+    if(!G.autoOrb&&(G.deliriumOrbs||0)<1){showN('Нет орбов делириума!');return;}
+    G.autoOrb=!G.autoOrb;
+    showN(G.autoOrb?'🔮 Авто-орб включён! +20% на каждый ран':'🔮 Авто-орб выключен','pur');
+    save();
+    const _m=getMd(G.selMap);const _s=String(G.selMap||'');
+    if(_m)updateRunVis(_m,true,_s.startsWith('grd_'),_s.startsWith('boss_'));
+    return;
+  }
+  // Reroll contracts
+  if(t.id==='btn-reroll-contracts'){
+    const rc=Math.max(50,Math.floor(goldMax(MAP_TIERS[Math.min(15,(G.maxTier||1)-1)])*(1+(G.prestigeBonus||0)/100)*0.3));
+    if(G.gold<rc){showN('Недостаточно золота! Нужно '+rc+'💰');return;}
+    G.gold-=rc;G.contracts=[];refreshContracts();updateRes();save();
+    showN('🔄 Контракты обновлены!','pur');return;
+  }
+  // Master contract fight button
+  const _mBtn=t.dataset.masterId?t:t.closest('[data-master-id]');
+  if(_mBtn&&_mBtn.dataset.masterId){startMasterContract(_mBtn.dataset.masterId);return;}
   // Tabs
   const tabBtn=cl('.tab-btn');
   if(tabBtn&&tabBtn.dataset.tab){
@@ -1943,6 +2598,7 @@ document.addEventListener('click',function(e){
     tabBtn.classList.add('active');
     if(tab==='inv')renderInv();else if(tab==='acts')renderActs();
     else if(tab==='atlas')renderAtlasTab();else if(tab==='ach')renderAchs();
+
     return;
   }
   // Map select
@@ -2022,6 +2678,11 @@ document.addEventListener('click',function(e){
     log('💰 Продано '+rs.length+'x редких +'+tot+'💰','ge');floatT('+'+tot+'💰','#f0d060');
     window._pendingRareSell=null;closeM();checkAchs();renderInv();updateRes();return;
   }
+  if(t.id==='btn-dbg-imba'){
+    const imba={id:++G.iid,name:'Абсолютная Реликвия',em:'🔱',slot:'weapon',cls:'noble',quality:'unique',tier:16,
+      mods:[{stat:'dmgPhys',value:4999},{stat:'dmgSpell',value:4999},{stat:'hp',value:4999},{stat:'armor',value:4999},{stat:'allRes',value:80},{stat:'critChance',value:80}],sellPrice:9999};
+    G.inv.push(imba);renderInv();updateRes();showN('👑 Абсолютная Реликвия выдана!','pur');save();return;
+  }
   if(t.id==='btn-dbg-prestige'){[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16].forEach(t=>{G.cleared[t]=true;});G.achs.all16=true;renderAll();closeM();showN('✨ Возвышение разблокировано!','pur');return;}
   if(t.id==='btn-copy-debug'){try{navigator.clipboard.writeText(window._debugStr||'');}catch(ex){}showN('Скопировано!');return;}
   // Prestige
@@ -2096,7 +2757,7 @@ function init(){
   load();renderAll();
   window._tickId=setInterval(tick,200);
   window._saveId=setInterval(save,8000);
-  log('🌟 Добро пожаловать! Картоходец v0.036','info');
+  log('🌟 Добро пожаловать! Картоходец v0.062','info');
 }
 init();
 </script>
