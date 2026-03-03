@@ -634,7 +634,7 @@ function completeSelfRun(){
       const bUI2=bossUniqPool2[Math.floor(Math.random()*bossUniqPool2.length)];
       const bItem={id:++G.iid,name:bUI2.nm,em:bUI2.em,cls:'warrior',slot:bUI2.slot,
         quality:'unique',mods:bUI2.mods,tier:16,sellPrice:5000};
-      G.inv.push(bItem);G.stats.fi++;
+      G.inv.push(bItem);G.stats.fi++;checkContractFind('unique');
       const bossGold=goldReward(bossMapData,power,0);G.gold+=bossGold;G.stats.ge+=bossGold;
       log('💠 '+bossMapData.nm+' повержен! +'+bossGold+'💰 + 💠 '+bUI2.nm,'ev');
       floatT('+'+bossGold+'💰','#44aaff');showN('💠 '+bossMapData.nm+' убит!','pur');
@@ -693,9 +693,9 @@ function updateRunVis(md,idle,isGrd,isBoss){
       const _aOn=G.autoOrb;
       const _hasOrbs=(G.deliriumOrbs||0)>0;
       if(_aOn)
-        _orbWrap.innerHTML='<button class="btn btn-sm" style="background:#330055;border-color:#aa66ff;color:#cc99ff;margin-bottom:4px" data-orb-toggle="1">🔮 Авто-орб: ВКЛ ('+G.deliriumOrbs+' шт) ✓</button>';
+        _orbWrap.innerHTML='<button class="btn btn-sm" style="background:#330055;border-color:#aa66ff;color:#cc99ff;margin-bottom:4px" title="Делириум Орб: +20% к золоту и предметам за ран. Расходует 1 орб. Получают в делириуме или в магазине." data-orb-toggle="1">🔮 Авто-орб: ВКЛ ('+G.deliriumOrbs+' шт) ✓</button>';
       else if(_hasOrbs)
-        _orbWrap.innerHTML='<button class="btn btn-sm" style="background:var(--bg3);border-color:#553377;color:#9966cc;margin-bottom:4px" data-orb-toggle="1">🔮 Авто-орб: ВЫКЛ ('+G.deliriumOrbs+' шт)</button>';
+        _orbWrap.innerHTML='<button class="btn btn-sm" style="background:var(--bg3);border-color:#553377;color:#9966cc;margin-bottom:4px" title="Делириум Орб: +20% к золоту и предметам за ран. Расходует 1 орб. Получают в делириуме или в магазине." data-orb-toggle="1">🔮 Авто-орб: ВЫКЛ ('+G.deliriumOrbs+' шт)</button>';
       else
         _orbWrap.innerHTML='<button class="btn btn-sm" style="opacity:.35;cursor:not-allowed;margin-bottom:4px" disabled>🔮 Нет орбов делириума</button>';
     }else{_orbWrap.innerHTML='';}
@@ -1204,7 +1204,7 @@ function genContract(){
   if(ct.id==='run_tier')    c=ct.gen(Math.max(3,tier));
   else if(ct.id==='sell_items') c=ct.gen([3,5,8][Math.floor(Math.random()*3)]);
   else if(ct.id==='run_streak') c=ct.gen([3,5][Math.floor(Math.random()*2)]);
-  else if(ct.id==='sell_gold'){const _gv=Math.floor(goldMax(MAP_TIERS[Math.min(15,(G.maxTier||1)-1)])*(1+(G.prestigeBonus||0)/100));const _gt=Math.floor(_gv*[2,3,5][Math.floor(Math.random()*3)]);c=ct.gen(Math.max(100,_gt));}
+  else if(ct.id==='sell_gold'){const _gv=Math.floor(goldMax(MAP_TIERS[Math.min(15,(G.maxTier||1)-1)])*(1+(G.prestigeBonus||0)/100));const _mult=[0.3,0.5,0.7][Math.floor(Math.random()*3)];const _gt=Math.floor(_gv*_mult);c=ct.gen(Math.min(1000,Math.max(80,_gt)));}
   else c=ct.gen();
   c.id='con_'+Date.now()+'_'+Math.random().toString(36).slice(2,6);
   return c;
@@ -2306,7 +2306,7 @@ function updateSelfStats(){
       const effT=t+(isC?1:0)+(isU?1:0);
       const mod=isG?-.12:isB?-.05:0;
       let ch;
-      if(isB){const bD=BOSSES.find(b=>'boss_'+b.id===k);const bDgr=bD?bD.dgr:1800;const bCap=bD&&bD.id==='shaper'?0.70:0.80;const raw=((d+s)/bDgr-0.2)/0.7;ch=Math.max(.03,Math.min(bCap,raw)+mod);}
+      if(isB){const bD=BOSSES.find(b=>'boss_'+b.id===k);const bDgr=bD?bD.dgr:1800;const bCap=bD?(bD.id==='shaper'?0.70:bD.id==='eater'?0.75:0.80):0.80;const raw=((d+s)/bDgr-0.2)/0.7;ch=Math.max(.03,Math.min(bCap,raw)+mod);}
       else{const rawCh=calcCh(d+s,Math.min(16,effT))+mod;ch=Math.max(.03,isG?Math.min(0.85,rawCh):rawCh);}
       ec.innerHTML='<span style="color:'+chcol(ch)+'">'+(isG?'🔷 ':'')+Math.round(ch*100)+'% '+(isG?'[Страж]':'T'+t)+'</span>';
     }else ec.textContent='— (нет карты)';
@@ -2683,6 +2683,7 @@ document.addEventListener('click',function(e){
     const tot=ms.reduce((s,x)=>s+(parseInt(x.sellPrice)||0),0);G.inv=G.inv.filter(x=>x.quality!=='magic');
     G.gold+=tot;G.stats.sg+=tot;G.stats.sold+=ms.length;
     log('💰 Продано '+ms.length+'x волшебных +'+tot+'💰','ge');floatT('+'+tot+'💰','#c8a96e');
+    ms.forEach(it=>{checkContractSell("magic",parseInt(it.sellPrice)||0);});
     checkAchs();renderInv();updateRes();return;
   }
   if(t.id==='btn-sell-rare'){
@@ -2700,6 +2701,7 @@ document.addEventListener('click',function(e){
     const rs=window._pendingRareSell||[];const tot=rs.reduce((s,x)=>s+(parseInt(x.sellPrice)||0),0);
     const ids=new Set(rs.map(x=>x.id));G.inv=G.inv.filter(x=>!ids.has(x.id));
     G.gold+=tot;G.stats.sg+=tot;G.stats.sold+=rs.length;
+    rs.forEach(it=>{checkContractSell("rare",parseInt(it.sellPrice)||0);});
     log('💰 Продано '+rs.length+'x редких +'+tot+'💰','ge');floatT('+'+tot+'💰','#f0d060');
     window._pendingRareSell=null;closeM();checkAchs();renderInv();updateRes();return;
   }
