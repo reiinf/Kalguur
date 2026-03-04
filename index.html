@@ -16,9 +16,9 @@ header::after{content:'⚙ МАШИНА КАЛГУУРА ⚙';position:absolute;
 h1{font-family:'Cinzel',serif;font-size:22px;font-weight:900;color:var(--gold);text-shadow:0 0 25px rgba(200,169,110,.4);letter-spacing:4px;display:flex;align-items:center;justify-content:center;gap:10px;}
 .ver{font-size:10px;color:var(--gold-d);border:1px solid var(--gold-d);padding:2px 6px;letter-spacing:2px;font-weight:400;}
 .sub{font-size:10px;color:var(--txt-d);letter-spacing:2px;margin-top:2px;font-style:italic;}
-#res-bar{display:flex;gap:5px;margin-bottom:8px;flex-wrap:wrap;}
-.ri{background:var(--bg3);border:1px solid var(--brd);padding:4px 10px;display:flex;align-items:center;gap:6px;font-family:'Cinzel',serif;font-size:13px;clip-path:polygon(6px 0,100% 0,calc(100% - 6px) 100%,0 100%);}
-.ri-ico{font-size:17px;}.ri-lbl{color:var(--txt-d);font-size:11px;letter-spacing:1px;display:block;}.ri-val{color:var(--gold);font-weight:600;}
+#res-bar{display:flex;gap:4px;margin-bottom:6px;flex-wrap:wrap;align-items:stretch;}
+.ri{background:var(--bg3);border:1px solid var(--brd);padding:3px 8px;display:flex;align-items:center;gap:5px;font-family:'Cinzel',serif;font-size:13px;clip-path:polygon(6px 0,100% 0,calc(100% - 6px) 100%,0 100%);flex-shrink:0;}
+.ri-ico{font-size:15px;line-height:1;flex-shrink:0;}.ri-lbl{color:var(--txt-d);font-size:11px;letter-spacing:1px;display:block;}.ri-val{color:var(--gold);font-weight:600;}
 #atlas-bar{background:var(--bg3);border:1px solid var(--brd-g);padding:5px 12px;margin-bottom:8px;display:flex;align-items:center;gap:8px;font-size:13px;flex-wrap:wrap;}
 .pt-lbl{font-family:'Cinzel',serif;color:var(--gold-d);letter-spacing:1px;font-size:11px;white-space:nowrap;}
 .pt-tiers{display:flex;gap:2px;flex-wrap:wrap;}
@@ -115,42 +115,42 @@ h1{font-family:'Cinzel',serif;font-size:22px;font-weight:900;color:var(--gold);t
 <body>
 <div id="app">
 <header>
-  <h1>КАРТОХОДЕЦ <span class="ver">v0.073</span></h1>
+  <h1>КАРТОХОДЕЦ <span class="ver" id="ver-span">v0.073</span></h1>
 </header>
 <div id="res-bar">
-  <div class="ri"><span class="ri-ico">💰</span><div><span class="ri-lbl">ЗОЛОТО</span><span class="ri-val" id="r-gold">0</span></div></div>
-  <div class="ri"><span class="ri-ico">🗺</span><div><span class="ri-lbl">КАРТЫ</span><span class="ri-val" id="r-maps">0</span></div></div>
-  <div class="ri"><span class="ri-ico">⚔️</span><div><span class="ri-lbl">ПРЕДМЕТЫ</span><span class="ri-val" id="r-items">0</span></div></div>
-  <div class="ri"><span class="ri-ico">👥</span><div><span class="ri-lbl">РАБОТНИКИ</span><span class="ri-val" id="r-workers">0</span></div></div>
+  <div class="ri" id="ri-gold"><span class="ri-ico">💰</span><div><span class="ri-lbl">ЗОЛОТО</span><span class="ri-val" id="r-gold">0</span></div></div>
+  <div class="ri" id="ri-maps-bar"><span class="ri-ico">🗺</span><div><span class="ri-lbl">КАРТЫ</span><span class="ri-val" id="r-maps">0</span></div></div>
+  <div class="ri" id="ri-items-bar"><span class="ri-ico">⚔️</span><div><span class="ri-lbl">ПРЕДМЕТЫ</span><span class="ri-val" id="r-items">0</span></div></div>
+  <div class="ri" id="ri-workers-bar"><span class="ri-ico">👥</span><div><span class="ri-lbl">РАБОТНИКИ</span><span class="ri-val" id="r-workers">0</span></div></div>
   <div class="ri" id="ri-del-orbs-ri" style="display:none"><span class="ri-ico">🔮</span><div><span class="ri-lbl">ОРБЫ</span><span class="ri-val" id="r-del-orbs">0</span></div></div>
   <div class="ri" id="ri-del-spl-ri" style="display:none"><span class="ri-ico">👁</span><div><span class="ri-lbl">ОСКОЛКИ</span><span class="ri-val" id="r-del-spl">0</span></div></div>
-  <div class="ri"><span class="ri-ico">🔄</span><div><span class="ri-lbl">ПРОЙДЕНО</span><span class="ri-val" id="r-runs">0</span></div></div>
+  <div class="ri" id="ri-runs-bar" style="display:none"><span class="ri-ico">🔄</span><div><span class="ri-lbl">ПРОЙДЕНО</span><span class="ri-val" id="r-runs">0</span></div></div>
   <div class="ri" id="ri-pres" style="display:none"><span class="ri-ico">✨</span><div><span class="ri-lbl">ПРЕСТИЖ</span><span class="ri-val" id="r-pres">0</span></div></div>
-  <button id="btn-manual-save" onclick="manualSave()" style="margin-left:auto;background:var(--bg3);border:1px solid var(--brd);color:var(--txt-d);font-size:11px;font-family:'Cinzel',serif;padding:4px 10px;cursor:pointer;clip-path:polygon(6px 0,100% 0,calc(100% - 6px) 100%,0 100%);letter-spacing:1px" title="Сохранить прогресс">💾 СОХРАНИТЬ</button>
+  <button id="btn-manual-save" onclick="manualSave()" style="margin-left:auto;background:var(--bg3);border:1px solid var(--brd);color:var(--txt-d);font-size:10px;font-family:'Cinzel',serif;padding:2px 7px;cursor:pointer;clip-path:polygon(6px 0,100% 0,calc(100% - 6ppx) 100%,0 100%);letter-spacing:1px" title="Сохранить прогресс">💾 СОХРАНИТЬ</button>
 </div>
-<div id="atlas-bar">
+<div id="atlas-bar-wrap" style="display:none"><div id="atlas-bar">
   <span class="pt-lbl">АТЛАС:</span>
   <div class="pt-tiers" id="pt-tiers"></div>
   <span id="pt-hint" class="dim" style="font-size:12px;margin-left:4px"></span>
   <button id="btn-passive-tree" class="btn btn-sm" style="margin-left:auto;font-size:11px;display:none" onclick="openPassiveTree()">🌐 Дерево атласа</button>
-</div>
+</div></div>
 <div id="layout">
 <!-- LEFT -->
 <div>
   <div class="panel">
     <div class="tabs">
-      <button class="tab-btn" data-tab="maps">🗺 КАРТЫ</button>
-      <button class="tab-btn" data-tab="shop">🏪 ЛАВКА</button>
-      <button class="tab-btn" data-tab="inv">🎒 СКЛАД</button>
-      <button class="tab-btn active" data-tab="acts">🏕 АКТЫ</button>
-      <button class="tab-btn" data-tab="atlas">🌐 АТЛАС</button>
-      <button class="tab-btn" data-tab="ach">🏆 АРХИВ</button>
+      <button class="tab-btn active" id="tabbtn-maps" data-tab="maps">🗺 КАРТЫ</button>
+      <button class="tab-btn" id="tabbtn-shop" data-tab="shop" style="display:none">🏪 ЛАВКА</button>
+      <button class="tab-btn" id="tabbtn-inv" data-tab="inv" style="display:none">🎒 СКЛАД</button>
+      
+      <button class="tab-btn" id="tabbtn-atlas" data-tab="atlas" style="display:none">🌐 АТЛАС</button>
+      <button class="tab-btn" id="tabbtn-ach" data-tab="ach" style="display:none">🏆 АРХИВ</button>
 
     </div>
     <div id="tab-maps" class="tabpanel"></div>
     <div id="tab-shop" class="tabpanel"></div>
     <div id="tab-inv" class="tabpanel"></div>
-    <div id="tab-acts" class="tabpanel active"></div>
+    
     <div id="tab-atlas" class="tabpanel"></div>
     <div id="tab-ach" class="tabpanel"></div>
   </div>
@@ -159,14 +159,14 @@ h1{font-family:'Cinzel',serif;font-size:22px;font-weight:900;color:var(--gold);t
 <div>
   <div id="self-sec">
     <div class="ptitle">🧙 ВЫ — ИЗГНАННИК <span id="self-cls-badge" style="font-size:10px;color:var(--txt-d)"></span></div>
-    <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:6px">
+    <div id="cls-row" style="display:none;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:6px">
       <div><div class="tiny">КЛАСС</div><div style="display:flex;gap:4px;margin-top:2px" id="cls-btns" style="font-size:13px">
         <button class="btn btn-sm" data-cls="warrior" id="cls-warrior">⚔️ Дикарь</button>
         <button class="btn btn-sm" data-cls="mage" id="cls-mage">🔮 Ведьма</button>
         <button class="btn btn-sm" data-cls="ranger" id="cls-ranger">🏹 Охотница</button>
         <button class="btn btn-sm" data-cls="noble" id="cls-noble" style="display:none;border-color:#e8c020;color:#e8c020">👸 Дворянка</button>
       </div></div>
-      <div style="margin-left:auto"><button class="btn btn-sm" id="btn-self-eq">🎒 Снаряжение</button></div>
+      <div id="inv-btn-wrap" style="display:none;margin-left:auto"><button class="btn btn-sm" id="btn-self-eq">🎒 Снаряжение</button></div>
     </div>
     <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap">
       <div><div class="tiny">⚔️ УРОН</div><div class="gt" style="font-family:'Cinzel',serif;font-size:16px" id="s-dmg">5</div></div>
@@ -175,12 +175,14 @@ h1{font-family:'Cinzel',serif;font-size:22px;font-weight:900;color:var(--gold);t
       <div style="flex:1;min-width:120px"><div class="tiny">⭐ УРОВЕНЬ <span id="s-lvl-xp" style="color:var(--mag)"></span></div><div style="display:flex;align-items:center;gap:6px;margin-top:2px"><span class="gt" style="font-family:'Cinzel',serif;font-size:16px" id="s-lvl">0</span><button class="btn btn-sm btn-p" id="btn-self-lvlup" style="display:none;padding:2px 8px;font-size:12px">Повысить</button></div><div style="height:3px;background:var(--bg2);border:1px solid var(--brd);margin-top:3px;width:100%"><div id="s-xp-bar" style="height:100%;background:linear-gradient(90deg,#553388,#aa66ff);width:0%"></div></div></div>
     </div>
   </div>
-  <div class="panel" id="center-panel">
+  <div class="panel" id="center-panel" style="display:none">
     <div id="center-tabs" style="display:flex;gap:0;margin-bottom:8px;border-bottom:1px solid var(--brd)">
-      <button class="tab-btn active" id="ctab-portal" onclick="switchCenterTab('portal')" style="font-size:11px;padding:4px 10px;border:1px solid var(--brd);border-radius:4px 4px 0 0">🌀 ПОРТАЛ КАРТЫ</button>
+      <button class="tab-btn active" id="ctab-acts" onclick="switchCenterTab('acts')" style="font-size:11px;padding:4px 10px;border:1px solid var(--brd);border-radius:4px 4px 0 0">🏕 АКТЫ</button>
+      <button class="tab-btn active" id="ctab-portal" onclick="switchCenterTab('portal')" style="font-size:11px;padding:4px 10px;border:1px solid var(--gold-d);border-radius:4px 4px 0 0;display:none;background:rgba(200,169,110,0.08);color:var(--gold)">🌀 ПОРТАЛ КАРТЫ</button>
       <button class="tab-btn" id="ctab-delirium" onclick="switchCenterTab('delirium')" style="font-size:11px;padding:4px 10px;display:none;background:rgba(80,0,100,.25);border:1px solid #553377;border-radius:4px 4px 0 0;color:#bb88ff">🌫️ ДЕЛИРИУМ</button>
     </div>
-    <div id="ctab-content-portal">
+    <div id="ctab-content-acts" style="display:block"><div id="acts-area"></div></div>
+    <div id="ctab-content-portal" style="display:none">
       <div class="run-vis"><div class="run-bg"></div><div class="run-con" id="run-con"><div class="dim" style="font-style:italic">Выберите карту слева</div></div></div>
       <div class="prog-wrap" id="rpw" style="display:none">
         <div class="prog-lbl"><span id="rpl">Прогресс</span><span id="rpp">0%</span></div>
@@ -196,7 +198,7 @@ h1{font-family:'Cinzel',serif;font-size:22px;font-weight:900;color:var(--gold);t
       <div id="delirium-portal"></div>
     </div>
   </div>
-  <div class="panel" style="margin-top:8px">
+  <div class="panel" id="workers-panel" style="margin-top:8px;display:none">
     <div class="ptitle" id="workers-panel-title">👥 РАБОТНИКИ <button class="btn btn-sm btn-p" id="btn-expedition">🗺 Экспедиция</button></div>
     <div id="workers-list"></div>
     <div id="contracts-panel" style="display:none"></div>
@@ -205,19 +207,19 @@ h1{font-family:'Cinzel',serif;font-size:22px;font-weight:900;color:var(--gold);t
 </div>
 <!-- RIGHT -->
 <div>
-  <div class="panel">
+  <div class="panel" id="upgrades-panel" style="display:none">
     <div class="ptitle">⚙ МАШИНА КАЛГУУРА</div>
     <div id="upgrades"></div>
   </div>
-  <div class="panel" style="margin-top:8px">
+  <div class="panel" id="log-panel" style="margin-top:8px;display:none">
     <div class="ptitle">📜 ЖУРНАЛ</div>
     <div id="loot-log"></div>
   </div>
-  <div class="panel" style="margin-top:8px">
+  <div class="panel" id="stats-panel" style="margin-top:8px;display:none">
     <div class="ptitle">📊 СТАТИСТИКА <button class="btn btn-sm" id="btn-debug" style="font-size:7px">🔧 ДЕБАГ</button></div>
     <div id="stats-p" style="font-size:13px;line-height:2.1"></div>
   </div>
-  <div class="panel" style="margin-top:8px">
+  <div class="panel" id="danger-panel" style="margin-top:8px;display:none">
     <div class="ptitle">⚠️ ОПАСНО</div>
     <button class="btn btn-r" style="width:100%" id="btn-reset">💀 Начать заново</button>
   </div>
@@ -228,9 +230,12 @@ h1{font-family:'Cinzel',serif;font-size:22px;font-weight:900;color:var(--gold);t
 <div id="moverlay"><div id="mbox"><div class="mtl" id="mtl"></div><div id="mbd"></div></div></div>
 <div id="notif-area"></div>
 <script>
-const VERSION="0.079";
+const VERSION="0.088";
 document.title="Картоходец v"+VERSION;
 document.querySelector(".ver").textContent="v"+VERSION;
+// Secret debug: click version 5 times
+(function(){let _vc=0,_vt;const _vs=document.getElementById('ver-span')||document.querySelector('.ver');
+if(_vs)_vs.addEventListener('click',function(){_vc++;clearTimeout(_vt);_vt=setTimeout(()=>{_vc=0;},1500);if(_vc>=5){_vc=0;openDebug();}});})();
 'use strict';
 // ══════════ CONSTANTS ══════════════════════════════════════════
 const MAP_TIERS=[
@@ -405,7 +410,7 @@ function freshG(){
     ups:{slots:0,rescue:0,heal:0},
     selfEq:{weapon:null,weapon2:null,armor:null,helmet:null,ring:null,cluster:null},
     selfRun:null,actRun:null,selMap:null,maxTier:2,
-    cleared:{},achs:{},prestige:0,firstRun:true,prestigeBonus:0,passives:{},passivePending:0,
+    cleared:{},achs:{},prestige:0,firstRun:true,activeTab:'maps',unlocks:{gold:false,maps:false,items:false,workers:false,runs:false,pres:false},prestigeBonus:0,passives:{},passivePending:0,
     guardianPieces:{shaper:0,elder:0},bossAttempts:{},bossKills:{},bossTriesLeft:0,activeBossId:null,t16RunsSinceBoss:0,pendingBoss:null,
     selfCls:null,selfXp:0,selfLevel:0,selfPendingLevel:0,selfLevelUp:false,clsLocked:false,
     stats:{ge:0,fi:0,mr:0,ar:0,sold:0,sg:0,cap:0,inj:0,tierRuns:{}},achsPending:{},
@@ -485,6 +490,74 @@ function buyPassive(id){
   save();openPassiveTree();
 }
 
+
+// ══════════ PROGRESSIVE UNLOCK ════════════════════════
+function show(id,display){const el=document.getElementById(id);if(el)el.style.display=display||'block';}
+function hide(id){const el=document.getElementById(id);if(el)el.style.display='none';}
+
+function applyUnlocks(){
+  const p=G.prestige||0;
+  const totalRuns=G.totalRuns||0;
+  const selfLvl=G.selfLevel||0;
+  const hasItem=(G.stats&&G.stats.fi>0)||false;
+  const hasWorkers=G.workers&&G.workers.length>0;
+  // Use cleared tiers (actually beaten maps) not maxTier (which starts at 2)
+  const clearedTiers=Object.keys(G.cleared||{}).map(Number).filter(n=>G.cleared[n]);
+  const maxCleared=clearedTiers.length?Math.max(...clearedTiers):0;
+
+  const unlockMaps   = selfLvl>=2;
+  const unlockShop   = selfLvl>=3 || maxCleared>=2;
+  const unlockInv    = hasItem;
+  const unlockAtlas  = maxCleared>=2;
+  const unlockLog    = true; // always visible
+  const unlockWorkers= maxCleared>=3 || hasWorkers;
+  const unlockStats  = maxCleared>=5 || p>0;
+  const unlockDanger = maxCleared>=3 || p>0;
+
+  // ── Res-bar ──
+  show('ri-gold');
+  const hasMaps=Object.values(G.maps||{}).some(v=>v>0);
+  show('ri-maps-bar',    hasMaps        ? 'flex':'none');
+  show('ri-items-bar',   hasItem        ? 'flex':'none');
+  show('ri-workers-bar', hasWorkers     ? 'flex':'none');
+  show('ri-runs-bar',    totalRuns>0    ? 'flex':'none');
+  show('ri-pres',        p>0            ? 'flex':'none');
+
+  // ── Left tabs ──
+  show('tabbtn-maps',  'inline-block'); // always visible
+  show('tabbtn-shop',  unlockShop    ? 'inline-block':'none');
+  show('tabbtn-inv',   unlockInv     ? 'inline-block':'none');
+  show('tabbtn-atlas', unlockAtlas   ? 'inline-block':'none');
+  show('tabbtn-ach',   unlockAtlas   ? 'inline-block':'none');
+
+  // ── Atlas bar ──
+  show('atlas-bar-wrap', unlockAtlas ? 'block':'none');
+
+  // ── Center: class row, inv button, portal panel ──
+  show('cls-row',      (selfLvl>=1||(G.selfPendingLevel||0)>=1) ? 'flex':'none');  // show when level 1 earned
+  show('inv-btn-wrap', hasItem           ? 'inline-block':'none');
+  show('center-panel', 'block');  // always visible — has acts tab
+
+  // ── Right column ──
+  show('workers-panel',  unlockWorkers ? 'block':'none');
+  show('upgrades-panel', unlockWorkers ? 'block':'none');
+  show('log-panel',      unlockLog     ? 'block':'none');
+  show('stats-panel',    unlockStats   ? 'block':'none');
+  show('danger-panel',   unlockDanger  ? 'block':'none');
+
+  // Show portal tab button only when maps unlocked
+  show('ctab-portal', unlockMaps ? 'inline-block':'none');
+
+  // If active left tab is hidden, reset to maps (empty)
+  const _at=G.activeTab;
+  const _lockedTabs={'shop':!unlockShop,'inv':!unlockInv,'atlas':!unlockAtlas,'ach':!unlockAtlas};
+  if(_at&&_lockedTabs[_at]){
+    G.activeTab='maps';
+    document.querySelectorAll('.tab-btn').forEach(b=>b.classList.toggle('active',b.dataset.tab==='maps'));
+    document.querySelectorAll('.tabpanel').forEach(p=>p.classList.toggle('active',p.id==='tab-maps'));
+  }
+}
+
 function passiveVal(stat){
   const p=G.passives||{};
   let total=0;
@@ -525,6 +598,7 @@ function addXPSelf(amt){
   G.selfXp+=amt;const mx=WLVLS.length-1;
   const _prevPend=G.selfPendingLevel;
   while(G.selfXp>=WLVLS[Math.min(mx,G.selfPendingLevel+1)]&&G.selfPendingLevel<mx){G.selfPendingLevel++;G.selfLevelUp=true;log('⭐ Уровень '+(G.selfPendingLevel)+' готов! Нажмите 🆙','info');showN('🆙 Ур.'+G.selfPendingLevel+' готов!','pur');}
+  if(G.selfPendingLevel!==_prevPend)applyUnlocks();
   // Always refresh stats display and map chance after xp gain
   updateSelfStats();
   if(G.selMap&&!G.selfRun){const _m=getMd(G.selMap);const _s=String(G.selMap);if(_m)updateRunVis(_m,true,_s.startsWith('grd_'),_s.startsWith('boss_'));}
@@ -579,7 +653,7 @@ function tryItem(md,cls,mult=1){
   const it=genItem(md.t,cls);G.inv.push(it);G.stats.fi++;
   checkContractFind(it.quality);
   log(it.em+' <span style="color:'+qcol(it.quality)+'">'+it.name+'</span> ['+qlbl(it.quality)+']','i-'+it.quality[0]);
-  checkAchs();
+  checkAchs();applyUnlocks();
 }
 function tryMap(md){
   if(!md||!md.t)return; // guardian/boss maps have no .md drop field
@@ -639,7 +713,7 @@ function selfRun(){
   }
   // Lock class on first run
   G.clsLocked=true;
-  if(!G.selfCls)G.selfCls='warrior';
+  if(!G.selfCls){showN('Сначала выбери класс!','red');return;}
   const md=isGrd?(grdMapData||MAP_TIERS[15]):isBoss?(bossData||BOSSES[0]):MAP_TIERS[tier-1];
   const cost=(isGrd||isBoss)?0:SHOP_COSTS[tier]||0;
   const _mc=(isGrd||isBoss)?0:SHOP_COSTS[tier]||0;
@@ -1571,21 +1645,26 @@ function delWaveReward(wave){
 
 
 function switchCenterTab(tab){
-  document.getElementById('ctab-content-portal').style.display=tab==='portal'?'':'none';
-  document.getElementById('ctab-content-delirium').style.display=tab==='delirium'?'':'none';
-  document.getElementById('ctab-portal').classList.toggle('active',tab==='portal');
-  document.getElementById('ctab-delirium').classList.toggle('active',tab==='delirium');
-  if(tab==='delirium')renderDelirium();
+  ['portal','delirium','acts'].forEach(t=>{
+    const btn=document.getElementById('ctab-'+t);
+    const con=document.getElementById('ctab-content-'+t);
+    if(btn)btn.classList.toggle('active',t===tab);
+    if(con)con.style.display=t===tab?'block':'none';
+  });
+  if(tab==='acts')renderActs();
 }
+
 function openDelirium(){renderDelirium();}
 
 function renderDelirium(){
   const el=document.getElementById('delirium-portal');if(!el)return;
   if(G.deliriumRunning&&window._delTimer){return;} // don't clobber animation
   // T5-T9: teaser only
-  const _hasT5=Object.keys(G.cleared||{}).some(k=>parseInt(k)>=5&&G.cleared[k]);
-  const _hasT10=Object.keys(G.cleared||{}).some(k=>parseInt(k)>=10&&G.cleared[k]);
-  const _hasT16=G.cleared&&G.cleared[16];
+  const _clearedTiers=Object.keys(G.cleared||{}).map(Number).filter(n=>G.cleared[n]);
+  const _maxCleared=_clearedTiers.length?Math.max(..._clearedTiers):0;
+  const _hasT5=_maxCleared>=5;
+  const _hasT10=_maxCleared>=10;
+  const _hasT16=_maxCleared>=16;
   if(_hasT5&&!_hasT10){
     el.innerHTML='<div style="text-align:center;padding:20px;border:1px solid #332244;border-radius:6px;background:rgba(20,0,30,.4);">'+
       '<div style="font-size:32px;margin-bottom:8px">🌫️</div>'+
@@ -1942,7 +2021,7 @@ function tick(){
 }
 
 // ══════════ RENDER ═════════════════════════════════════════════
-function renderAll(){updateAchBadge();renderMaps();renderShop();renderInv();renderActs();renderWorkers();renderUpgrades();renderAtlasBar();renderAtlasTab();renderAchs();renderDelirium();updateRes();updateStats();updateSelfStats();updateDeliriumTab();}
+function renderAll(){applyUnlocks();updateAchBadge();renderMaps();renderShop();renderInv();renderActs();renderWorkers();renderUpgrades();renderAtlasBar();renderAtlasTab();renderAchs();renderDelirium();updateRes();updateStats();updateSelfStats();updateDeliriumTab();}
 
 function renderMaps(){
   const el=document.getElementById('tab-maps');if(!el)return;
@@ -2064,7 +2143,8 @@ function selectMap(key){
 }
 
 function renderShop(){
-  const all=[
+  // Map cards — T1 first, then unlocked tiers grow upward
+  const mapItems=[
     {id:'s1', nm:'Карта T1 ×3',cost:15,  mt:0, fn:()=>{G.maps[1]=(G.maps[1]||0)+3;}},
     {id:'s2', nm:'Карта T2 ×2',cost:35,  mt:0, fn:()=>{G.maps[2]=(G.maps[2]||0)+2;}},
     {id:'s3', nm:'Карта T3 ×2',cost:65,  mt:1, fn:()=>{G.maps[3]=(G.maps[3]||0)+2;}},
@@ -2082,32 +2162,53 @@ function renderShop(){
     {id:'s15',nm:'Карта T15',  cost:1500,mt:13,fn:()=>{G.maps[15]=(G.maps[15]||0)+1;}},
     {id:'s16',nm:'Карта T16',  cost:1850,mt:14,fn:()=>{G.maps[16]=(G.maps[16]||0)+1;}},
   ];
-  if(G.clsLocked){
-    all.push({id:'respec',nm:'🔄 Смена класса',cost:200,mt:-1,fn:()=>{G.clsLocked=false;log('🔄 Смена класса — выберите новый!','info');showN('Выберите новый класс!','pur');updateSelfStats();}});
-  }
-  if(G.cleared&&G.cleared[16]){
-    all.push({id:'buyOrb',nm:'🔮 Орб Делириума ×1',cost:0,mt:-1,splCost:5,fn:()=>{
-      if((G.deliriumSplinters||0)<5){showN('Нет осколков! Нужно 5 👁');return false;}
-      G.deliriumSplinters-=5;G.deliriumOrbs=(G.deliriumOrbs||0)+1;
-      log('🔮 Куплен Орб Делириума за 5 осколков','info');updateRes();return true;}});
-  }
-  window._shopItems=all;
-  const unlocked=all.filter(it=>G.maxTier>=it.mt);
-  const locked=all.filter(it=>G.maxTier<it.mt);
-  let html=unlocked.map(it=>{
+  // Use cleared tiers for unlock (not maxTier which starts at 2)
+  const _clearedKeys=Object.keys(G.cleared||{}).map(Number).filter(n=>G.cleared[n]);
+  const _maxCl=_clearedKeys.length?Math.max(..._clearedKeys):0;
+  const unlockedMaps=mapItems.filter(it=>_maxCl>=it.mt);
+  const lockedMaps=mapItems.filter(it=>_maxCl<it.mt);
+  // Render maps: T1 at top, highest unlocked last (no scroll needed for current tier)
+  const renderItem=(it)=>{
     const n=parseInt(it.id.slice(1));const md=n>=1&&n<=16?MAP_TIERS[n-1]:null;
-    const n2=parseInt(it.id.slice(1));const cost2=SHOP_COSTS[n2]||0;
-    const desc=md?'💰'+(goldMin(md,cost2))+(goldMax(md,cost2)>goldMin(md,cost2)?'–'+goldMax(md,cost2):'')+' + предметы':it.nm.includes('Смена класса')?'Выберите другой класс':'';;
-    if(it.splCost!==undefined)return '<div class="srow"><span style="font-size:16px">🔮</span>'+
-      '<div class="si"><div class="snm">'+it.nm+'</div><div class="sds">Обменять осколки Делириума</div></div>'+
-      '<div style="text-align:right"><div class="spr" style="color:#cc88ff">👁'+it.splCost+'</div>'+
-      '<button class="btn btn-sm" style="margin-top:2px;border-color:#553377" data-shop="'+it.id+'">Обменять</button></div></div>';
-    return '<div class="srow"><span style="font-size:16px">'+(md?'🗺':'🔄')+'</span>'+
+    const cost2=SHOP_COSTS[n]||0;
+    const desc=md?'💰'+(goldMin(md,cost2))+(goldMax(md,cost2)>goldMin(md,cost2)?'–'+goldMax(md,cost2):'')+' + предметы':'';
+    return '<div class="srow"><span style="font-size:16px">🗺</span>'+
       '<div class="si"><div class="snm">'+it.nm+'</div><div class="sds">'+desc+'</div></div>'+
       '<div style="text-align:right"><div class="spr">💰'+it.cost+'</div>'+
       '<button class="btn btn-sm" style="margin-top:2px" data-shop="'+it.id+'">Купить</button></div></div>';
-  }).join('');
-  if(locked.length){const nx=locked[0];html+='<div class="srow" style="opacity:.4;pointer-events:none"><span>🔒</span><div class="si"><div class="snm">'+nx.nm+'</div><div class="sds">После T'+(nx.mt+1)+'</div></div><div class="spr">💰'+nx.cost+'</div></div>';}
+  };
+  let html='';
+  // Splinter exchange at top (if T16 cleared)
+  if(G.cleared&&G.cleared[16]){
+    html+='<div class="srow"><span style="font-size:16px">🔮</span>'+
+      '<div class="si"><div class="snm">🔮 Орб Делириума ×1</div><div class="sds">Обменять осколки Делириума</div></div>'+
+      '<div style="text-align:right"><div class="spr" style="color:#cc88ff">👁5</div>'+
+      '<button class="btn btn-sm" style="margin-top:2px;border-color:#553377" data-shop="buyOrb">Обменять</button></div></div>';
+  }
+  // Map cards T1→highest unlocked
+  html+=unlockedMaps.map(renderItem).join('');
+  // Next locked tier hint
+  if(lockedMaps.length){
+    const nx=lockedMaps[0];
+    html+='<div class="srow" style="opacity:.4;pointer-events:none"><span>🔒</span>'+
+      '<div class="si"><div class="snm">'+nx.nm+'</div><div class="sds">После T'+(nx.mt+1)+'</div></div>'+
+      '<div class="spr">💰'+nx.cost+'</div></div>';
+  }
+  // Class respec at bottom
+  if(G.clsLocked){
+    html+='<div class="srow" style="margin-top:8px;border-top:1px solid var(--brd);padding-top:8px">'+
+      '<span style="font-size:16px">🔄</span>'+
+      '<div class="si"><div class="snm">🔄 Смена класса</div><div class="sds">Выберите другой класс</div></div>'+
+      '<div style="text-align:right"><div class="spr">💰200</div>'+
+      '<button class="btn btn-sm" style="margin-top:2px" data-shop="respec">Сменить</button></div></div>';
+  }
+  // Register shop items for click handler
+  window._shopItems=[...mapItems];
+  if(G.clsLocked)window._shopItems.push({id:'respec',nm:'🔄 Смена класса',cost:200,mt:-1,fn:()=>{G.clsLocked=false;log('🔄 Смена класса — выберите новый!','info');showN('Выберите новый класс!','pur');updateSelfStats();}});
+  if(G.cleared&&G.cleared[16])window._shopItems.push({id:'buyOrb',nm:'🔮 Орб Делириума ×1',cost:0,mt:-1,splCost:5,fn:()=>{
+    if((G.deliriumSplinters||0)<5){showN('Нет осколков! Нужно 5 👁');return false;}
+    G.deliriumSplinters-=5;G.deliriumOrbs=(G.deliriumOrbs||0)+1;
+    log('🔮 Куплен Орб Делириума за 5 осколков','info');updateRes();return true;}});
   document.getElementById('tab-shop').innerHTML=html;
 }
 function buyShop(id){
@@ -2142,7 +2243,7 @@ function renderInv(){
 }
 
 function renderActs(){
-  document.getElementById('tab-acts').innerHTML=
+  const _actsEl=document.getElementById('acts-area')||document.getElementById('tab-acts');if(!_actsEl)return;_actsEl.innerHTML=
     '<div class="dim" style="font-size:12px;margin-bottom:7px">🏕 Пройдите акты чтобы <b style="color:var(--gold)">набрать уровни</b> перед картами!<br>Каждый акт даёт опыт и немного золота.</div>'+
     ACTS.map(a=>{
       const _isRunning=G.actRun&&G.actRun.act.id===a.id;
@@ -2636,7 +2737,7 @@ function openDebug(){
     '<div id="dbg-out">'+rows.map(([k,v])=>'<div><span style="color:#ffaa44">'+k+':</span> '+JSON.stringify(v)+'</div>').join('')+'</div>'+
     '<div style="margin-top:7px;display:flex;gap:5px">'+
       '<button class="btn btn-sm" id="btn-copy-debug">📋 Копировать</button> <button class="btn btn-sm btn-p" id="btn-dbg-prestige">✨ Возвышение</button> <button class="btn btn-sm" style="background:#330033;border-color:#990099" id="btn-dbg-imba">👑 Имба</button>'+
-      '<button class="btn btn-sm btn-r" id="btn-close-m">Закрыть</button></div>');
+      '<button class="btn btn-sm btn-r" id="btn-do-reset" onclick="closeM()">💀 Рестарт</button> <button class="btn btn-sm btn-r" id="btn-close-m">Закрыть</button></div>');
   window._debugStr=dataStr;
 }
 
@@ -2753,7 +2854,7 @@ function save(){
     stats:G.stats,iid:G.iid,wid:G.wid,
     maxTier:G.maxTier,cleared:G.cleared,achs:G.achs,achsPending:G.achsPending,prestige:G.prestige,prestigeBonus:G.prestigeBonus,
     guardianPieces:G.guardianPieces,faction:G.faction||'none',factionXp:G.factionXp||{},factionUnlocks:G.factionUnlocks||{},bossAttempts:G.bossAttempts,bossKills:G.bossKills,bossTriesLeft:G.bossTriesLeft||0,activeBossId:G.activeBossId||null,t16RunsSinceBoss:G.t16RunsSinceBoss||0,pendingBoss:G.pendingBoss||null,
-    syndRunSpeed:G.syndRunSpeed||1.0,contracts:G.contracts||[],contractRunsDone:G.contractRunsDone||0,passives:G.passives||{},passivePending:G.passivePending||0,firstRun:G.firstRun||false,autoExp:G.autoExp||false,autoRescue:G.autoRescue||false,autoHeal:G.autoHeal||false,autoBuyMaps:G.autoBuyMaps||false,
+    syndRunSpeed:G.syndRunSpeed||1.0,contracts:G.contracts||[],contractRunsDone:G.contractRunsDone||0,passives:G.passives||{},passivePending:G.passivePending||0,firstRun:G.firstRun||false,unlocks:G.unlocks||{},autoExp:G.autoExp||false,autoRescue:G.autoRescue||false,autoHeal:G.autoHeal||false,autoBuyMaps:G.autoBuyMaps||false,
     deliriumOrbs:G.deliriumOrbs||0,deliriumSplinters:G.deliriumSplinters||0,deliriumMaps:G.deliriumMaps||{},
   }));}catch(e){}
 }
@@ -2769,20 +2870,16 @@ if(s.v&&s.v>=9){/* compatible enough */}
     if(!G.selfCls)G.selfCls=null;if(G.clsLocked===undefined)G.clsLocked=false;if(!G.lastExpSlots)G.lastExpSlots=null;
     if(!G.guardianPieces)G.guardianPieces={shaper:0,elder:0};if(!G.faction)G.faction='none';if(!G.factionXp)G.factionXp={};if(!G.factionUnlocks)G.factionUnlocks={};if(!G.bossAttempts)G.bossAttempts={};if(!G.bossKills)G.bossKills={};if(G.bossTriesLeft===undefined)G.bossTriesLeft=0;if(G.t16RunsSinceBoss===undefined)G.t16RunsSinceBoss=0;if(G.pendingBoss===undefined)G.pendingBoss=null;
     if(!G.contracts)G.contracts=[];if(G.contractRunsDone===undefined)G.contractRunsDone=0;
-    if(!G.deliriumOrbs)G.deliriumOrbs=0;if(!G.passives)G.passives={};if(G.passivePending===undefined)G.passivePending=0;if(G.firstRun===undefined)G.firstRun=false;if(!G.deliriumSplinters)G.deliriumSplinters=0;if(G.autoOrb===undefined)G.autoOrb=false;if(!G.contractRerolls)G.contractRerolls=0;if(!G.deliriumWave)G.deliriumWave=0;if(!G.deliriumPending)G.deliriumPending=[];if(!G.deliriumMaps)G.deliriumMaps={};
+    if(!G.deliriumOrbs)G.deliriumOrbs=0;if(!G.passives)G.passives={};if(G.passivePending===undefined)G.passivePending=0;if(G.firstRun===undefined)G.firstRun=false;if(!G.unlocks)G.unlocks={};if(!G.deliriumSplinters)G.deliriumSplinters=0;if(G.autoOrb===undefined)G.autoOrb=false;if(!G.contractRerolls)G.contractRerolls=0;if(!G.deliriumWave)G.deliriumWave=0;if(!G.deliriumPending)G.deliriumPending=[];if(!G.deliriumMaps)G.deliriumMaps={};
     if(G.autoExp===undefined)G.autoExp=false;if(G.autoRescue===undefined)G.autoRescue=false;if(G.autoHeal===undefined)G.autoHeal=false;if(G.autoBuyMaps===undefined)G.autoBuyMaps=false;
     // Re-apply syndicate flags
     if(G.faction==='syndicate'){const _sxp=(G.factionXp&&G.factionXp.syndicate)||0;const _sf=FACTIONS.syndicate;G.syndRunSpeed=(_sf.levels||[]).some(l=>l.xp<=_sxp&&l.reward&&l.reward.runSpeed)?1.50:1.0;G.syndExtraWeapon=true;}else{G.syndRunSpeed=1.0;if(G.syndExtraWeapon===undefined)G.syndExtraWeapon=false;}
-    // Restore active tab
-    if(G.activeTab){
-      document.querySelectorAll('.tab-btn').forEach(b=>b.classList.toggle('active',b.dataset.tab===G.activeTab));
-      document.querySelectorAll('.tabpanel').forEach(p=>p.classList.toggle('active',p.id==='tab-'+G.activeTab));
-    } else if(!G.totalRuns){
-      // New player: default to acts
-      document.querySelectorAll('.tab-btn').forEach(b=>b.classList.toggle('active',b.dataset.tab==='acts'));
-      document.querySelectorAll('.tabpanel').forEach(p=>p.classList.toggle('active',p.id==='tab-acts'));
-      G.activeTab='acts';
-    }
+    // Restore active tab — only restore if tab is actually visible
+    const _visibleTabs=['maps','shop','inv','atlas','ach'].filter(t=>{const b=document.getElementById('tabbtn-'+t);return b&&b.style.display!=='none';});
+    const _tabToRestore=G.activeTab&&_visibleTabs.includes(G.activeTab)?G.activeTab:(_visibleTabs[0]||'maps');
+    document.querySelectorAll('.tab-btn').forEach(b=>b.classList.toggle('active',b.dataset.tab===_tabToRestore));
+    document.querySelectorAll('.tabpanel').forEach(p=>p.classList.toggle('active',p.id==='tab-'+_tabToRestore));
+    G.activeTab=_tabToRestore;
     if(!G.selfXp)G.selfXp=0;if(!G.selfLevel)G.selfLevel=0;if(G.selfLevelUp===undefined)G.selfLevelUp=false;
     if(G.selfPendingLevel===undefined)G.selfPendingLevel=G.selfLevel;
     G.workers.forEach(w=>{
@@ -2839,7 +2936,16 @@ document.addEventListener('click',function(e){
   // Class select (only if not locked, or show message)
   if(t.dataset.cls){
     if(G.clsLocked){showN('Класс заблокирован! Смените в Лавке за 200💰.','red');return;}
-    G.selfCls=t.dataset.cls;log('Выбран класс: '+WCLS[t.dataset.cls].nm,'info');updateSelfStats();save();return;
+    const _nc=t.dataset.cls;const _cd=WCLS[_nc]||{};
+    openM('Выбрать класс?','<div style="text-align:center;padding:8px">'+
+      '<div style="font-size:32px;margin-bottom:8px">'+(_cd.em||'🧙')+'</div>'+
+      '<div style="font-size:15px;margin-bottom:4px;color:var(--gold)">'+(_cd.nm||_nc)+'</div>'+
+      '<div style="font-size:12px;color:var(--txt-d);margin-bottom:16px">Влияет на боевые характеристики. Сменить можно будет в Лавке за 200💰</div>'+
+      '<div style="display:flex;gap:8px">'+
+      '<button class="btn" style="flex:1" onclick="closeM()">Отмена</button>'+
+      '<button class="btn btn-p" style="flex:1" onclick="closeM();G.selfCls=\''+_nc+'\';log(\'Выбран класс: \'+WCLS[\''+_nc+'\'].nm,\'info\');updateSelfStats&&updateSelfStats();G.clsLocked=true;updateSelfStats();applyUnlocks();save()">Выбрать</button>'+
+      '</div></div>');
+    return;
   }
   // Self level up
   if(t.id==='btn-self-lvlup'){
