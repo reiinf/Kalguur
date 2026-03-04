@@ -110,7 +110,7 @@ h1{font-family:'Cinzel',serif;font-size:22px;font-weight:900;color:var(--gold);t
 
   gtag('config', 'G-WMX6M2GGE9');
 </script>
-  
+
 </head>
 <body>
 <div id="app">
@@ -126,11 +126,13 @@ h1{font-family:'Cinzel',serif;font-size:22px;font-weight:900;color:var(--gold);t
   <div class="ri" id="ri-del-spl-ri" style="display:none"><span class="ri-ico">👁</span><div><span class="ri-lbl">ОСКОЛКИ</span><span class="ri-val" id="r-del-spl">0</span></div></div>
   <div class="ri"><span class="ri-ico">🔄</span><div><span class="ri-lbl">ПРОЙДЕНО</span><span class="ri-val" id="r-runs">0</span></div></div>
   <div class="ri" id="ri-pres" style="display:none"><span class="ri-ico">✨</span><div><span class="ri-lbl">ПРЕСТИЖ</span><span class="ri-val" id="r-pres">0</span></div></div>
+  <button id="btn-manual-save" onclick="manualSave()" style="margin-left:auto;background:#1a2a1a;border:1px solid #335533;color:#88aa88;font-size:11px;font-family:'Cinzel',serif;padding:4px 10px;cursor:pointer;clip-path:polygon(6px 0,100% 0,calc(100% - 6px) 100%,0 100%);letter-spacing:1px" title="Сохранить прогресс">💾 СОХРАНИТЬ</button>
 </div>
 <div id="atlas-bar">
   <span class="pt-lbl">АТЛАС:</span>
   <div class="pt-tiers" id="pt-tiers"></div>
   <span id="pt-hint" class="dim" style="font-size:12px;margin-left:4px"></span>
+  <button id="btn-passive-tree" class="btn btn-sm" style="margin-left:auto;font-size:11px;display:none" onclick="openPassiveTree()">🌐 Дерево атласа</button>
 </div>
 <div id="layout">
 <!-- LEFT -->
@@ -388,6 +390,10 @@ const ACHDEFS=[
   {id:'del_wave5', ico:'👁', nm:'Выживший',      ds:'Дойти до 5-й волны',            rw:'+400💰'},
   {id:'del_wave10',ico:'🔮',nm:'Взгляд в бездну',ds:'Дойти до 10-й волны',          rw:'+1000💰'},
   {id:'del_wave20',ico:'💠',nm:'Симулякра',      ds:'Дойти до 20-й волны',           rw:'+3000💰'},
+  // Prestige
+  {id:'pres_1',    ico:'✨', nm:'Первое возвышение', ds:'Пройти первое возвышение',     rw:'+500💰'},
+  {id:'pres_3',    ico:'🌟', nm:'Ветеран',           ds:'Три возвышения',               rw:'+2000💰'},
+  {id:'pres_5',    ico:'👑', nm:'Вознёсшийся',       ds:'Пять возвышений',              rw:'+5000💰'},
 ];
 
 // ══════════ STATE ══════════════════════════════════════════════
@@ -396,7 +402,7 @@ function freshG(){
     ups:{slots:0,rescue:0,heal:0},
     selfEq:{weapon:null,weapon2:null,armor:null,helmet:null,ring:null,cluster:null},
     selfRun:null,actRun:null,selMap:null,maxTier:2,
-    cleared:{},achs:{},prestige:0,prestigeBonus:0,
+    cleared:{},achs:{},prestige:0,prestigeBonus:0,passives:{},passivePending:0,
     guardianPieces:{shaper:0,elder:0},bossAttempts:{},bossKills:{},bossTriesLeft:0,activeBossId:null,t16RunsSinceBoss:0,pendingBoss:null,
     selfCls:null,selfXp:0,selfLevel:0,selfPendingLevel:0,selfLevelUp:false,clsLocked:false,
     stats:{ge:0,fi:0,mr:0,ar:0,sold:0,sg:0,cap:0,inj:0,tierRuns:{}},achsPending:{},
@@ -411,6 +417,82 @@ const fN=n=>n>=1e6?(n/1e6).toFixed(1)+'M':n>=1e3?(n/1e3).toFixed(1)+'K':Math.flo
 const qcol=q=>({normal:'#b0b0b0',magic:'#8888ff',rare:'#f0d060',unique:'#e87020',cluster:'#cc88ff'}[q]||'#fff');
 const qlbl=q=>({normal:'Обычный',magic:'Магический',rare:'Редкий',unique:'Уникальный'}[q]||q);
 const tcol=t=>t<=3?'#aaa':t<=6?'#5599ff':t<=10?'#bb55ff':t<=14?'#ff8844':'#ff4422';
+
+
+function openPassiveTree(){
+  const p=G.passives||{};
+  const pending=G.passivePending||0;
+  let html='';
+  if(pending>0){
+    html+='<div style="background:#332200;border:1px solid var(--gold);border-radius:6px;padding:8px 12px;margin-bottom:12px;text-align:center">'+
+      '<span style="color:var(--gold);font-weight:600;font-size:13px">✨ Доступно очков: '+pending+'</span>'+
+      '<div style="font-size:11px;color:var(--txt-d);margin-top:2px">Выберите узлы для активации</div></div>';
+  }
+  html+='<div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center">';
+  for(const br of PASSIVE_TREE.branches){
+    html+='<div style="flex:1;min-width:140px;background:var(--bg2);border:1px solid '+br.color+'44;border-radius:6px;padding:8px">';
+    html+='<div style="text-align:center;margin-bottom:8px"><span style="font-size:16px">'+br.em+'</span> '+
+          '<span style="color:'+br.color+';font-weight:600;font-size:12px">'+br.nm+'</span></div>';
+    let prevUnlocked=true;
+    for(let ni=0;ni<br.nodes.length;ni++){
+      const nd=br.nodes[ni];
+      const owned=!!p[nd.id];
+      const canBuy=pending>0&&prevUnlocked&&!owned;
+      const locked=!prevUnlocked;
+      const col=owned?br.color:locked?'#555':'#aaa';
+      const bg=owned?br.color+'22':locked?'#111':'var(--bg3)';
+      const border=owned?br.color:locked?'#333':'#555';
+      html+='<div style="background:'+bg+';border:1px solid '+border+';border-radius:4px;padding:6px 8px;margin-bottom:4px;'+(locked?'opacity:.4':'')+'">'+
+        '<div style="display:flex;align-items:center;justify-content:space-between;gap:4px">'+
+          '<span style="font-size:12px">'+nd.em+' <span style="color:'+col+';font-weight:600">'+nd.nm+'</span></span>'+
+          (owned?'<span style="color:'+br.color+';font-size:11px">✓</span>':
+           canBuy?'<button class="btn btn-sm" style="padding:0 6px;font-size:10px;background:#553300;border-color:var(--gold);color:var(--gold)" data-passive-id="'+nd.id+'">+1</button>':'')+
+        '</div>'+
+        '<div style="font-size:10px;color:var(--txt-d);margin-top:2px">'+nd.desc+'</div>'+
+      '</div>';
+      prevUnlocked=owned;
+    }
+    html+='</div>';
+  }
+  html+='</div>';
+  openM('🌐 Древо пассивок атласа',html);
+}
+
+function buyPassive(id){
+  if(!(G.passivePending>0))return;
+  // Find node
+  let found=null;
+  for(const br of PASSIVE_TREE.branches){
+    for(let ni=0;ni<br.nodes.length;ni++){
+      if(br.nodes[ni].id===id){
+        // Check previous node owned (or first)
+        if(ni===0||(G.passives||{})[br.nodes[ni-1].id]){found=br.nodes[ni];}
+      }
+    }
+  }
+  if(!found){showN('Сначала разблокируйте предыдущий узел!','red');return;}
+  if((G.passives||{})[found.id]){showN('Уже куплено!','red');return;}
+  if(!G.passives)G.passives={};
+  G.passives[found.id]=true;
+  G.passivePending--;
+  log('🌐 Пассивка: '+found.nm+' ('+found.desc+')','info');
+  showN('🌐 '+found.nm+' активирована!','pur');
+  // Recalc workers if workerStatPct changed
+  if(found.stat==='workerStatPct')G.workers.forEach(w=>recalcW(w));
+  save();openPassiveTree();
+}
+
+function passiveVal(stat){
+  const p=G.passives||{};
+  let total=0;
+  for(const br of PASSIVE_TREE.branches){
+    for(const nd of br.nodes){
+      if(nd.stat===stat&&p[nd.id])total+=nd.val;
+    }
+  }
+  return total;
+}
+
 const calcCh=(power,tier,dgrOverride)=>{
   const t=Math.max(1,Math.min(16,tier||1));
   const d=dgrOverride||MAP_TIERS[t-1].dgr;
@@ -435,7 +517,7 @@ const iDmg=(it,cls)=>{if(!it||!it.mods)return 0;const r=CDMG[cls]||[];return Mat
 const iSurv=(it,cls)=>{if(!it||!it.mods)return 0;const r=CSURV[cls]||[];return Math.floor(it.mods.reduce((s,m)=>s+(r.includes(m.stat)?m.value*1:m.value*.08),0));};
 const sDmg=()=>{const sc=G.selfCls||'warrior';let v=3+G.selfLevel*2;const ss=G.syndExtraWeapon?[...SLOTS,'weapon2']:SLOTS;ss.forEach(s=>{if(G.selfEq[s]&&s!=='cluster')v+=iDmg(G.selfEq[s],sc);});const _cl=G.selfEq&&G.selfEq.cluster;const _dp=_cl?(_cl.mods||[]).reduce((a,m)=>a+(m.stat==='dmgPct'?m.value:0),0):0;return Math.floor(v*(1+_dp/100));};
 const sSurv=()=>{const sc=G.selfCls||'warrior';let v=5+G.selfLevel*2;const ss=G.syndExtraWeapon?[...SLOTS,'weapon2']:SLOTS;ss.forEach(s=>{if(G.selfEq[s]&&s!=='cluster')v+=iSurv(G.selfEq[s],sc);});const _cl=G.selfEq&&G.selfEq.cluster;const _sp=_cl?(_cl.mods||[]).reduce((a,m)=>a+(m.stat==='survPct'?m.value:0),0):0;return Math.floor(v*(1+_sp/100));};
-function recalcW(w){const nb=w.isNamed?6:0;let d=4+w.level*2+nb,s=4+w.level*2+nb;SLOTS.forEach(sl=>{if(w.eq[sl]){d+=iDmg(w.eq[sl],w.cls);s+=iSurv(w.eq[sl],w.cls);}});w.dmg=d;w.surv=s;}
+function recalcW(w){const _wsp=passiveVal('workerStatPct');const nb=w.isNamed?6:0;let d=4+w.level*2+nb,s=4+w.level*2+nb;SLOTS.forEach(sl=>{if(w.eq[sl]){d+=iDmg(w.eq[sl],w.cls);s+=iSurv(w.eq[sl],w.cls);}});w.dmg=Math.floor(d*(1+_wsp/100));w.surv=Math.floor(s*(1+_wsp/100));}
 function addXPSelf(amt){
   G.selfXp+=amt;const mx=WLVLS.length-1;
   const _prevPend=G.selfPendingLevel;
@@ -458,7 +540,7 @@ const goldReward=(md,_power,mapCost=0)=>{
   const base=mapCost||md.g[0]||1;
   const variance=(md.g[1]-md.g[0])/Math.max(1,md.g[0]);
   const rnd=base+Math.floor(Math.random()*(base*variance+1));
-  return Math.floor(rnd*pm*(1+_gp/100));
+  return Math.floor(rnd*pm*(1+(_gp+passiveVal('goldPct'))/100));
 };
 const goldMin=(md,mapCost=0)=>{
   const pm=1+(G.prestigeBonus||0)/100;
@@ -474,7 +556,7 @@ const canPrestige=()=>[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16].every(t=>G.cleare
 
 function genItem(tier,workerCls){
   let pool=IBASES;
-  if(workerCls)pool=Math.random()<.72?IBASES.filter(b=>b.cls===workerCls):IBASES;
+  if(workerCls)pool=Math.random()<.38?IBASES.filter(b=>b.cls===workerCls):IBASES;
   if(!pool.length)pool=IBASES;
   const base=pool[Math.floor(Math.random()*pool.length)];
   const r=Math.random();
@@ -489,7 +571,8 @@ function genItem(tier,workerCls){
   return {id:++G.iid,name:nm,em:base.em,cls:base.cls,slot:base.slot,quality,mods,tier,sellPrice:sp};
 }
 function tryItem(md,cls,mult=1){
-  if(Math.random()>md.drop*mult)return;
+  const _cluDp=(G.selfEq&&G.selfEq.cluster?(G.selfEq.cluster.mods||[]).reduce((s,m)=>s+(m.stat==='dropPct'?m.value:0),0):0)+passiveVal('dropPct');
+  if(Math.random()>md.drop*mult*(1+_cluDp/100))return;
   const it=genItem(md.t,cls);G.inv.push(it);G.stats.fi++;
   checkContractFind(it.quality);
   log(it.em+' <span style="color:'+qcol(it.quality)+'">'+it.name+'</span> ['+qlbl(it.quality)+']','i-'+it.quality[0]);
@@ -497,10 +580,12 @@ function tryItem(md,cls,mult=1){
 }
 function tryMap(md){
   if(!md||!md.t)return; // guardian/boss maps have no .md drop field
-  if(Math.random()>(md.md||0))return;
-  const dt=Math.max(1,Math.min(16,(md.t||16)+ri(0,Math.min(3,(md.mx||16)-(md.t||16)))));
+  const _cluMp=(G.selfEq&&G.selfEq.cluster?(G.selfEq.cluster.mods||[]).reduce((s,m)=>s+(m.stat==='mapDropPct'?m.value:0),0):0)+passiveVal('mapDropPct');
+  if(Math.random()>(md.md||0)*(1+_cluMp/100))return;
+  const _tierBonus=passiveVal('mapTierBonus');const dt=Math.max(1,Math.min(16,(md.t||16)+_tierBonus+ri(0,Math.min(3,(md.mx||16)-(md.t||16)))));
   // Guardian maps drop from T16
-  if(md.t>=14&&Math.random()<.25){
+  const _cluGp=(G.selfEq&&G.selfEq.cluster?(G.selfEq.cluster.mods||[]).reduce((s,m)=>s+(m.stat==='grdDropPct'?m.value:0),0):0)+passiveVal('grdDropPct');
+  if(md.t>=14&&Math.random()<Math.min(0.6,.25*(1+_cluGp/100))){
     const gm=GUARDIAN_MAPS[Math.floor(Math.random()*GUARDIAN_MAPS.length)];
     G.maps['grd_'+gm.id]=(G.maps['grd_'+gm.id]||0)+1;
     log('🔷 Карта стража «'+gm.nm+'» упала!','ev');
@@ -513,7 +598,7 @@ function tryMap(md){
     log('🗺🟠 Уникальная карта «'+uMap.nm+'» T'+dt+' упала!','ev');
     renderMaps();return;
   }
-  if(Math.random()<.12){G.maps['c'+dt]=(G.maps['c'+dt]||0)+1;log('🗺💜 Заражённая T'+dt+'!','ev');}
+  const _cursedPct=passiveVal('cursedMapPct');if(Math.random()<Math.min(0.35,.12*(1+_cursedPct/100))){G.maps['c'+dt]=(G.maps['c'+dt]||0)+1;log('🗺💜 Заражённая T'+dt+'!','ev');}
   else{G.maps[dt]=(G.maps[dt]||0)+1;log('🗺 Карта T'+dt+' упала','info');}
   renderMaps();
 }
@@ -826,12 +911,12 @@ function resolveExpStep(w){
   const ok=Math.random()<ch;
   G.stats.mr++;G.totalRuns++;
   if(!ok){
-    if(Math.random()<.2){w.status='captured';w.capturedAt=G.gt;G.stats.cap++;log('⛓️ '+w.name+' захвачен в экспедиции T'+tier+'!','ev');showN(w.name+' захвачен!','red');if(G.autoRescue){const _rc=Math.floor((30+tier*12)*(1-G.ups.rescue*.15));if(G.gold>=_rc){G.gold-=_rc;w.status='idle';log('🔓 Авто-выкуп '+w.name+' за '+_rc+'💰','info');if(G.autoExp)setTimeout(()=>tryAutoExp(w),300);}}}
+    if(Math.random()<.2){w.status='captured';w.capturedAt=G.gt;G.stats.cap++;log('⛓️ '+w.name+' захвачен в экспедиции T'+tier+'!','ev');showN(w.name+' захвачен!','red');if(G.autoRescue){const _rc=Math.floor((30+tier*12)*(1-G.ups.rescue*.15)*(1-passiveVal('rescueCostPct')/100));if(G.gold>=_rc){G.gold-=_rc;w.status='idle';log('🔓 Авто-выкуп '+w.name+' за '+_rc+'💰','info');if(G.autoExp)setTimeout(()=>tryAutoExp(w),300);}}}
     else{w.status='injured';w.injuredAt=G.gt;G.stats.inj++;log('💔 '+w.name+' ранен в экспедиции!','ev');}
     w.expTiers=[];w.expIdx=0;renderWorkers();renderInv();updateRes();return;
   }
   const ecost=SHOP_COSTS[tier]||0;
-  const g=Math.floor(goldReward(md,power,ecost)*1.2);G.gold+=g;G.stats.ge+=g;
+  const _expGb=1.2*(1+passiveVal('expGoldPct')/100);const g=Math.floor(goldReward(md,power,ecost)*_expGb);G.gold+=g;G.stats.ge+=g;
   G.cleared[tier]=true;if(tier>G.maxTier)G.maxTier=tier;
   if(tier===16)checkT16BossUnlock();
   log('💰 '+w.name+' экспед. T'+tier+' +'+g+'💰','ge');
@@ -968,6 +1053,9 @@ function checkAchs(){
   if((G.stats.delMaxWave||0)>=5)grant('del_wave5');
   if((G.stats.delMaxWave||0)>=10)grant('del_wave10');
   if((G.stats.delMaxWave||0)>=20)grant('del_wave20');
+  if(G.prestige>=1)grant('pres_1');
+  if(G.prestige>=3)grant('pres_3');
+  if(G.prestige>=5)grant('pres_5');
 }
 
 // ══════════ PRESTIGE ══════════════════════════════════════════
@@ -1030,13 +1118,13 @@ function confirmPrestige(factionId){
   const np=(G.prestige||0)+1,nb=np*15,kg=Math.floor(G.gold*.15);
   const lstats={...G.stats};const lruns=G.totalRuns;
   const lachs={...G.achs};const lpend={...(G.achsPending||{})};
-  const lfxp={...(G.factionXp||{})};const lfunl={...(G.factionUnlocks||{})};
+  const lfxp={...(G.factionXp||{})};const lfunl={...(G.factionUnlocks||{})};const lpass={...(G.passives||{})};
   // Give faction XP for completing prestige
   if(factionId&&factionId!=='none'){lfxp[factionId]=(lfxp[factionId]||0)+1;}
   G=freshG();
   G.prestige=np;G.prestigeBonus=nb;G.gold=kg+100;G.maps={1:5,2:3,3:1};
   G.stats=lstats;G.totalRuns=lruns;G.achs=lachs;G.achsPending=lpend;
-  G.factionXp=lfxp;G.factionUnlocks=lfunl;
+  G.factionXp=lfxp;G.factionUnlocks=lfunl;G.passives=lpass||{};
   G.faction=factionId||'none';
   // Apply faction start bonuses
   applyFactionStart();
@@ -1044,7 +1132,7 @@ function confirmPrestige(factionId){
   closeM();
   log('✨ ВОЗВЫШЕНИЕ '+np+'! Фракция: '+FACTIONS[G.faction].nm,'info');
   showN('✨ Возвышение '+np+'! '+FACTIONS[G.faction].em+' '+FACTIONS[G.faction].nm,'pur');
-  renderAll();updateDeliriumTab();save();
+  G.passivePending=(G.passivePending||0)+3;renderAll();updateDeliriumTab();save();if(G.passivePending>0)setTimeout(openPassiveTree,400);;
 }
 function applyFactionStart(){
   const f=FACTIONS[G.faction||'none'];if(!f)return;
@@ -1391,6 +1479,45 @@ function renderContracts(){
 }
 
 
+
+
+const PASSIVE_TREE = {
+  branches: [
+    {
+      id: 'cartographer',
+      nm: 'Картограф',
+      em: '🗺️',
+      color: '#44aaff',
+      nodes: [
+        {id:'carto_1', nm:'Картовед',        em:'📍', desc:'+15% к шансу выпадения карт',           stat:'mapDropPct',  val:15},
+        {id:'carto_2', nm:'Тировед',          em:'🔺', desc:'+1 к максимальному тиру дропа карт',   stat:'mapTierBonus',val:1},
+        {id:'carto_3', nm:'Картограф-мастер', em:'🌍', desc:'Заражённые карты падают в 2x чаще',    stat:'cursedMapPct',val:100},
+      ]
+    },
+    {
+      id: 'mercenary',
+      nm: 'Наёмник',
+      em: '🗡️',
+      color: '#ffaa44',
+      nodes: [
+        {id:'merc_1', nm:'Тренер',        em:'⚔️',    desc:'Работники получают +10% к урону и выживаемости', stat:'workerStatPct', val:10},
+        {id:'merc_2', nm:'Мародёр',       em:'💰',      desc:'+15% к золоту за экспедиции',                   stat:'expGoldPct',   val:15},
+        {id:'merc_3', nm:'Командир',      em:'👑',      desc:'Стоимость выкупа захваченных -25%',             stat:'rescueCostPct',val:25},
+      ]
+    },
+    {
+      id: 'hunter',
+      nm: 'Охотник',
+      em: '🏹',
+      color: '#44cc88',
+      nodes: [
+        {id:'hunt_1', nm:'Следопыт',      em:'🧲',   desc:'+12% к шансу выпадения предметов',     stat:'dropPct',     val:12},
+        {id:'hunt_2', nm:'Стервятник',    em:'🦅',   desc:'+20% к золоту за карты',               stat:'goldPct',     val:20},
+        {id:'hunt_3', nm:'Охотник-мастер',em:'🎯', desc:'Стражи падают на 30% чаще',             stat:'grdDropPct',  val:30},
+      ]
+    }
+  ]
+};
 
 const CLUSTER_STATS=[
   {stat:'goldPct',     nm:'Золото',    desc:'% к золоту',        type:'gold'},
@@ -1760,7 +1887,7 @@ function sfxDeliriumWave(){playTone(300,.15,'sine',.06);setTimeout(()=>playTone(
 function sfxContract(){playTone(660,.1,'sine',.1);setTimeout(()=>playTone(880,.15,'sine',.1),110);}
 // ══════════ TICK ══════════════════════════════════════════════
 function tick(){
-  G.gt+=200;
+  G.gt+=200;  // logical time always +200ms per tick
   // Auto-buy maps for Maraketh
   if(G.autoBuyMaps&&hasFaction('maraketh')&&G.lastExpSlots&&G.lastExpSlots.length){
     // Count exactly how many of each tier the last expedition needed
@@ -2172,6 +2299,11 @@ function renderAtlasBar(){
   const ct=document.getElementById('pt-tiers');if(!ct)return;
   ct.innerHTML=[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16].map(t=>'<div class="pt-t '+(G.cleared[t]?'done':'')+'" title="T'+t+' '+MAP_TIERS[t-1].nm+'">'+t+'</div>').join('');
   const hint=document.getElementById('pt-hint');if(!hint)return;
+  const _pbtn=document.getElementById('btn-passive-tree');
+  if(_pbtn){_pbtn.style.display=G.prestige>0?'inline-block':'none';
+    if((G.passivePending||0)>0){_pbtn.style.borderColor='var(--gold)';_pbtn.style.color='var(--gold)';_pbtn.textContent='🌐 Дерево атласа ('+G.passivePending+')';}
+    else{_pbtn.style.borderColor='';_pbtn.style.color='';_pbtn.textContent='🌐 Дерево атласа';}
+  }
   const cl=Object.keys(G.cleared).length;
   if(G.prestige>0){
     const f=FACTIONS[G.faction||'none'];
@@ -2514,7 +2646,19 @@ function doReset(){
   if(window._saveId){clearInterval(window._saveId);window._saveId=null;}
   try{localStorage.removeItem('kartahodec_save');}catch(e){}
   G=freshG();
-  window._tickId=setInterval(tick,200);
+  // Self-correcting tick loop — survives background tab throttling
+window._lastTick=performance.now();
+window._tickAccum=0;
+function scheduleTick(){
+  const now=performance.now();
+  const elapsed=now-window._lastTick;
+  window._lastTick=now;
+  window._tickAccum+=elapsed;
+  while(window._tickAccum>=200){window._tickAccum-=200;tick();}
+  window._rafId=requestAnimationFrame(scheduleTick);
+}
+if(window._rafId)cancelAnimationFrame(window._rafId);
+scheduleTick();
   // Hide modal overlay
   const ov=document.getElementById('moverlay');if(ov)ov.classList.remove('on');
   // Replace app
@@ -2567,6 +2711,11 @@ function floatT(txt,color){
 }
 
 // ══════════ SAVE / LOAD ═══════════════════════════════════════
+function manualSave(){
+  save();
+  const btn=document.getElementById('btn-manual-save');
+  if(btn){const orig=btn.textContent;btn.textContent='✅ СОХРАНЕНО';btn.style.color='#88cc88';btn.style.borderColor='#44aa44';setTimeout(()=>{btn.textContent=orig;btn.style.color='';btn.style.borderColor='';},1500);}
+}
 function save(){
   try{localStorage.setItem('kartahodec_save',JSON.stringify({
     v:14,gold:G.gold,totalRuns:G.totalRuns,maps:G.maps,inv:G.inv,workers:G.workers,
@@ -2575,7 +2724,7 @@ function save(){
     stats:G.stats,iid:G.iid,wid:G.wid,
     maxTier:G.maxTier,cleared:G.cleared,achs:G.achs,achsPending:G.achsPending,prestige:G.prestige,prestigeBonus:G.prestigeBonus,
     guardianPieces:G.guardianPieces,faction:G.faction||'none',factionXp:G.factionXp||{},factionUnlocks:G.factionUnlocks||{},bossAttempts:G.bossAttempts,bossKills:G.bossKills,bossTriesLeft:G.bossTriesLeft||0,activeBossId:G.activeBossId||null,t16RunsSinceBoss:G.t16RunsSinceBoss||0,pendingBoss:G.pendingBoss||null,
-    syndRunSpeed:G.syndRunSpeed||1.0,contracts:G.contracts||[],contractRunsDone:G.contractRunsDone||0,autoExp:G.autoExp||false,autoRescue:G.autoRescue||false,autoHeal:G.autoHeal||false,autoBuyMaps:G.autoBuyMaps||false,
+    syndRunSpeed:G.syndRunSpeed||1.0,contracts:G.contracts||[],contractRunsDone:G.contractRunsDone||0,passives:G.passives||{},passivePending:G.passivePending||0,autoExp:G.autoExp||false,autoRescue:G.autoRescue||false,autoHeal:G.autoHeal||false,autoBuyMaps:G.autoBuyMaps||false,
     deliriumOrbs:G.deliriumOrbs||0,deliriumSplinters:G.deliriumSplinters||0,deliriumMaps:G.deliriumMaps||{},
   }));}catch(e){}
 }
@@ -2591,7 +2740,7 @@ if(s.v&&s.v>=9){/* compatible enough */}
     if(!G.selfCls)G.selfCls=null;if(G.clsLocked===undefined)G.clsLocked=false;if(!G.lastExpSlots)G.lastExpSlots=null;
     if(!G.guardianPieces)G.guardianPieces={shaper:0,elder:0};if(!G.faction)G.faction='none';if(!G.factionXp)G.factionXp={};if(!G.factionUnlocks)G.factionUnlocks={};if(!G.bossAttempts)G.bossAttempts={};if(!G.bossKills)G.bossKills={};if(G.bossTriesLeft===undefined)G.bossTriesLeft=0;if(G.t16RunsSinceBoss===undefined)G.t16RunsSinceBoss=0;if(G.pendingBoss===undefined)G.pendingBoss=null;
     if(!G.contracts)G.contracts=[];if(G.contractRunsDone===undefined)G.contractRunsDone=0;
-    if(!G.deliriumOrbs)G.deliriumOrbs=0;if(!G.deliriumSplinters)G.deliriumSplinters=0;if(G.autoOrb===undefined)G.autoOrb=false;if(!G.contractRerolls)G.contractRerolls=0;if(!G.deliriumWave)G.deliriumWave=0;if(!G.deliriumPending)G.deliriumPending=[];if(!G.deliriumMaps)G.deliriumMaps={};
+    if(!G.deliriumOrbs)G.deliriumOrbs=0;if(!G.passives)G.passives={};if(G.passivePending===undefined)G.passivePending=0;if(!G.deliriumSplinters)G.deliriumSplinters=0;if(G.autoOrb===undefined)G.autoOrb=false;if(!G.contractRerolls)G.contractRerolls=0;if(!G.deliriumWave)G.deliriumWave=0;if(!G.deliriumPending)G.deliriumPending=[];if(!G.deliriumMaps)G.deliriumMaps={};
     if(G.autoExp===undefined)G.autoExp=false;if(G.autoRescue===undefined)G.autoRescue=false;if(G.autoHeal===undefined)G.autoHeal=false;if(G.autoBuyMaps===undefined)G.autoBuyMaps=false;
     // Re-apply syndicate flags
     if(G.faction==='syndicate'){const _sxp=(G.factionXp&&G.factionXp.syndicate)||0;const _sf=FACTIONS.syndicate;G.syndRunSpeed=(_sf.levels||[]).some(l=>l.xp<=_sxp&&l.reward&&l.reward.runSpeed)?1.50:1.0;G.syndExtraWeapon=true;}else{G.syndRunSpeed=1.0;if(G.syndExtraWeapon===undefined)G.syndExtraWeapon=false;}
@@ -2753,6 +2902,7 @@ document.addEventListener('click',function(e){
   if(t.id==='btn-prestige'||t.id==='btn-prestige-bar'){doPrestige();return;}
   if(t.dataset.facTab){openFactionChoice(t.dataset.facTab);return;}
   const _claimId=t.dataset.claimId;if(_claimId){claimContract(_claimId);return;}
+  const _passId=t.dataset.passiveId;if(_passId){buyPassive(_passId);return;}
   const facPick=t.closest('[data-faction-pick]');
   if(facPick){confirmPrestige(facPick.dataset.factionPick);return;}
   // Shop
@@ -2819,7 +2969,19 @@ document.addEventListener('scroll',()=>hideTip(),true);
 // ══════════ INIT ══════════════════════════════════════════════
 function init(){
   load();renderAll();
-  window._tickId=setInterval(tick,200);
+  // Self-correcting tick loop — survives background tab throttling
+window._lastTick=performance.now();
+window._tickAccum=0;
+function scheduleTick(){
+  const now=performance.now();
+  const elapsed=now-window._lastTick;
+  window._lastTick=now;
+  window._tickAccum+=elapsed;
+  while(window._tickAccum>=200){window._tickAccum-=200;tick();}
+  window._rafId=requestAnimationFrame(scheduleTick);
+}
+if(window._rafId)cancelAnimationFrame(window._rafId);
+scheduleTick();
   window._saveId=setInterval(save,8000);
   log('🌟 Добро пожаловать! Картоходец v0.066','info');
 }
