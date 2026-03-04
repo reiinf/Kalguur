@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Картоходец v0.066</title>
+<title>Картоходец v0.073</title>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;900&family=Crimson+Pro:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
 <style>
 :root{--gold:#c8a96e;--gold-b:#f0d080;--gold-d:#8a6a2e;--blood:#8b1a1a;--blood-b:#c0392b;--bg0:#0a0806;--bg1:#110e09;--bg2:#1a1510;--bg3:#1f1912;--bg4:#241d14;--brd:#3a2e1e;--brd-g:#5a4a2a;--txt:#d4c4a0;--txt-d:#8a7a60;--txt-b:#f0e0b0;--mag:#8888ff;--rare:#f0d060;--uniq:#e87020;--norm:#b0b0b0;--grn:#4a9a4a;--cyn:#4ab0b0;--red:#c03030;--org:#cc7700;}
@@ -115,7 +115,7 @@ h1{font-family:'Cinzel',serif;font-size:22px;font-weight:900;color:var(--gold);t
 <body>
 <div id="app">
 <header>
-  <h1>КАРТОХОДЕЦ <span class="ver">v0.066</span></h1>
+  <h1>КАРТОХОДЕЦ <span class="ver">v0.073</span></h1>
 </header>
 <div id="res-bar">
   <div class="ri"><span class="ri-ico">💰</span><div><span class="ri-lbl">ЗОЛОТО</span><span class="ri-val" id="r-gold">0</span></div></div>
@@ -126,7 +126,7 @@ h1{font-family:'Cinzel',serif;font-size:22px;font-weight:900;color:var(--gold);t
   <div class="ri" id="ri-del-spl-ri" style="display:none"><span class="ri-ico">👁</span><div><span class="ri-lbl">ОСКОЛКИ</span><span class="ri-val" id="r-del-spl">0</span></div></div>
   <div class="ri"><span class="ri-ico">🔄</span><div><span class="ri-lbl">ПРОЙДЕНО</span><span class="ri-val" id="r-runs">0</span></div></div>
   <div class="ri" id="ri-pres" style="display:none"><span class="ri-ico">✨</span><div><span class="ri-lbl">ПРЕСТИЖ</span><span class="ri-val" id="r-pres">0</span></div></div>
-  <button id="btn-manual-save" onclick="manualSave()" style="margin-left:auto;background:#1a2a1a;border:1px solid #335533;color:#88aa88;font-size:11px;font-family:'Cinzel',serif;padding:4px 10px;cursor:pointer;clip-path:polygon(6px 0,100% 0,calc(100% - 6px) 100%,0 100%);letter-spacing:1px" title="Сохранить прогресс">💾 СОХРАНИТЬ</button>
+  <button id="btn-manual-save" onclick="manualSave()" style="margin-left:auto;background:var(--bg3);border:1px solid var(--brd);color:var(--txt-d);font-size:11px;font-family:'Cinzel',serif;padding:4px 10px;cursor:pointer;clip-path:polygon(6px 0,100% 0,calc(100% - 6px) 100%,0 100%);letter-spacing:1px" title="Сохранить прогресс">💾 СОХРАНИТЬ</button>
 </div>
 <div id="atlas-bar">
   <span class="pt-lbl">АТЛАС:</span>
@@ -228,6 +228,9 @@ h1{font-family:'Cinzel',serif;font-size:22px;font-weight:900;color:var(--gold);t
 <div id="moverlay"><div id="mbox"><div class="mtl" id="mtl"></div><div id="mbd"></div></div></div>
 <div id="notif-area"></div>
 <script>
+const VERSION="0.074";
+document.title="Картоходец v"+VERSION;
+document.querySelector(".ver").textContent="v"+VERSION;
 'use strict';
 // ══════════ CONSTANTS ══════════════════════════════════════════
 const MAP_TIERS=[
@@ -2614,7 +2617,7 @@ function openDebug(){
     return 'T'+m.t+':'+(Math.floor(base*mult));
   }).join(' ');
   const rows=[
-    ['version','v0.066'],['gold',G.gold],['totalRuns',G.totalRuns],['prestige',G.prestige],['bonus',G.prestigeBonus+'%'],
+    ['version','v'+VERSION],['gold',G.gold],['totalRuns',G.totalRuns],['prestige',G.prestige],['bonus',G.prestigeBonus+'%'],
     ['selfPower',sp],['chances',[1,3,5,8,10,12,16].map(t=>'T'+t+':'+Math.round(calcCh(sp,t)*100)+'%').join(' ')],
     ['cleared',Object.keys(G.cleared).sort((a,b)=>a-b).join(',')],
     ['maps',Object.keys(G.maps).filter(k=>G.maps[k]>0).map(k=>k+':'+G.maps[k]).join(',')],
@@ -2983,7 +2986,7 @@ function scheduleTick(){
 if(window._rafId)cancelAnimationFrame(window._rafId);
 scheduleTick();
   window._saveId=setInterval(save,8000);
-  log('🌟 Добро пожаловать! Картоходец v0.066','info');
+  log('🌟 Добро пожаловать! Картоходец v'+VERSION,'info');
 }
 init();
 </script>
