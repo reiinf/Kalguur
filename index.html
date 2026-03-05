@@ -16,9 +16,9 @@ header::after{content:'⚙ МАШИНА КАЛГУУРА ⚙';position:absolute;
 h1{font-family:'Cinzel',serif;font-size:22px;font-weight:900;color:var(--gold);text-shadow:0 0 25px rgba(200,169,110,.4);letter-spacing:4px;display:flex;align-items:center;justify-content:center;gap:10px;}
 .ver{font-size:10px;color:var(--gold-d);border:1px solid var(--gold-d);padding:2px 6px;letter-spacing:2px;font-weight:400;}
 .sub{font-size:10px;color:var(--txt-d);letter-spacing:2px;margin-top:2px;font-style:italic;}
-#res-bar{display:flex;gap:4px;margin-bottom:6px;flex-wrap:wrap;align-items:stretch;}
-.ri{background:var(--bg3);border:1px solid var(--brd);padding:3px 8px;display:flex;align-items:center;gap:5px;font-family:'Cinzel',serif;font-size:13px;clip-path:polygon(6px 0,100% 0,calc(100% - 6px) 100%,0 100%);flex-shrink:0;}
-.ri-ico{font-size:15px;line-height:1;flex-shrink:0;}.ri-lbl{color:var(--txt-d);font-size:11px;letter-spacing:1px;display:block;}.ri-val{color:var(--gold);font-weight:600;}
+#res-bar{display:flex;gap:4px;margin-bottom:6px;flex-wrap:wrap;align-items:flex-start;}
+.ri{background:var(--bg3);border:1px solid var(--brd);padding:4px 10px;display:flex;flex-direction:row;align-items:center;gap:6px;font-family:'Cinzel',serif;font-size:13px;clip-path:polygon(6px 0,100% 0,calc(100% - 6px) 100%,0 100%);flex-shrink:0;white-space:nowrap;min-width:0;}
+.ri-ico{font-size:14px;line-height:1;flex-shrink:0;display:inline-flex;align-items:center;}.ri-lbl{color:var(--txt-d);font-size:10px;letter-spacing:0.5px;display:block;line-height:1.2;white-space:nowrap;}.ri-val{color:var(--gold);font-weight:600;white-space:nowrap;}.ri>div{display:flex;flex-direction:column;justify-content:center;min-width:0;}
 #atlas-bar{background:var(--bg3);border:1px solid var(--brd-g);padding:5px 12px;margin-bottom:8px;display:flex;align-items:center;gap:8px;font-size:13px;flex-wrap:wrap;}
 .pt-lbl{font-family:'Cinzel',serif;color:var(--gold-d);letter-spacing:1px;font-size:11px;white-space:nowrap;}
 .pt-tiers{display:flex;gap:2px;flex-wrap:wrap;}
@@ -126,7 +126,7 @@ h1{font-family:'Cinzel',serif;font-size:22px;font-weight:900;color:var(--gold);t
   <div class="ri" id="ri-del-spl-ri" style="display:none"><span class="ri-ico">👁</span><div><span class="ri-lbl">ОСКОЛКИ</span><span class="ri-val" id="r-del-spl">0</span></div></div>
   <div class="ri" id="ri-runs-bar" style="display:none"><span class="ri-ico">🔄</span><div><span class="ri-lbl">ПРОЙДЕНО</span><span class="ri-val" id="r-runs">0</span></div></div>
   <div class="ri" id="ri-pres" style="display:none"><span class="ri-ico">✨</span><div><span class="ri-lbl">ПРЕСТИЖ</span><span class="ri-val" id="r-pres">0</span></div></div>
-  <button id="btn-manual-save" onclick="manualSave()" style="margin-left:auto;background:var(--bg3);border:1px solid var(--brd);color:var(--txt-d);font-size:10px;font-family:'Cinzel',serif;padding:2px 7px;cursor:pointer;clip-path:polygon(6px 0,100% 0,calc(100% - 6ppx) 100%,0 100%);letter-spacing:1px" title="Сохранить прогресс">💾 СОХРАНИТЬ</button>
+  <button id="btn-manual-save" onclick="manualSave()" style="margin-left:auto;background:linear-gradient(180deg,rgba(200,169,110,.15),rgba(200,169,110,.05));border:1px solid var(--gold-d);color:var(--gold);font-size:10px;font-family:'Cinzel',serif;padding:3px 10px;cursor:pointer;clip-path:polygon(5px 0,100% 0,calc(100% - 5px) 100%,0 100%);letter-spacing:1px" title="Сохранить прогресс">💾 СОХРАНИТЬ</button>
 </div>
 <div id="atlas-bar-wrap" style="display:none"><div id="atlas-bar">
   <span class="pt-lbl">АТЛАС:</span>
@@ -136,8 +136,8 @@ h1{font-family:'Cinzel',serif;font-size:22px;font-weight:900;color:var(--gold);t
 </div></div>
 <div id="layout">
 <!-- LEFT -->
-<div>
-  <div class="panel">
+<div id="col-left">
+  <div class="panel" id="left-panel">
     <div class="tabs">
       <button class="tab-btn active" id="tabbtn-maps" data-tab="maps">🗺 КАРТЫ</button>
       <button class="tab-btn" id="tabbtn-shop" data-tab="shop" style="display:none">🏪 ЛАВКА</button>
@@ -206,12 +206,12 @@ h1{font-family:'Cinzel',serif;font-size:22px;font-weight:900;color:var(--gold);t
   </div>
 </div>
 <!-- RIGHT -->
-<div>
+<div id="col-right" style="display:none">
   <div class="panel" id="upgrades-panel" style="display:none">
     <div class="ptitle">⚙ МАШИНА КАЛГУУРА</div>
     <div id="upgrades"></div>
   </div>
-  <div class="panel" id="log-panel" style="margin-top:8px;display:none">
+  <div class="panel" id="log-panel" style="display:none">
     <div class="ptitle">📜 ЖУРНАЛ</div>
     <div id="loot-log"></div>
   </div>
@@ -230,7 +230,7 @@ h1{font-family:'Cinzel',serif;font-size:22px;font-weight:900;color:var(--gold);t
 <div id="moverlay"><div id="mbox"><div class="mtl" id="mtl"></div><div id="mbd"></div></div></div>
 <div id="notif-area"></div>
 <script>
-const VERSION="0.088";
+const VERSION="0.097";
 document.title="Картоходец v"+VERSION;
 document.querySelector(".ver").textContent="v"+VERSION;
 // Secret debug: click version 5 times
@@ -515,7 +515,7 @@ function applyUnlocks(){
   const unlockDanger = maxCleared>=3 || p>0;
 
   // ── Res-bar ──
-  show('ri-gold');
+  show('ri-gold','flex');
   const hasMaps=Object.values(G.maps||{}).some(v=>v>0);
   show('ri-maps-bar',    hasMaps        ? 'flex':'none');
   show('ri-items-bar',   hasItem        ? 'flex':'none');
@@ -542,6 +542,10 @@ function applyUnlocks(){
   show('workers-panel',  unlockWorkers ? 'block':'none');
   show('upgrades-panel', unlockWorkers ? 'block':'none');
   show('log-panel',      unlockLog     ? 'block':'none');
+  const _lp=document.getElementById('log-panel');if(_lp)_lp.style.marginTop=unlockWorkers?'8px':'0';
+  // Show right column wrapper when any panel inside is visible
+  const _anyRight=unlockLog||unlockWorkers||unlockStats||unlockDanger;
+  show('col-right', _anyRight ? 'block':'none');
   show('stats-panel',    unlockStats   ? 'block':'none');
   show('danger-panel',   unlockDanger  ? 'block':'none');
 
@@ -2021,16 +2025,22 @@ function tick(){
 }
 
 // ══════════ RENDER ═════════════════════════════════════════════
-function renderAll(){applyUnlocks();updateAchBadge();renderMaps();renderShop();renderInv();renderActs();renderWorkers();renderUpgrades();renderAtlasBar();renderAtlasTab();renderAchs();renderDelirium();updateRes();updateStats();updateSelfStats();updateDeliriumTab();}
+function renderAll(){applyUnlocks();
+  // Restore/set active left tab
+  {const _vt=['maps','shop','inv','atlas','ach'].filter(t=>{const b=document.getElementById('tabbtn-'+t);return b&&b.style.display!=='none';});
+  const _tr=(G.activeTab&&G.activeTab!=='acts'&&_vt.includes(G.activeTab))?G.activeTab:(_vt[0]||'maps');
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.toggle('active',b.dataset.tab===_tr));
+  document.querySelectorAll('.tabpanel').forEach(p=>p.classList.toggle('active',p.id==='tab-'+_tr));
+  G.activeTab=_tr;}updateAchBadge();renderMaps();renderShop();renderInv();renderActs();renderWorkers();renderUpgrades();renderAtlasBar();renderAtlasTab();renderAchs();renderDelirium();updateRes();updateStats();updateSelfStats();updateDeliriumTab();}
 
 function renderMaps(){
   const el=document.getElementById('tab-maps');if(!el)return;
   const allKeys=Object.keys(G.maps).filter(k=>G.maps[k]>0);
   if(!allKeys.length){el.innerHTML='<div class="dim" style="text-align:center;padding:14px;font-style:italic">Нет карт.<br>Купите в лавке или пройдите акты!</div>';return;}
   const power=sDmg()+sSurv();
-  const normal=allKeys.filter(k=>!isNaN(k)).map(Number).sort((a,b)=>a-b);
-  const cursed=allKeys.filter(k=>String(k).startsWith('c')).map(k=>parseInt(k.slice(1))).sort((a,b)=>a-b);
-  const uniqs=allKeys.filter(k=>String(k).startsWith('u')).map(k=>parseInt(k.slice(1))).sort((a,b)=>a-b);
+  const normal=allKeys.filter(k=>!isNaN(k)).map(Number).sort((a,b)=>b-a);
+  const cursed=allKeys.filter(k=>String(k).startsWith('c')).map(k=>parseInt(k.slice(1))).sort((a,b)=>b-a);
+  const uniqs=allKeys.filter(k=>String(k).startsWith('u')).map(k=>parseInt(k.slice(1))).sort((a,b)=>b-a);
   const grdKeys=Object.keys(G.maps).filter(k=>k.startsWith('grd_')&&G.maps[k]>0);
   // Boss portal cards
   // Combined Exarch+Eater card (single entry), Shaper separate
@@ -2186,14 +2196,15 @@ function renderShop(){
       '<button class="btn btn-sm" style="margin-top:2px;border-color:#553377" data-shop="buyOrb">Обменять</button></div></div>';
   }
   // Map cards T1→highest unlocked
-  html+=unlockedMaps.map(renderItem).join('');
-  // Next locked tier hint
+  // Next locked tier hint at TOP
   if(lockedMaps.length){
     const nx=lockedMaps[0];
     html+='<div class="srow" style="opacity:.4;pointer-events:none"><span>🔒</span>'+
       '<div class="si"><div class="snm">'+nx.nm+'</div><div class="sds">После T'+(nx.mt+1)+'</div></div>'+
       '<div class="spr">💰'+nx.cost+'</div></div>';
   }
+  // Map cards highest→T1
+  html+=[...unlockedMaps].reverse().map(renderItem).join('');
   // Class respec at bottom
   if(G.clsLocked){
     html+='<div class="srow" style="margin-top:8px;border-top:1px solid var(--brd);padding-top:8px">'+
@@ -2844,7 +2855,10 @@ function openTutorial(){
 function manualSave(){
   save();
   const btn=document.getElementById('btn-manual-save');
-  if(btn){const orig=btn.textContent;btn.textContent='✅ СОХРАНЕНО';btn.style.color='#88cc88';btn.style.borderColor='#44aa44';setTimeout(()=>{btn.textContent=orig;btn.style.color='';btn.style.borderColor='';},1500);}
+  if(btn){const orig=btn.innerHTML;const origStyle=btn.getAttribute('style');
+    btn.innerHTML='✅ СОХРАНЕНО';btn.style.color='#88cc88';btn.style.borderColor='#44aa44';btn.style.background='rgba(50,120,50,.3)';
+    setTimeout(()=>{btn.innerHTML=orig;btn.setAttribute('style',origStyle);},1500);
+  }
 }
 function save(){
   try{localStorage.setItem('kartahodec_save',JSON.stringify({
@@ -2874,12 +2888,7 @@ if(s.v&&s.v>=9){/* compatible enough */}
     if(G.autoExp===undefined)G.autoExp=false;if(G.autoRescue===undefined)G.autoRescue=false;if(G.autoHeal===undefined)G.autoHeal=false;if(G.autoBuyMaps===undefined)G.autoBuyMaps=false;
     // Re-apply syndicate flags
     if(G.faction==='syndicate'){const _sxp=(G.factionXp&&G.factionXp.syndicate)||0;const _sf=FACTIONS.syndicate;G.syndRunSpeed=(_sf.levels||[]).some(l=>l.xp<=_sxp&&l.reward&&l.reward.runSpeed)?1.50:1.0;G.syndExtraWeapon=true;}else{G.syndRunSpeed=1.0;if(G.syndExtraWeapon===undefined)G.syndExtraWeapon=false;}
-    // Restore active tab — only restore if tab is actually visible
-    const _visibleTabs=['maps','shop','inv','atlas','ach'].filter(t=>{const b=document.getElementById('tabbtn-'+t);return b&&b.style.display!=='none';});
-    const _tabToRestore=G.activeTab&&_visibleTabs.includes(G.activeTab)?G.activeTab:(_visibleTabs[0]||'maps');
-    document.querySelectorAll('.tab-btn').forEach(b=>b.classList.toggle('active',b.dataset.tab===_tabToRestore));
-    document.querySelectorAll('.tabpanel').forEach(p=>p.classList.toggle('active',p.id==='tab-'+_tabToRestore));
-    G.activeTab=_tabToRestore;
+    // Tab restore handled in renderAll
     if(!G.selfXp)G.selfXp=0;if(!G.selfLevel)G.selfLevel=0;if(G.selfLevelUp===undefined)G.selfLevelUp=false;
     if(G.selfPendingLevel===undefined)G.selfPendingLevel=G.selfLevel;
     G.workers.forEach(w=>{
