@@ -231,7 +231,7 @@ h1{font-family:'Cinzel',serif;font-size:22px;font-weight:900;color:var(--gold);t
 <div id="moverlay"><div id="mbox"><div class="mtl" id="mtl"></div><div id="mbd"></div></div></div>
 <div id="notif-area"></div>
 <script>
-const VERSION="0.114";
+const VERSION="0.118";
 document.title="Картоходец v"+VERSION;
 document.querySelector(".ver").textContent="v"+VERSION;
   document.getElementById("page-title").textContent="Картоходец v"+VERSION;
@@ -241,22 +241,22 @@ if(_vs)_vs.addEventListener('click',function(){_vc++;clearTimeout(_vt);_vt=setTi
 'use strict';
 // ══════════ CONSTANTS ══════════════════════════════════════════
 const MAP_TIERS=[
-  {t:1, nm:'Академия',              em:'🏛️',time:8, g:[15,35],  drop:.28,md:.08,mx:2, dgr:22},
-  {t:2, nm:'Дюны',                  em:'🏜️',time:9, g:[22,48],  drop:.30,md:.09,mx:3, dgr:35},
-  {t:3, nm:'Каньон',                em:'🏔️',time:10,g:[32,68],  drop:.32,md:.10,mx:4, dgr:52},
-  {t:4, nm:'Кладбище',              em:'⛪',time:12,g:[45,90],  drop:.34,md:.11,mx:5, dgr:73},
-  {t:5, nm:'Атолл',                 em:'🏝️',time:13,g:[60,115], drop:.36,md:.12,mx:6, dgr:98},
-  {t:6, nm:'Арсенал',               em:'⚔️',time:15,g:[80,150], drop:.38,md:.13,mx:7, dgr:128},
-  {t:7, nm:'Городская площадь',     em:'🏙️',time:17,g:[100,185],drop:.40,md:.14,mx:8, dgr:163},
-  {t:8, nm:'Базар',                 em:'🛒',time:18,g:[125,230], drop:.42,md:.15,mx:9, dgr:203},
-  {t:9, nm:'Тёмный лес',            em:'🌑',time:20,g:[155,285], drop:.44,md:.16,mx:10,dgr:248},
-  {t:10,nm:'Ледяные хижины',       em:'🏔️',time:22,g:[195,345], drop:.46,md:.16,mx:11,dgr:298},
-  {t:11,nm:'Кислотные пещеры',      em:'🧪',time:25,g:[240,410], drop:.48,md:.17,mx:12,dgr:354},
-  {t:12,nm:'Пурпурный храм',       em:'🟣',time:28,g:[290,480], drop:.50,md:.18,mx:13,dgr:416},
-  {t:13,nm:'Погребальные камеры',   em:'⚰️',time:30,g:[350,570], drop:.52,md:.19,mx:14,dgr:484},
-  {t:14,nm:'Гробница паука',        em:'🕷️',time:33,g:[420,670], drop:.55,md:.20,mx:15,dgr:558},
-  {t:15,nm:'Арена',                 em:'🏟️',time:36,g:[500,790], drop:.58,md:.22,mx:16,dgr:638},
-  {t:16,nm:'Пляж',                  em:'🌊',time:40,g:[600,900], drop:.62,md:.25,mx:16,dgr:725},
+  {t:1, nm:'Академия',              em:'🏛️',time:6, g:[15,35],  drop:.28,md:.08,mx:2, dgr:22},
+  {t:2, nm:'Дюны',                  em:'🏜️',time:7, g:[22,48],  drop:.30,md:.09,mx:3, dgr:35},
+  {t:3, nm:'Каньон',                em:'🏔️',time:8,g:[32,68],  drop:.32,md:.10,mx:4, dgr:52},
+  {t:4, nm:'Кладбище',              em:'⛪',time:9,g:[45,90],  drop:.34,md:.11,mx:5, dgr:73},
+  {t:5, nm:'Атолл',                 em:'🏝️',time:10,g:[60,115], drop:.36,md:.12,mx:6, dgr:98},
+  {t:6, nm:'Арсенал',               em:'⚔️',time:11,g:[80,150], drop:.38,md:.13,mx:7, dgr:128},
+  {t:7, nm:'Городская площадь',     em:'🏙️',time:13,g:[100,185],drop:.40,md:.14,mx:8, dgr:163},
+  {t:8, nm:'Базар',                 em:'🛒',time:14,g:[125,230], drop:.42,md:.15,mx:9, dgr:203},
+  {t:9, nm:'Тёмный лес',            em:'🌑',time:15,g:[155,285], drop:.44,md:.16,mx:10,dgr:248},
+  {t:10,nm:'Ледяные хижины',       em:'🏔️',time:16,g:[195,345], drop:.46,md:.16,mx:11,dgr:298},
+  {t:11,nm:'Кислотные пещеры',      em:'🧪',time:19,g:[240,410], drop:.48,md:.17,mx:12,dgr:354},
+  {t:12,nm:'Пурпурный храм',       em:'🟣',time:21,g:[290,480], drop:.50,md:.18,mx:13,dgr:416},
+  {t:13,nm:'Погребальные камеры',   em:'⚰️',time:22,g:[350,570], drop:.52,md:.19,mx:14,dgr:484},
+  {t:14,nm:'Гробница паука',        em:'🕷️',time:25,g:[420,670], drop:.55,md:.20,mx:15,dgr:558},
+  {t:15,nm:'Арена',                 em:'🏟️',time:27,g:[500,790], drop:.58,md:.22,mx:16,dgr:638},
+  {t:16,nm:'Пляж',                  em:'🌊',time:30,g:[600,900], drop:.62,md:.25,mx:16,dgr:725},
 ];
 const SHOP_COSTS={1:15,2:35,3:65,4:100,5:140,6:185,7:240,8:310,9:400,10:510,11:640,12:800,13:990,14:1220,15:1500,16:1850};
 const WCLS={
@@ -1212,12 +1212,15 @@ function confirmPrestige(factionId){
   const lstats={...G.stats};const lruns=G.totalRuns;
   const lachs={...G.achs};const lpend={...(G.achsPending||{})};
   const lfxp={...(G.factionXp||{})};const lfunl={...(G.factionUnlocks||{})};const lpass={...(G.passives||{})};
+  // Preserve lifetime max cleared tier for delirium/feature gating
+  const llifetimeMax=Math.max(G.lifetimeMaxCleared||0,...Object.keys(G.cleared||{}).map(Number).filter(n=>G.cleared[n]),0);
   // Give faction XP for completing prestige
   if(factionId&&factionId!=='none'){lfxp[factionId]=(lfxp[factionId]||0)+1;}
   G=freshG();
   G.prestige=np;G.prestigeBonus=nb;G.gold=kg+100;G.maps={1:5,2:3,3:1};
   G.stats=lstats;G.totalRuns=lruns;G.achs=lachs;G.achsPending=lpend;
   G.factionXp=lfxp;G.factionUnlocks=lfunl;G.passives=lpass||{};
+  G.lifetimeMaxCleared=llifetimeMax;
   G.faction=factionId||'none';
   // After prestige player has seen everything — unlock all UI immediately
   G._prestigeUnlockAll=true;
@@ -1683,7 +1686,7 @@ function renderDelirium(){
   if(G.deliriumRunning&&window._delTimer){return;} // don't clobber animation
   // T5-T9: teaser only
   const _clearedTiers=Object.keys(G.cleared||{}).map(Number).filter(n=>G.cleared[n]);
-  const _maxCleared=_clearedTiers.length?Math.max(..._clearedTiers):0;
+  const _maxCleared=Math.max(_clearedTiers.length?Math.max(..._clearedTiers):0, G.lifetimeMaxCleared||0);
   const _hasT5=_maxCleared>=5;
   const _hasT10=_maxCleared>=10;
   const _hasT16=_maxCleared>=16;
@@ -2470,7 +2473,7 @@ function updateDeliriumTab(){
   const _dBtn=document.getElementById('ctab-delirium');
   if(!_dBtn)return;
   // Show tab: T5 cleared → teaser, T10+ cleared → full access  
-  const _t5=Object.keys(G.cleared||{}).some(k=>parseInt(k)>=5&&G.cleared[k]);
+  const _t5=Object.keys(G.cleared||{}).some(k=>parseInt(k)>=5&&G.cleared[k])||(G.lifetimeMaxCleared||0)>=5;
   if(_t5)_dBtn.style.display='';
   else _dBtn.style.display='none';
 }
@@ -2897,7 +2900,7 @@ function save(){
     ups:G.ups,selfEq:G.selfEq,
     selfCls:G.selfCls,clsLocked:G.clsLocked,selfXp:G.selfXp,selfLevel:G.selfLevel,selfPendingLevel:G.selfPendingLevel,lastExpSlots:G.lastExpSlots,
     stats:G.stats,iid:G.iid,wid:G.wid,
-    maxTier:G.maxTier,cleared:G.cleared,achs:G.achs,achsPending:G.achsPending,prestige:G.prestige,prestigeBonus:G.prestigeBonus,
+    maxTier:G.maxTier,cleared:G.cleared,lifetimeMaxCleared:G.lifetimeMaxCleared||0,achs:G.achs,achsPending:G.achsPending,prestige:G.prestige,prestigeBonus:G.prestigeBonus,
     guardianPieces:G.guardianPieces,faction:G.faction||'none',factionXp:G.factionXp||{},factionUnlocks:G.factionUnlocks||{},bossAttempts:G.bossAttempts,bossKills:G.bossKills,bossTriesLeft:G.bossTriesLeft||0,activeBossId:G.activeBossId||null,t16RunsSinceBoss:G.t16RunsSinceBoss||0,pendingBoss:G.pendingBoss||null,
     syndRunSpeed:G.syndRunSpeed||1.0,contracts:G.contracts||[],contractRunsDone:G.contractRunsDone||0,passives:G.passives||{},passivePending:G.passivePending||0,firstRun:G.firstRun||false,unlocks:G.unlocks||{},autoExp:G.autoExp||false,autoRescue:G.autoRescue||false,autoHeal:G.autoHeal||false,autoBuyMaps:G.autoBuyMaps||false,
     deliriumOrbs:G.deliriumOrbs||0,deliriumSplinters:G.deliriumSplinters||0,deliriumMaps:G.deliriumMaps||{},
@@ -2910,7 +2913,7 @@ function load(){
     // Graceful migration — never force-wipe saves
 if(s.v&&s.v>=9){/* compatible enough */}
     Object.assign(G,s);
-    if(!G.cleared)G.cleared={};if(!G.achs)G.achs={};if(!G.achsPending)G.achsPending={};
+    if(!G.cleared)G.cleared={};if(G.lifetimeMaxCleared===undefined)G.lifetimeMaxCleared=0;if(!G.achs)G.achs={};if(!G.achsPending)G.achsPending={};
     if(!G.prestige)G.prestige=0;if(!G.prestigeBonus)G.prestigeBonus=0;
     if(!G.selfCls)G.selfCls=null;if(G.clsLocked===undefined)G.clsLocked=false;if(!G.lastExpSlots)G.lastExpSlots=null;
     if(!G.guardianPieces)G.guardianPieces={shaper:0,elder:0};if(!G.faction)G.faction='none';if(!G.factionXp)G.factionXp={};if(!G.factionUnlocks)G.factionUnlocks={};if(!G.bossAttempts)G.bossAttempts={};if(!G.bossKills)G.bossKills={};if(G.bossTriesLeft===undefined)G.bossTriesLeft=0;if(G.t16RunsSinceBoss===undefined)G.t16RunsSinceBoss=0;if(G.pendingBoss===undefined)G.pendingBoss=null;
