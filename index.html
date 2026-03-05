@@ -231,7 +231,7 @@ h1{font-family:'Cinzel',serif;font-size:22px;font-weight:900;color:var(--gold);t
 <div id="moverlay"><div id="mbox"><div class="mtl" id="mtl"></div><div id="mbd"></div></div></div>
 <div id="notif-area"></div>
 <script>
-const VERSION="0.103";
+const VERSION="0.108";
 document.title="Картоходец v"+VERSION;
 document.querySelector(".ver").textContent="v"+VERSION;
   document.getElementById("page-title").textContent="Картоходец v"+VERSION;
@@ -500,14 +500,14 @@ function applyUnlocks(){
   const p=G.prestige||0;
   const totalRuns=G.totalRuns||0;
   const selfLvl=G.selfLevel||0;
-  const hasItem=(G.stats&&G.stats.fi>0)||false;
+  const hasItem=(G.stats&&G.stats.fi>0)||(G.inv&&G.inv.length>0)||false;
   const hasWorkers=G.workers&&G.workers.length>0;
   // Use cleared tiers (actually beaten maps) not maxTier (which starts at 2)
   const clearedTiers=Object.keys(G.cleared||{}).map(Number).filter(n=>G.cleared[n]);
   const maxCleared=clearedTiers.length?Math.max(...clearedTiers):0;
 
   // Prestige players have seen everything — unlock all UI
-  const unlockAll=p>0||G._prestigeUnlockAll||false;
+  const unlockAll=p>0||G._prestigeUnlockAll||(G.totalRuns||0)>5||false;
 
   const unlockMaps   = unlockAll || selfLvl>=2;
   const unlockShop   = unlockAll || selfLvl>=3 || maxCleared>=2;
@@ -859,7 +859,7 @@ function completeSelfRun(){
   }
   const isBossCard=G.selMap&&String(G.selMap).startsWith('boss_');
   if(G.selMap&&!isBossCard){const selMd=getMd(G.selMap);const _sg=String(G.selMap);updateRunVis(selMd,true,_sg.startsWith('grd_'),_sg.startsWith('boss_'));}else updateRunVis(null);
-  renderMaps();renderInv();renderUpgrades();updateRes();
+  renderMaps();renderInv();renderUpgrades();renderWorkers();updateDeliriumTab();updateRes();
 }
 function updateRunVis(md,idle,isGrd,isBoss){
   const el=document.getElementById('run-con');if(!el)return;
@@ -1649,8 +1649,9 @@ function getDelWave(n){
 // Chance to pass wave n (decreases with power scaling)
 function delWaveCh(wave){
   const power=sDmg()+sSurv();
-  // Base 70% + power bonus - wave scaling
-  const raw=0.70+power*0.002-wave*0.04;
+  // Logarithmic power scaling — endgame power doesn't trivialize content
+  const powerBonus=Math.log(Math.max(1,power/100))*0.15;
+  const raw=0.65+powerBonus-wave*0.035;
   return Math.max(0.05,Math.min(0.95,raw));
 }
 // Rewards per wave
@@ -3150,7 +3151,8 @@ if(window._rafId)cancelAnimationFrame(window._rafId);
 scheduleTick();
   window._saveId=setInterval(save,8000);
   log('🌟 Добро пожаловать! Картоходец v'+VERSION,'info');
-  if(G.firstRun){G.firstRun=false;save();setTimeout(openTutorial,300);}
+  if(G.firstRun&&(G.prestige||0)===0&&(G.totalRuns||0)===0){G.firstRun=false;save();setTimeout(openTutorial,300);}
+  else{G.firstRun=false;}
 }
 init();
 </script>
