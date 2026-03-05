@@ -231,7 +231,7 @@ h1{font-family:'Cinzel',serif;font-size:22px;font-weight:900;color:var(--gold);t
 <div id="moverlay"><div id="mbox"><div class="mtl" id="mtl"></div><div id="mbd"></div></div></div>
 <div id="notif-area"></div>
 <script>
-const VERSION="0.108";
+const VERSION="0.111";
 document.title="Картоходец v"+VERSION;
 document.querySelector(".ver").textContent="v"+VERSION;
   document.getElementById("page-title").textContent="Картоходец v"+VERSION;
@@ -1650,9 +1650,9 @@ function getDelWave(n){
 function delWaveCh(wave){
   const power=sDmg()+sSurv();
   // Logarithmic power scaling — endgame power doesn't trivialize content
-  const powerBonus=Math.log(Math.max(1,power/100))*0.15;
-  const raw=0.65+powerBonus-wave*0.035;
-  return Math.max(0.05,Math.min(0.95,raw));
+  const powerBonus=Math.log(Math.max(1,power/100))*0.46;
+  const raw=0.60+powerBonus-wave*0.047;
+  return Math.max(0.05,Math.min(0.97,raw));
 }
 // Rewards per wave
 function delWaveReward(wave){
