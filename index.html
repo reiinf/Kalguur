@@ -3,7 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Картоходец v0.073</title>
+<title id="page-title">Картоходец</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚔️</text></svg>">
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;900&family=Crimson+Pro:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
 <style>
 :root{--gold:#c8a96e;--gold-b:#f0d080;--gold-d:#8a6a2e;--blood:#8b1a1a;--blood-b:#c0392b;--bg0:#0a0806;--bg1:#110e09;--bg2:#1a1510;--bg3:#1f1912;--bg4:#241d14;--brd:#3a2e1e;--brd-g:#5a4a2a;--txt:#d4c4a0;--txt-d:#8a7a60;--txt-b:#f0e0b0;--mag:#8888ff;--rare:#f0d060;--uniq:#e87020;--norm:#b0b0b0;--grn:#4a9a4a;--cyn:#4ab0b0;--red:#c03030;--org:#cc7700;}
@@ -115,7 +116,7 @@ h1{font-family:'Cinzel',serif;font-size:22px;font-weight:900;color:var(--gold);t
 <body>
 <div id="app">
 <header>
-  <h1>КАРТОХОДЕЦ <span class="ver" id="ver-span">v0.073</span></h1>
+  <h1>КАРТОХОДЕЦ <span class="ver" id="ver-span"></span></h1>
 </header>
 <div id="res-bar">
   <div class="ri" id="ri-gold"><span class="ri-ico">💰</span><div><span class="ri-lbl">ЗОЛОТО</span><span class="ri-val" id="r-gold">0</span></div></div>
@@ -230,9 +231,10 @@ h1{font-family:'Cinzel',serif;font-size:22px;font-weight:900;color:var(--gold);t
 <div id="moverlay"><div id="mbox"><div class="mtl" id="mtl"></div><div id="mbd"></div></div></div>
 <div id="notif-area"></div>
 <script>
-const VERSION="0.097";
+const VERSION="0.103";
 document.title="Картоходец v"+VERSION;
 document.querySelector(".ver").textContent="v"+VERSION;
+  document.getElementById("page-title").textContent="Картоходец v"+VERSION;
 // Secret debug: click version 5 times
 (function(){let _vc=0,_vt;const _vs=document.getElementById('ver-span')||document.querySelector('.ver');
 if(_vs)_vs.addEventListener('click',function(){_vc++;clearTimeout(_vt);_vt=setTimeout(()=>{_vc=0;},1500);if(_vc>=5){_vc=0;openDebug();}});})();
@@ -360,8 +362,7 @@ const FACTIONS={
     restrict:{workersExpOnly:true},
     levels:[
       {xp:0, reward:null, desc:'Особенности: работники только в экспедиции · автоэкспедиция · долгий поход'},
-      {xp:1, reward:{type:'namedWorker',id:'gwendyn'}, desc:'Именная охотница Гвенен присоединяется к отряду'},
-      {xp:2, reward:null, desc:'Авто-закупка карт используемых в экспедициях'},
+      {xp:1, reward:{type:'namedWorker',id:'gwendyn'}, desc:'Именная охотница Гвенен присоединяется к отряду + авто-закупка карт'},
     ]
   }
 };
@@ -505,14 +506,17 @@ function applyUnlocks(){
   const clearedTiers=Object.keys(G.cleared||{}).map(Number).filter(n=>G.cleared[n]);
   const maxCleared=clearedTiers.length?Math.max(...clearedTiers):0;
 
-  const unlockMaps   = selfLvl>=2;
-  const unlockShop   = selfLvl>=3 || maxCleared>=2;
-  const unlockInv    = hasItem;
-  const unlockAtlas  = maxCleared>=2;
+  // Prestige players have seen everything — unlock all UI
+  const unlockAll=p>0||G._prestigeUnlockAll||false;
+
+  const unlockMaps   = unlockAll || selfLvl>=2;
+  const unlockShop   = unlockAll || selfLvl>=3 || maxCleared>=2;
+  const unlockInv    = unlockAll || hasItem;
+  const unlockAtlas  = unlockAll || maxCleared>=2;
   const unlockLog    = true; // always visible
-  const unlockWorkers= maxCleared>=3 || hasWorkers;
-  const unlockStats  = maxCleared>=5 || p>0;
-  const unlockDanger = maxCleared>=3 || p>0;
+  const unlockWorkers= unlockAll || maxCleared>=3 || hasWorkers;
+  const unlockStats  = unlockAll || maxCleared>=5;
+  const unlockDanger = unlockAll || maxCleared>=3;
 
   // ── Res-bar ──
   show('ri-gold','flex');
@@ -715,9 +719,17 @@ function selfRun(){
     if(!(G.maps[key]>0)){showN('Нет карт!');return;}
     G.maps[key]--;
   }
+  // Must have class before running
+  if(!G.selfCls){
+    showN('Сначала выбери класс!','red');
+    // Ensure class row is visible
+    applyUnlocks();
+    const cr=document.getElementById('cls-row');
+    if(cr)cr.style.display='flex';
+    return;
+  }
   // Lock class on first run
   G.clsLocked=true;
-  if(!G.selfCls){showN('Сначала выбери класс!','red');return;}
   const md=isGrd?(grdMapData||MAP_TIERS[15]):isBoss?(bossData||BOSSES[0]):MAP_TIERS[tier-1];
   const cost=(isGrd||isBoss)?0:SHOP_COSTS[tier]||0;
   const _mc=(isGrd||isBoss)?0:SHOP_COSTS[tier]||0;
@@ -1207,6 +1219,8 @@ function confirmPrestige(factionId){
   G.stats=lstats;G.totalRuns=lruns;G.achs=lachs;G.achsPending=lpend;
   G.factionXp=lfxp;G.factionUnlocks=lfunl;G.passives=lpass||{};
   G.faction=factionId||'none';
+  // After prestige player has seen everything — unlock all UI immediately
+  G._prestigeUnlockAll=true;
   // Apply faction start bonuses
   applyFactionStart();
   G.contracts=[];G.contractRunsDone=0;if(G.faction==='syndicate')refreshContracts();
@@ -1635,8 +1649,8 @@ function getDelWave(n){
 // Chance to pass wave n (decreases with power scaling)
 function delWaveCh(wave){
   const power=sDmg()+sSurv();
-  const baseDgr=300+wave*120; // scales up per wave
-  const raw=(power/baseDgr-0.2)/0.7;
+  // Base 70% + power bonus - wave scaling
+  const raw=0.70+power*0.002-wave*0.04;
   return Math.max(0.05,Math.min(0.95,raw));
 }
 // Rewards per wave
@@ -2361,15 +2375,15 @@ function _maraToggleBtn(u){
 function renderUpgrades(){
   // Maraketh upgrades
   window._maraUps=hasFaction('maraketh')?[
-    {id:'autoExp',     nm:'🔄 Автоэкспедиция', cost:()=>200,
+    {id:'autoExp',     nm:'🔄 Автоэкспедиция', minLevel:1, cost:()=>200,
      desc:()=>G.factionUnlocks.autoExpBought?(G.autoExp?'✅ Включено':'⏸ Выключено'):'Работники автоматически повторяют экспедиции'},
-    {id:'exp5',        nm:'🗺 Долгий поход',    cost:()=>800,
+    {id:'exp5',        nm:'🗺 Долгий поход',    minLevel:1, cost:()=>800,
      desc:()=>G.factionUnlocks.exp5?'✅ До 5 карт разблокировано':'Экспедиции расширяются до 5 карт'},
-    {id:'autoRescue',  nm:'💰 Авто-выкуп',      cost:()=>600,
+    {id:'autoRescue',  nm:'💰 Авто-выкуп',      minLevel:1, cost:()=>600,
      desc:()=>G.autoRescue?'✅ Захваченные выкупаются автоматически':'Авто-выкупать захваченных работников'},
-    {id:'autoHeal',    nm:'🏃 Авто-старт после лечения', cost:()=>400,
+    {id:'autoHeal',    nm:'🏃 Авто-старт после лечения', minLevel:1, cost:()=>400,
      desc:()=>G.autoHeal?'✅ После выздоровления сразу идут в экспедицию':'После выздоровления работник сразу идёт в экспедицию'},
-    {id:'autoBuyMaps',  nm:'🛒 Авто-закупка карт', cost:()=>1000,
+    {id:'autoBuyMaps',  nm:'🛒 Авто-закупка карт', minLevel:2, cost:()=>1000,
      desc:()=>G.autoBuyMaps?'✅ Докупаются карты последней экспедиции (запас < 3)':'Авто-покупать карты используемые в экспедиции когда запас < 3'},
   ]:[];
   const maraUps=window._maraUps;
@@ -2382,7 +2396,15 @@ function renderUpgrades(){
   let html='';
   if(hasFaction('maraketh')&&maraUps.length){
     html+='<div style="font-size:11px;color:#44aacc;font-family:Cinzel,serif;margin-bottom:4px">🏹 Маракеты</div>';
-    html+=maraUps.map(u=>{
+    // Get current Maraketh faction level
+  const _maraXp=(G.factionXp&&G.factionXp.maraketh)||0;
+  const _maraLvl=FACTIONS.maraketh.levels.filter(l=>_maraXp>=l.xp).length-1;
+  html+=maraUps.map(u=>{
+    if((u.minLevel||1)>_maraLvl+1){
+      return '<div class="srow" style="opacity:.35;pointer-events:none"><span>🔒</span>'+
+        '<div class="si"><div class="snm">'+u.nm+'</div>'+
+        '<div class="sds">Уровень Маракет '+(u.minLevel)+'</div></div></div>';
+    }
       const _tog=['autoExp','autoRescue','autoHeal','autoBuyMaps'].includes(u.id);
       const done=_tog?false:(G.factionUnlocks[u.id]||false);
       const cost=u.cost();const canAff=G.gold>=cost;
@@ -2944,7 +2966,7 @@ document.addEventListener('click',function(e){
   const mc=cl('.mcard');if(mc&&mc.dataset.mapkey){selectMap(mc.dataset.mapkey);return;}
   // Class select (only if not locked, or show message)
   if(t.dataset.cls){
-    if(G.clsLocked){showN('Класс заблокирован! Смените в Лавке за 200💰.','red');return;}
+    if(G.clsLocked&&G.selfCls){showN('Класс заблокирован! Смените в Лавке за 200💰.','red');return;}
     const _nc=t.dataset.cls;const _cd=WCLS[_nc]||{};
     openM('Выбрать класс?','<div style="text-align:center;padding:8px">'+
       '<div style="font-size:32px;margin-bottom:8px">'+(_cd.em||'🧙')+'</div>'+
