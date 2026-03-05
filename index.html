@@ -231,7 +231,7 @@ h1{font-family:'Cinzel',serif;font-size:22px;font-weight:900;color:var(--gold);t
 <div id="moverlay"><div id="mbox"><div class="mtl" id="mtl"></div><div id="mbd"></div></div></div>
 <div id="notif-area"></div>
 <script>
-const VERSION="0.111";
+const VERSION="0.114";
 document.title="Картоходец v"+VERSION;
 document.querySelector(".ver").textContent="v"+VERSION;
   document.getElementById("page-title").textContent="Картоходец v"+VERSION;
@@ -1405,12 +1405,14 @@ function genContract(){
 }
 function refreshContracts(){
   if(!hasFaction('syndicate'))return;
-  // Remove done/failed contracts to make room
+  // Remove done/failed contracts — but keep unclaimed rewards
   G.contracts=G.contracts.filter(x=>(!x.done&&!x.failed)||(x.done&&x.needsClaim));
   const usedTypes=new Set(G.contracts.map(x=>x.type));
-  // Always fill 4 normal contracts
+  // Count occupied slots: active + unclaimed
+  const occupiedNormal=()=>G.contracts.filter(x=>!(x.type&&x.type.startsWith('master_'))&&x.type!=='delirium_wave'&&(!x.done||x.needsClaim)).length;
+  // Always fill 4 normal contracts (don't replace unclaimed)
   let attempts=0;
-  while(G.contracts.filter(x=>!x.done&&!x.failed&&!(x.type&&x.type.startsWith('master_'))&&x.type!=='delirium_wave').length<4&&attempts<30){
+  while(occupiedNormal()<4&&attempts<30){
     attempts++;
     const nc=genContract();
     // genContract may return delirium_wave — only allow 1
@@ -1447,7 +1449,7 @@ function checkContractRun(tier,result){
   });
   // Refresh contracts every 5 runs
   if(G.contractRunsDone%5===0){
-    G.contracts=G.contracts.filter(c=>!c.done);
+    G.contracts=G.contracts.filter(c=>!c.done||c.needsClaim);
     refreshContracts();
   }
   renderContracts();
@@ -1486,7 +1488,7 @@ function claimContract(cid){
   if(con.type&&con.type.startsWith('master_'))G.stats.mastersDone=(G.stats.mastersDone||0)+1;
   const r=con.reward||{};
   if(r.gold){G.gold+=r.gold;G.stats.ge+=r.gold;floatT('+'+r.gold+'💰','#f0d080');log('💰 Получено: '+con.nm+' +'+r.gold+'💰','ge');showN('+'+r.gold+'💰','pur');}
-  if(r.item){const it=genItem(Math.max(1,G.maxTier-2),G.selfCls||'warrior');G.inv.push(it);log('📦 Получен предмет: '+it.em+' '+it.name,'i-r');}
+  if(r.item){const it=genItem(Math.max(1,G.maxTier-2),G.selfCls||'warrior');G.inv.push(it);log('📦 Получен предмет: '+it.em+' '+it.name,'i-'+it.quality[0]);}
   updateRes();save();renderContracts();
 }
 function renderContracts(){
@@ -1516,10 +1518,11 @@ function renderContracts(){
     // Master contract — fight button
     if(con.type&&con.type.startsWith('master_')){
       const _lp=sDmg()+sSurv();
+      const _mct=Math.max(...Object.keys(G.cleared||{}).map(Number).filter(n=>G.cleared[n]),0);
       let _v=0;
       const chCol=con.type==='master_brawl'
-        ? ((_v=Math.min(0.85,Math.max(0.35,_lp/(_lp+400))))>=0.7?'#44cc44':_v>=0.5?'#cccc44':'#cc4444')
-        : ((_v=Math.min(0.82,Math.max(0.30,_lp/(_lp+500))))>=0.7?'#44cc44':_v>=0.5?'#cccc44':'#cc4444');
+        ? ((_v=Math.min(0.85,Math.max(0.35,calcCh(_lp,Math.min(16,_mct+1)))))>=0.7?'#44cc44':_v>=0.5?'#cccc44':'#cc4444')
+        : ((_v=Math.min(0.82,Math.max(0.30,calcCh(_lp,Math.min(16,_mct+2))*0.9)))>=0.7?'#44cc44':_v>=0.5?'#cccc44':'#cc4444');
       const _liveCh=Math.round(_v*100);con.ch=_liveCh;
       const r=con.reward||{};
       const rwdStr=r.gold?(r.item?r.gold+'💰 + предмет':r.gold+'💰'):(r.item?'предмет':'');
@@ -1877,7 +1880,10 @@ const MASTER_CONTRACT_DEFS=[
   {id:'brawl', nm:'Заказ: Ликвидация цели', em:'⚔️',
    gen:()=>{
      const power=sDmg()+sSurv();
-     const ch=Math.min(0.85,Math.max(0.35,power/(power+400)));
+     const _maxClearedT=Math.max(...Object.keys(G.cleared||{}).map(Number).filter(n=>G.cleared[n]),0);
+     const _refTier=Math.max(1,_maxClearedT);
+     const _refDgr=MAP_TIERS[Math.min(15,_refTier)].dgr;
+     const ch=Math.min(0.85,Math.max(0.35,calcCh(power,Math.min(16,_refTier+1))));
      const rwd=Math.floor(goldMax(MAP_TIERS[Math.min(15,(G.maxTier||1)-1)])*(1+(G.prestigeBonus||0)/100)*2.5);
      return {type:'master_brawl',nm:'Заказ: Ликвидация',em:'⚔️',
        desc:'Синдикат требует устранить цель. Прямое столкновение.',
@@ -1887,7 +1893,9 @@ const MASTER_CONTRACT_DEFS=[
   {id:'raid', nm:'Заказ: Зачистка района', em:'🔱',
    gen:()=>{
      const power=sDmg()+sSurv();
-     const ch=Math.min(0.82,Math.max(0.30,power/(power+500)));
+     const _maxClearedR=Math.max(...Object.keys(G.cleared||{}).map(Number).filter(n=>G.cleared[n]),0);
+     const _refTierR=Math.max(1,_maxClearedR);
+     const ch=Math.min(0.82,Math.max(0.30,calcCh(power,Math.min(16,_refTierR+2))*0.9));
      const rwd=Math.floor(goldMax(MAP_TIERS[Math.min(15,(G.maxTier||1)-1)])*(1+(G.prestigeBonus||0)/100)*3.5);
      return {type:'master_raid',nm:'Заказ: Зачистка',em:'🔱',
        desc:'Полностью зачистить укреплённый район от врагов Синдиката.',
@@ -2944,7 +2952,7 @@ document.addEventListener('click',function(e){
   if(t.id==='btn-reroll-contracts'){
     const rc=Math.max(50,Math.floor(goldMax(MAP_TIERS[Math.min(15,(G.maxTier||1)-1)])*(1+(G.prestigeBonus||0)/100)*0.3));
     if(G.gold<rc){showN('Недостаточно золота! Нужно '+rc+'💰');return;}
-    G.gold-=rc;G.contracts=[];refreshContracts();updateRes();save();
+    G.gold-=rc;G.contracts=G.contracts.filter(c=>c.needsClaim);refreshContracts();updateRes();save();
     showN('🔄 Контракты обновлены!','pur');return;
   }
   // Master contract fight button
