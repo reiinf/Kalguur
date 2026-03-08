@@ -208,13 +208,17 @@ h1{font-family:'Cinzel',serif;font-size:22px;font-weight:900;color:var(--gold);t
 </div>
 <!-- RIGHT -->
 <div id="col-right" style="display:none">
-  <div class="panel" id="upgrades-panel" style="display:none">
-    <div class="ptitle">⚙ МАШИНА КАЛГУУРА</div>
-    <div id="upgrades"></div>
-  </div>
   <div class="panel" id="log-panel" style="display:none">
     <div class="ptitle">📜 ЖУРНАЛ</div>
     <div id="loot-log"></div>
+  </div>
+  <div id="prestige-panel" style="display:none;margin-top:8px;padding:8px;border:1px solid #553388;background:rgba(85,51,136,.15);text-align:center">
+    <div style="font-family:Cinzel,serif;color:#ffaa00;font-size:12px;margin-bottom:6px">✨ ВЫ ПРОШЛИ ВСЕ 16 ТИРОВ!</div>
+    <button class="btn btn-p" id="btn-prestige">✨ Возвышение — сброс с бонусом</button>
+  </div>
+  <div class="panel" id="upgrades-panel" style="display:none">
+    <div class="ptitle">⚙ МАШИНА КАЛГУУРА</div>
+    <div id="upgrades"></div>
   </div>
   <div class="panel" id="stats-panel" style="margin-top:8px;display:none">
     <div class="ptitle">📊 СТАТИСТИКА <button class="btn btn-sm" id="btn-debug" style="font-size:7px">🔧 ДЕБАГ</button></div>
@@ -231,7 +235,7 @@ h1{font-family:'Cinzel',serif;font-size:22px;font-weight:900;color:var(--gold);t
 <div id="moverlay"><div id="mbox"><div class="mtl" id="mtl"></div><div id="mbd"></div></div></div>
 <div id="notif-area"></div>
 <script>
-const VERSION="0.118";
+const VERSION="0.122";
 document.title="Картоходец v"+VERSION;
 document.querySelector(".ver").textContent="v"+VERSION;
   document.getElementById("page-title").textContent="Картоходец v"+VERSION;
@@ -464,6 +468,7 @@ function openPassiveTree(){
     html+='</div>';
   }
   html+='</div>';
+  html+='<div style="text-align:center;margin-top:10px"><button class="btn btn-sm btn-r" onclick="closeM()">✕ Закрыть</button></div>';
   openM('🌐 Древо пассивок атласа',html);
 }
 
@@ -546,7 +551,8 @@ function applyUnlocks(){
   show('workers-panel',  unlockWorkers ? 'block':'none');
   show('upgrades-panel', unlockWorkers ? 'block':'none');
   show('log-panel',      unlockLog     ? 'block':'none');
-  const _lp=document.getElementById('log-panel');if(_lp)_lp.style.marginTop=unlockWorkers?'8px':'0';
+  const _lp=document.getElementById('log-panel');if(_lp)_lp.style.marginTop='0';
+  const _up=document.getElementById('upgrades-panel');if(_up)_up.style.marginTop=unlockLog?'8px':'0';
   // Show right column wrapper when any panel inside is visible
   const _anyRight=unlockLog||unlockWorkers||unlockStats||unlockDanger;
   show('col-right', _anyRight ? 'block':'none');
@@ -1686,10 +1692,10 @@ function renderDelirium(){
   if(G.deliriumRunning&&window._delTimer){return;} // don't clobber animation
   // T5-T9: teaser only
   const _clearedTiers=Object.keys(G.cleared||{}).map(Number).filter(n=>G.cleared[n]);
-  const _maxCleared=Math.max(_clearedTiers.length?Math.max(..._clearedTiers):0, G.lifetimeMaxCleared||0);
-  const _hasT5=_maxCleared>=5;
-  const _hasT10=_maxCleared>=10;
-  const _hasT16=_maxCleared>=16;
+  const _currentMax=_clearedTiers.length?Math.max(..._clearedTiers):0;
+  const _hasT5=_currentMax>=5;
+  const _hasT10=_currentMax>=10;
+  const _hasT16=_currentMax>=16;
   if(_hasT5&&!_hasT10){
     el.innerHTML='<div style="text-align:center;padding:20px;border:1px solid #332244;border-radius:6px;background:rgba(20,0,30,.4);">'+
       '<div style="font-size:32px;margin-bottom:8px">🌫️</div>'+
@@ -2396,7 +2402,7 @@ function renderUpgrades(){
     {id:'autoHeal',    nm:'🏃 Авто-старт после лечения', minLevel:1, cost:()=>400,
      desc:()=>G.autoHeal?'✅ После выздоровления сразу идут в экспедицию':'После выздоровления работник сразу идёт в экспедицию'},
     {id:'autoBuyMaps',  nm:'🛒 Авто-закупка карт', minLevel:2, cost:()=>1000,
-     desc:()=>G.autoBuyMaps?'✅ Докупаются карты последней экспедиции (запас < 3)':'Авто-покупать карты используемые в экспедиции когда запас < 3'},
+     desc:()=>G.autoBuyMaps?'✅ Авто-покупает карты для экспедиций когда их не хватает':'Авто-покупать карты используемые в экспедиции когда их не хватает'},
   ]:[];
   const maraUps=window._maraUps;
   const defs=[
@@ -2438,11 +2444,9 @@ function renderUpgrades(){
       '</div></div></div>';
   }).join('');
   // Boss is now shown in the Maps tab as a card
-  if(canPrestige())html+=
-    '<div style="margin-top:8px;padding:8px;border:1px solid #553388;background:rgba(85,51,136,.15);text-align:center">'+
-    '<div style="font-family:Cinzel,serif;color:#ffaa00;font-size:12px;margin-bottom:6px">✨ ВЫ ПРОШЛИ ВСЕ 16 ТИРОВ!</div>'+
-    '<button class="btn btn-p" id="btn-prestige">✨ Возвышение — сброс с бонусом</button></div>';
   document.getElementById('upgrades').innerHTML=html;
+  // Prestige panel under log
+  const _pp=document.getElementById('prestige-panel');if(_pp)_pp.style.display=canPrestige()?'block':'none';
   // Sync atlas bar prestige button
   renderAtlasBar();
 }
@@ -2453,7 +2457,7 @@ function renderAtlasBar(){
   const hint=document.getElementById('pt-hint');if(!hint)return;
   const _pbtn=document.getElementById('btn-passive-tree');
   if(_pbtn){_pbtn.style.display=G.prestige>0?'inline-block':'none';
-    if((G.passivePending||0)>0){_pbtn.style.borderColor='var(--gold)';_pbtn.style.color='var(--gold)';_pbtn.textContent='🌐 Дерево атласа ('+G.passivePending+')';}
+    if((G.passivePending||0)>0){_pbtn.style.borderColor='var(--gold)';_pbtn.style.color='var(--gold)';_pbtn.textContent='🌐 Дерево атласа ✨';}
     else{_pbtn.style.borderColor='';_pbtn.style.color='';_pbtn.textContent='🌐 Дерево атласа';}
   }
   const cl=Object.keys(G.cleared).length;
@@ -2472,8 +2476,10 @@ function renderAtlasBar(){
 function updateDeliriumTab(){
   const _dBtn=document.getElementById('ctab-delirium');
   if(!_dBtn)return;
-  // Show tab: T5 cleared → teaser, T10+ cleared → full access  
-  const _t5=Object.keys(G.cleared||{}).some(k=>parseInt(k)>=5&&G.cleared[k])||(G.lifetimeMaxCleared||0)>=5;
+  // Show tab only based on current run cleared tiers (not lifetimeMax — that would expose it immediately after prestige)
+  const _clearedTiers=Object.keys(G.cleared||{}).map(Number).filter(n=>G.cleared[n]);
+  const _currentMax=_clearedTiers.length?Math.max(..._clearedTiers):0;
+  const _t5=_currentMax>=5;
   if(_t5)_dBtn.style.display='';
   else _dBtn.style.display='none';
 }
@@ -2896,7 +2902,7 @@ function manualSave(){
 }
 function save(){
   try{localStorage.setItem('kartahodec_save',JSON.stringify({
-    v:14,gold:G.gold,totalRuns:G.totalRuns,maps:G.maps,inv:G.inv,workers:G.workers,
+    v:14,gold:G.gold,totalRuns:G.totalRuns,maps:G.maps,inv:G.inv,workers:G.workers,gt:G.gt||0,
     ups:G.ups,selfEq:G.selfEq,
     selfCls:G.selfCls,clsLocked:G.clsLocked,selfXp:G.selfXp,selfLevel:G.selfLevel,selfPendingLevel:G.selfPendingLevel,lastExpSlots:G.lastExpSlots,
     stats:G.stats,iid:G.iid,wid:G.wid,
@@ -2927,6 +2933,7 @@ if(s.v&&s.v>=9){/* compatible enough */}
     if(G.selfPendingLevel===undefined)G.selfPendingLevel=G.selfLevel;
     G.workers.forEach(w=>{
       if(w.status==='running'||w.status==='exp'){w.status='idle';w.prog=0;w.elapsed=0;}
+      if(w.status==='injured'&&w.injuredAt>G.gt){w.injuredAt=G.gt;}  // fix broken heal after save without G.gt
       if(!w.xp)w.xp=0;if(!w.level)w.level=0;
       if(!w.expTiers)w.expTiers=[];if(!w.expIdx)w.expIdx=0;
       if(w.uniq===undefined)w.uniq=false;
