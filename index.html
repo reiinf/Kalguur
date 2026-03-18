@@ -235,7 +235,7 @@ h1{font-family:'Cinzel',serif;font-size:22px;font-weight:900;color:var(--gold);t
 <div id="moverlay"><div id="mbox"><div class="mtl" id="mtl"></div><div id="mbd"></div></div></div>
 <div id="notif-area"></div>
 <script>
-const VERSION="0.173";
+const VERSION="0.176";
 document.title="Картоходец v"+VERSION;
 document.querySelector(".ver").textContent="v"+VERSION;
   document.getElementById("page-title").textContent="Картоходец v"+VERSION;
@@ -516,7 +516,7 @@ function applyUnlocks(){
   const unlockAll=p>0||G._prestigeUnlockAll||(G.totalRuns||0)>5||false;
 
   const unlockMaps   = unlockAll || selfLvl>=2;
-  const unlockShop   = unlockAll || selfLvl>=3 || maxCleared>=2;
+  const unlockShop   = unlockAll || selfLvl>=3 || maxCleared>=1;
   const unlockInv    = unlockAll || hasItem;
   const unlockAtlas  = unlockAll || maxCleared>=2;
   const unlockLog    = true; // always visible
@@ -733,7 +733,6 @@ function selfRun(){
     }
   } else {
     if(!(G.maps[key]>0)){showN('Нет карт!');return;}
-    G.maps[key]--;
   }
   // Must have class before running
   if(!G.selfCls){
@@ -744,6 +743,7 @@ function selfRun(){
     if(cr)cr.style.display='flex';
     return;
   }
+  if(!isGrd&&!isBoss){G.maps[key]--;}
   // Lock class on first run
   G.clsLocked=true;
   const md=isGrd?(grdMapData||MAP_TIERS[15]):isBoss?(bossData||BOSSES[0]):MAP_TIERS[tier-1];
@@ -943,8 +943,9 @@ function updateRunVis(md,idle,isGrd,isBoss){
   } else {
     const _stub=document.getElementById('mc-stub');
     const _cv=document.getElementById('map-canvas');
-    if(_stub)_stub.style.display='none';
-    if(_cv)_cv.style.display='';
+    const _hasLay=!!MAP_LAYOUTS['t'+md.t];
+    if(_hasLay){if(_stub)_stub.style.display='none';if(_cv)_cv.style.display='';}
+    else{if(_cv){_cv.style.display='none';_cv.style.opacity='0';}if(_stub)_stub.style.display='flex';}
   }
 }
 function startAct(id){
@@ -2932,7 +2933,7 @@ function openTutorial(){
     '<div style="display:flex;flex-direction:column;gap:8px;margin-bottom:16px">'+
       '<div style="background:var(--bg2);border:1px solid var(--brd);padding:8px 12px;border-radius:4px">'+
         '<div style="color:var(--gold);font-weight:600;margin-bottom:3px">🏕 Шаг 1 — Акты</div>'+
-        '<div style="color:var(--txt-d);font-size:12px">Проходи Акты чтобы прокачать персонажа и заработать стартовое золото.</div>'+
+        '<div style="color:var(--txt-d);font-size:12px">Проходи <b style="color:var(--gold)">Акты</b> чтобы прокачать персонажа и заработать стартовое золото.</div>'+
       '</div>'+
       '<div style="background:var(--bg2);border:1px solid var(--brd);padding:8px 12px;border-radius:4px">'+
         '<div style="color:var(--gold);font-weight:600;margin-bottom:3px">🗺 Шаг 2 — Карты</div>'+
