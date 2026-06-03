@@ -223,41 +223,15 @@ if (rawSave) {
   btnTransfer.style.display = 'block';
 
   btnTransfer.onclick = () => {
+    // Кодируем сейв и настройки прямо в hash URL — никаких postMessage/opener
+    const settings = getSettings();
+    const payload = rawSave + '|' + JSON.stringify(settings);
+    const hash = '#kalguur:' + encodeURIComponent(payload);
+    window.open(NEW_DOMAIN + '/' + hash, '_blank');
+    btnTransfer.textContent = '✅ Открыта новая вкладка с вашим сохранением';
+    btnTransfer.style.borderColor = '#55aa55';
+    btnTransfer.style.color = '#55aa55';
     btnTransfer.disabled = true;
-    btnTransfer.textContent = '⏳ Переносим...';
-
-    // Открываем новый домен как полноценную вкладку с параметром
-    const newWin = window.open(NEW_DOMAIN + '/?transfer=1', '_blank');
-
-    // Таймаут — если что-то пошло не так
-    const fallback = setTimeout(() => {
-      window.removeEventListener('message', handler);
-      btnTransfer.disabled = false;
-      btnTransfer.textContent = '⚠️ Не удалось — используйте код выше';
-    }, 15000);
-
-    function handler(e) {
-      if (e.origin !== NEW_DOMAIN) return;
-
-      if (e.data === 'ready') {
-        // Новая вкладка открылась и готова — передаём данные
-        newWin.postMessage({
-          type: 'kalguur_import',
-          save: rawSave,
-          settings: getSettings()
-        }, NEW_DOMAIN);
-      }
-
-      if (e.data === 'done') {
-        clearTimeout(fallback);
-        window.removeEventListener('message', handler);
-        btnTransfer.textContent = '✅ Сохранение перенесено';
-        btnTransfer.style.borderColor = '#55aa55';
-        btnTransfer.style.color = '#55aa55';
-      }
-    }
-
-    window.addEventListener('message', handler);
   };
 }
 </script>
