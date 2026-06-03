@@ -86,26 +86,6 @@
     margin: 20px 0;
   }
 
-  /* Status block */
-  .status-block {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 10px 14px;
-    background: rgba(200,169,110,0.05);
-    border: 1px solid var(--brd);
-    border-radius: 2px;
-    margin-bottom: 20px;
-    font-size: 14px;
-    min-height: 42px;
-  }
-
-  .status-icon { font-size: 18px; flex-shrink: 0; }
-  .status-text { color: var(--txt-d); }
-  .status-text.ok { color: var(--grn); }
-  .status-text.warn { color: #cc9944; }
-
-  /* Save code */
   .save-label {
     font-family: 'Cinzel', serif;
     font-size: 10px;
@@ -113,6 +93,8 @@
     color: var(--txt-d);
     margin-bottom: 6px;
   }
+
+  #save-section { margin-top: 20px; }
 
   .save-box {
     width: 100%;
@@ -181,22 +163,18 @@
   <div class="title">⚔ КАРТОХОДЕЦ ПЕРЕЕХАЛ</div>
   <div class="subtitle">Игра доступна по новому адресу</div>
 
-  <div class="status-block" id="status-block">
-    <span class="status-icon" id="status-icon">⏳</span>
-    <span class="status-text" id="status-text">Переносим сохранение...</span>
-  </div>
-
   <div id="save-section" style="display:none">
     <div class="save-label">КОД ВАШЕГО СОХРАНЕНИЯ</div>
     <textarea class="save-box" id="save-code" readonly></textarea>
     <div class="copy-hint">Если что-то пошло не так — скопируйте код и вставьте в игре через «Импорт сохранения»</div>
   </div>
 
-  <button class="btn-go" id="btn-go" disabled>⚔ ПЕРЕЙТИ В ИГРУ</button>
+  <button class="btn-go" id="btn-transfer" style="display:none">💾 ПЕРЕНЕСТИ СОХРАНЕНИЕ</button>
+  <button class="btn-go" id="btn-go" style="margin-top:10px">⚔ ПЕРЕЙТИ В ИГРУ</button>
 </div>
 
-<div id="iframe-container">
-  <iframe id="target-iframe" src="https://cartographer-idle.vercel.app/" style="width:1px;height:1px;opacity:0;position:absolute;top:-9999px"></iframe>
+<div id="iframe-container" style="display:none">
+  <iframe id="target-iframe" style="width:1px;height:1px;opacity:0;position:absolute;top:-9999px"></iframe>
 </div>
 
 <script>
@@ -204,7 +182,6 @@ const NEW_DOMAIN = 'https://cartographer-idle.vercel.app';
 const SAVE_KEY = 'kartahodec_save';
 const SETTINGS_KEYS = ['kalguur_lang', 'kalguur_volume', 'kalguur_fontOffset'];
 
-// Same key as ui-settings.js
 const _SAVE_KEY_XOR = [75,97,108,103,117,117,114,95,50,48,50,52,95,115,97,118,101];
 function _obfuscate(str) {
   const bytes = new TextEncoder().encode(str);
@@ -215,21 +192,6 @@ function _obfuscate(str) {
   return btoa(bin);
 }
 
-function setStatus(icon, text, cls) {
-  document.getElementById('status-icon').textContent = icon;
-  const el = document.getElementById('status-text');
-  el.textContent = text;
-  el.className = 'status-text' + (cls ? ' ' + cls : '');
-}
-
-function enableButton() {
-  const btn = document.getElementById('btn-go');
-  btn.disabled = false;
-  btn.href = NEW_DOMAIN;
-  btn.onclick = () => { window.location.href = NEW_DOMAIN; };
-}
-
-// Read raw save (without _icons — they're big and not needed for transfer)
 function getRawSave() {
   const raw = localStorage.getItem(SAVE_KEY);
   if (!raw || raw === 'reset') return null;
@@ -237,89 +199,68 @@ function getRawSave() {
     const obj = JSON.parse(raw);
     delete obj._icons;
     return JSON.stringify(obj);
-  } catch(e) {
-    return null;
-  }
+  } catch(e) { return null; }
 }
 
-// Show encoded save code in textarea
-function showSaveCode(rawSave) {
-  const section = document.getElementById('save-section');
-  const ta = document.getElementById('save-code');
-  if (!rawSave) { section.style.display = 'none'; return; }
-  try {
-    const encoded = _obfuscate(rawSave);
-    ta.value = encoded;
-  } catch(e) {
-    ta.value = rawSave; // fallback: raw json
-  }
-  section.style.display = 'block';
-}
-
-// Collect settings to transfer alongside save
 function getSettings() {
   const s = {};
-  SETTINGS_KEYS.forEach(k => {
-    const v = localStorage.getItem(k);
-    if (v !== null) s[k] = v;
-  });
+  SETTINGS_KEYS.forEach(k => { const v = localStorage.getItem(k); if (v !== null) s[k] = v; });
   return s;
 }
 
-// ── Main logic ─────────────────────────────────────────
+// ── Init ────────────────────────────────────────────────
 
 const rawSave = getRawSave();
+const btnGo = document.getElementById('btn-go');
+const btnTransfer = document.getElementById('btn-transfer');
 
-if (!rawSave) {
-  // No save on this domain at all
-  setStatus('📭', 'Сохранение не найдено на этом домене', '');
-  document.getElementById('save-section').style.display = 'none';
-  enableButton();
-} else {
-  // Show save code immediately
-  showSaveCode(rawSave);
+btnGo.onclick = () => { window.location.href = NEW_DOMAIN; };
 
-  // Start iframe transfer
-  document.getElementById('iframe-container').style.display = 'block';
+if (rawSave) {
+  // Показываем код сейва
+  const section = document.getElementById('save-section');
+  const ta = document.getElementById('save-code');
+  try { ta.value = _obfuscate(rawSave); } catch(e) { ta.value = rawSave; }
+  section.style.display = 'block';
 
-  let transferDone = false;
+  // Показываем кнопку переноса
+  btnTransfer.style.display = 'block';
 
-  // Через 8с активируем кнопку в любом случае — но слушатель остаётся живым
-  const fallbackTimer = setTimeout(() => {
-    if (!transferDone) {
-      setStatus('⚠️', 'Не удалось перенести автоматически — используйте код выше', 'warn');
-      enableButton();
-    }
-  }, 8000);
+  btnTransfer.onclick = () => {
+    btnTransfer.disabled = true;
+    btnTransfer.textContent = '⏳ Переносим...';
 
-  window.addEventListener('message', (e) => {
-    if (e.origin !== NEW_DOMAIN) return;
-    if (transferDone) return;
+    // Грузим iframe
+    const container = document.getElementById('iframe-container');
+    const iframe = document.getElementById('target-iframe');
+    container.style.display = 'block';
+    iframe.src = NEW_DOMAIN + '/';
 
-    if (e.data === 'ready') {
-      // New domain is ready — send save
-      const iframe = document.getElementById('target-iframe');
-      iframe.contentWindow.postMessage({
-        type: 'kalguur_import',
-        save: rawSave,
-        settings: getSettings()
-      }, NEW_DOMAIN);
-    }
+    // Таймаут — если что-то пошло не так
+    const fallback = setTimeout(() => {
+      btnTransfer.textContent = '⚠️ Не удалось — используйте код выше';
+    }, 15000);
 
-    if (e.data === 'done') {
-      transferDone = true;
-      clearTimeout(fallbackTimer);
-      setStatus('✅', 'Сохранение перенесено', 'ok');
-      enableButton();
-    }
+    window.addEventListener('message', function handler(e) {
+      if (e.origin !== NEW_DOMAIN) return;
 
-    if (e.data === 'has_save') {
-      transferDone = true;
-      clearTimeout(fallbackTimer);
-      setStatus('✅', 'На новом сайте уже есть сохранение', 'ok');
-      enableButton();
-    }
-  });
+      if (e.data === 'ready') {
+        iframe.contentWindow.postMessage({
+          type: 'kalguur_import',
+          save: rawSave,
+          settings: getSettings()
+        }, NEW_DOMAIN);
+      }
+
+      if (e.data === 'done') {
+        clearTimeout(fallback);
+        window.removeEventListener('message', handler);
+        btnTransfer.textContent = '✅ Сохранение перенесено';
+        btnTransfer.style.borderColor = '#55aa55';
+        btnTransfer.style.color = '#55aa55';
+      }
+    });
+  };
 }
 </script>
 </body>
