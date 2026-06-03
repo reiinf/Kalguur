@@ -210,7 +210,7 @@ const rawSave = getRawSave();
 const btnGo = document.getElementById('btn-go');
 const btnTransfer = document.getElementById('btn-transfer');
 
-btnGo.onclick = () => { window.open(NEW_DOMAIN, '_blank'); };
+btnGo.onclick = () => { window.location.href = NEW_DOMAIN; };
 
 if (rawSave) {
   // Показываем код сейва
@@ -223,15 +223,11 @@ if (rawSave) {
   btnTransfer.style.display = 'block';
 
   btnTransfer.onclick = () => {
-    // Кодируем сейв и настройки прямо в hash URL — никаких postMessage/opener
+    // Кодируем сейв и настройки прямо в hash URL — переходим в той же вкладке
     const settings = getSettings();
     const payload = rawSave + '|' + JSON.stringify(settings);
     const hash = '#kalguur:' + encodeURIComponent(payload);
-    window.open(NEW_DOMAIN + '/' + hash, '_blank');
-    btnTransfer.textContent = '✅ Открыта новая вкладка с вашим сохранением';
-    btnTransfer.style.borderColor = '#55aa55';
-    btnTransfer.style.color = '#55aa55';
-    btnTransfer.disabled = true;
+    window.location.href = NEW_DOMAIN + '/' + hash;
   };
 }
 </script>
