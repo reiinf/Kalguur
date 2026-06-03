@@ -284,14 +284,13 @@ if (!rawSave) {
 
   let transferDone = false;
 
-  // Fallback: enable button after 3s regardless
+  // Через 8с активируем кнопку в любом случае — но слушатель остаётся живым
   const fallbackTimer = setTimeout(() => {
     if (!transferDone) {
-      transferDone = true;
       setStatus('⚠️', 'Не удалось перенести автоматически — используйте код выше', 'warn');
       enableButton();
     }
-  }, 3000);
+  }, 8000);
 
   window.addEventListener('message', (e) => {
     if (e.origin !== NEW_DOMAIN) return;
