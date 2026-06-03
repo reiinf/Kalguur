@@ -173,10 +173,6 @@
   <button class="btn-go" id="btn-go" style="margin-top:10px">⚔ ПЕРЕЙТИ В ИГРУ</button>
 </div>
 
-<div id="iframe-container" style="display:none">
-  <iframe id="target-iframe" style="width:1px;height:1px;opacity:0;position:absolute;top:-9999px"></iframe>
-</div>
-
 <script>
 const NEW_DOMAIN = 'https://cartographer-idle.vercel.app';
 const SAVE_KEY = 'kartahodec_save';
@@ -214,7 +210,7 @@ const rawSave = getRawSave();
 const btnGo = document.getElementById('btn-go');
 const btnTransfer = document.getElementById('btn-transfer');
 
-btnGo.onclick = () => { window.location.href = NEW_DOMAIN; };
+btnGo.onclick = () => { window.open(NEW_DOMAIN, '_blank'); };
 
 if (rawSave) {
   // Показываем код сейва
@@ -230,22 +226,22 @@ if (rawSave) {
     btnTransfer.disabled = true;
     btnTransfer.textContent = '⏳ Переносим...';
 
-    // Грузим iframe
-    const container = document.getElementById('iframe-container');
-    const iframe = document.getElementById('target-iframe');
-    container.style.display = 'block';
-    iframe.src = NEW_DOMAIN + '/';
+    // Открываем новый домен как полноценную вкладку с параметром
+    const newWin = window.open(NEW_DOMAIN + '/?transfer=1', '_blank');
 
     // Таймаут — если что-то пошло не так
     const fallback = setTimeout(() => {
+      window.removeEventListener('message', handler);
+      btnTransfer.disabled = false;
       btnTransfer.textContent = '⚠️ Не удалось — используйте код выше';
     }, 15000);
 
-    window.addEventListener('message', function handler(e) {
+    function handler(e) {
       if (e.origin !== NEW_DOMAIN) return;
 
       if (e.data === 'ready') {
-        iframe.contentWindow.postMessage({
+        // Новая вкладка открылась и готова — передаём данные
+        newWin.postMessage({
           type: 'kalguur_import',
           save: rawSave,
           settings: getSettings()
@@ -259,7 +255,9 @@ if (rawSave) {
         btnTransfer.style.borderColor = '#55aa55';
         btnTransfer.style.color = '#55aa55';
       }
-    });
+    }
+
+    window.addEventListener('message', handler);
   };
 }
 </script>
