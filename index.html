@@ -1,1 +1,327 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Картоходец — переезд</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Crimson+Text:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d0b08;
+    --bg2: #141210;
+    --gold: #c8a96e;
+    --gold-d: #8a6d3b;
+    --txt: #d4c9b0;
+    --txt-d: #7a6e5a;
+    --brd: #2a2418;
+    --red: #cc4444;
+    --grn: #55aa55;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
 
+  body {
+    background: var(--bg);
+    color: var(--txt);
+    font-family: 'Crimson Text', Georgia, serif;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+
+  /* Subtle background texture */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 50% 0%, rgba(200,169,110,0.04) 0%, transparent 60%),
+      radial-gradient(ellipse 40% 40% at 20% 80%, rgba(100,60,20,0.06) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .card {
+    position: relative;
+    z-index: 1;
+    background: var(--bg2);
+    border: 1px solid var(--brd);
+    max-width: 520px;
+    width: 100%;
+    padding: 36px 32px 28px;
+    /* PoE-style diagonal clip */
+    clip-path: polygon(12px 0, 100% 0, calc(100% - 12px) 100%, 0 100%);
+  }
+
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--gold-d), var(--gold), var(--gold-d), transparent);
+  }
+
+  .title {
+    font-family: 'Cinzel', serif;
+    font-size: 22px;
+    color: var(--gold);
+    letter-spacing: 2px;
+    margin-bottom: 6px;
+    text-align: center;
+  }
+
+  .subtitle {
+    font-size: 15px;
+    color: var(--txt-d);
+    text-align: center;
+    margin-bottom: 28px;
+    font-style: italic;
+  }
+
+  .divider {
+    border: none;
+    border-top: 1px solid var(--brd);
+    margin: 20px 0;
+  }
+
+  /* Status block */
+  .status-block {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    background: rgba(200,169,110,0.05);
+    border: 1px solid var(--brd);
+    border-radius: 2px;
+    margin-bottom: 20px;
+    font-size: 14px;
+    min-height: 42px;
+  }
+
+  .status-icon { font-size: 18px; flex-shrink: 0; }
+  .status-text { color: var(--txt-d); }
+  .status-text.ok { color: var(--grn); }
+  .status-text.warn { color: #cc9944; }
+
+  /* Save code */
+  .save-label {
+    font-family: 'Cinzel', serif;
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: var(--txt-d);
+    margin-bottom: 6px;
+  }
+
+  .save-box {
+    width: 100%;
+    height: 76px;
+    background: #080706;
+    border: 1px solid var(--brd);
+    color: var(--gold);
+    font-size: 10px;
+    font-family: monospace;
+    padding: 8px;
+    resize: none;
+    border-radius: 1px;
+    line-height: 1.4;
+    opacity: 0.85;
+  }
+  .save-box:focus { outline: none; border-color: var(--gold-d); }
+
+  .copy-hint {
+    font-size: 12px;
+    color: var(--txt-d);
+    margin-top: 5px;
+    font-style: italic;
+  }
+
+  /* Button */
+  .btn-go {
+    display: block;
+    width: 100%;
+    margin-top: 20px;
+    padding: 13px;
+    background: linear-gradient(180deg, rgba(200,169,110,0.18), rgba(200,169,110,0.06));
+    border: 1px solid var(--gold-d);
+    color: var(--gold);
+    font-family: 'Cinzel', serif;
+    font-size: 14px;
+    letter-spacing: 2px;
+    cursor: pointer;
+    clip-path: polygon(8px 0, 100% 0, calc(100% - 8px) 100%, 0 100%);
+    transition: background 0.2s, border-color 0.2s;
+    text-decoration: none;
+    text-align: center;
+  }
+  .btn-go:hover:not(:disabled) {
+    background: linear-gradient(180deg, rgba(200,169,110,0.28), rgba(200,169,110,0.10));
+    border-color: var(--gold);
+  }
+  .btn-go:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+  }
+
+  .no-save-note {
+    font-size: 13px;
+    color: var(--txt-d);
+    text-align: center;
+    font-style: italic;
+    margin-top: 16px;
+  }
+
+  #iframe-container { display: none; }
+</style>
+</head>
+<body>
+
+<div class="card">
+  <div class="title">⚔ КАРТОХОДЕЦ ПЕРЕЕХАЛ</div>
+  <div class="subtitle">Игра доступна по новому адресу</div>
+
+  <div class="status-block" id="status-block">
+    <span class="status-icon" id="status-icon">⏳</span>
+    <span class="status-text" id="status-text">Переносим сохранение...</span>
+  </div>
+
+  <div id="save-section" style="display:none">
+    <div class="save-label">КОД ВАШЕГО СОХРАНЕНИЯ</div>
+    <textarea class="save-box" id="save-code" readonly></textarea>
+    <div class="copy-hint">Если что-то пошло не так — скопируйте код и вставьте в игре через «Импорт сохранения»</div>
+  </div>
+
+  <button class="btn-go" id="btn-go" disabled>⚔ ПЕРЕЙТИ В ИГРУ</button>
+</div>
+
+<div id="iframe-container">
+  <iframe id="target-iframe" src="https://cartographer-idle.vercel.app/" style="width:1px;height:1px;opacity:0;position:absolute;top:-9999px"></iframe>
+</div>
+
+<script>
+const NEW_DOMAIN = 'https://cartographer-idle.vercel.app';
+const SAVE_KEY = 'kartahodec_save';
+const SETTINGS_KEYS = ['kalguur_lang', 'kalguur_volume', 'kalguur_fontOffset'];
+
+// Same key as ui-settings.js
+const _SAVE_KEY_XOR = [75,97,108,103,117,117,114,95,50,48,50,52,95,115,97,118,101];
+function _obfuscate(str) {
+  const bytes = new TextEncoder().encode(str);
+  const out = new Uint8Array(bytes.length);
+  for (let i = 0; i < bytes.length; i++) out[i] = bytes[i] ^ _SAVE_KEY_XOR[i % _SAVE_KEY_XOR.length];
+  let bin = '';
+  for (let i = 0; i < out.length; i++) bin += String.fromCharCode(out[i]);
+  return btoa(bin);
+}
+
+function setStatus(icon, text, cls) {
+  document.getElementById('status-icon').textContent = icon;
+  const el = document.getElementById('status-text');
+  el.textContent = text;
+  el.className = 'status-text' + (cls ? ' ' + cls : '');
+}
+
+function enableButton() {
+  const btn = document.getElementById('btn-go');
+  btn.disabled = false;
+  btn.href = NEW_DOMAIN;
+  btn.onclick = () => { window.location.href = NEW_DOMAIN; };
+}
+
+// Read raw save (without _icons — they're big and not needed for transfer)
+function getRawSave() {
+  const raw = localStorage.getItem(SAVE_KEY);
+  if (!raw || raw === 'reset') return null;
+  try {
+    const obj = JSON.parse(raw);
+    delete obj._icons;
+    return JSON.stringify(obj);
+  } catch(e) {
+    return null;
+  }
+}
+
+// Show encoded save code in textarea
+function showSaveCode(rawSave) {
+  const section = document.getElementById('save-section');
+  const ta = document.getElementById('save-code');
+  if (!rawSave) { section.style.display = 'none'; return; }
+  try {
+    const encoded = _obfuscate(rawSave);
+    ta.value = encoded;
+  } catch(e) {
+    ta.value = rawSave; // fallback: raw json
+  }
+  section.style.display = 'block';
+}
+
+// Collect settings to transfer alongside save
+function getSettings() {
+  const s = {};
+  SETTINGS_KEYS.forEach(k => {
+    const v = localStorage.getItem(k);
+    if (v !== null) s[k] = v;
+  });
+  return s;
+}
+
+// ── Main logic ─────────────────────────────────────────
+
+const rawSave = getRawSave();
+
+if (!rawSave) {
+  // No save on this domain at all
+  setStatus('📭', 'Сохранение не найдено на этом домене', '');
+  document.getElementById('save-section').style.display = 'none';
+  enableButton();
+} else {
+  // Show save code immediately
+  showSaveCode(rawSave);
+
+  // Start iframe transfer
+  document.getElementById('iframe-container').style.display = 'block';
+
+  let transferDone = false;
+
+  // Fallback: enable button after 3s regardless
+  const fallbackTimer = setTimeout(() => {
+    if (!transferDone) {
+      transferDone = true;
+      setStatus('⚠️', 'Не удалось перенести автоматически — используйте код выше', 'warn');
+      enableButton();
+    }
+  }, 3000);
+
+  window.addEventListener('message', (e) => {
+    if (e.origin !== NEW_DOMAIN) return;
+    if (transferDone) return;
+
+    if (e.data === 'ready') {
+      // New domain is ready — send save
+      const iframe = document.getElementById('target-iframe');
+      iframe.contentWindow.postMessage({
+        type: 'kalguur_import',
+        save: rawSave,
+        settings: getSettings()
+      }, NEW_DOMAIN);
+    }
+
+    if (e.data === 'done') {
+      transferDone = true;
+      clearTimeout(fallbackTimer);
+      setStatus('✅', 'Сохранение перенесено', 'ok');
+      enableButton();
+    }
+
+    if (e.data === 'has_save') {
+      transferDone = true;
+      clearTimeout(fallbackTimer);
+      setStatus('✅', 'На новом сайте уже есть сохранение', 'ok');
+      enableButton();
+    }
+  });
+}
+</script>
+</body>
+</html>
