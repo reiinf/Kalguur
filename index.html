@@ -1,187 +1,14 @@
-<!DOCTYPE html>
+html_content = """<!DOCTYPE html>
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Картоходец — переезд</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Crimson+Text:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
-<style>
-  :root {
-    --bg: #0d0b08;
-    --bg2: #141210;
-    --gold: #c8a96e;
-    --gold-d: #8a6d3b;
-    --txt: #d4c9b0;
-    --txt-d: #7a6e5a;
-    --brd: #2a2418;
-    --red: #cc4444;
-    --grn: #55aa55;
-  }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
 
-  body {
-    background: var(--bg);
-    color: var(--txt);
-    font-family: 'Crimson Text', Georgia, serif;
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-  }
+<!-- Моментальный редирект -->
+<meta http-equiv="refresh" content="0; url=https://cartographer-idle.vercel.app/">
 
-  /* Subtle background texture */
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background:
-      radial-gradient(ellipse 80% 60% at 50% 0%, rgba(200,169,110,0.04) 0%, transparent 60%),
-      radial-gradient(ellipse 40% 40% at 20% 80%, rgba(100,60,20,0.06) 0%, transparent 50%);
-    pointer-events: none;
-    z-index: 0;
-  }
-
-  .card {
-    position: relative;
-    z-index: 1;
-    background: var(--bg2);
-    border: 1px solid var(--brd);
-    max-width: 520px;
-    width: 100%;
-    padding: 36px 32px 28px;
-    /* PoE-style diagonal clip */
-    clip-path: polygon(12px 0, 100% 0, calc(100% - 12px) 100%, 0 100%);
-  }
-
-  .card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 2px;
-    background: linear-gradient(90deg, transparent, var(--gold-d), var(--gold), var(--gold-d), transparent);
-  }
-
-  .title {
-    font-family: 'Cinzel', serif;
-    font-size: 22px;
-    color: var(--gold);
-    letter-spacing: 2px;
-    margin-bottom: 6px;
-    text-align: center;
-  }
-
-  .subtitle {
-    font-size: 15px;
-    color: var(--txt-d);
-    text-align: center;
-    margin-bottom: 28px;
-    font-style: italic;
-  }
-
-  .divider {
-    border: none;
-    border-top: 1px solid var(--brd);
-    margin: 20px 0;
-  }
-
-  .save-label {
-    font-family: 'Cinzel', serif;
-    font-size: 14px;
-    letter-spacing: 2px;
-    color: var(--txt-d);
-    margin-bottom: 6px;
-  }
-
-  #save-section { margin-top: 20px; }
-
-  .save-box {
-    width: 100%;
-    height: 76px;
-    background: #080706;
-    border: 1px solid var(--brd);
-    color: var(--gold);
-    font-size: 14px;
-    font-family: monospace;
-    padding: 8px;
-    resize: none;
-    border-radius: 1px;
-    line-height: 1.4;
-    opacity: 0.85;
-  }
-  .save-box:focus { outline: none; border-color: var(--gold-d); }
-
-  .copy-hint {
-    font-size: 14px;
-    color: var(--txt-d);
-    margin-top: 5px;
-    font-style: italic;
-  }
-
-  /* Button */
-  .btn-go {
-    display: block;
-    width: 100%;
-    margin-top: 20px;
-    padding: 13px;
-    background: linear-gradient(180deg, rgba(200,169,110,0.18), rgba(200,169,110,0.06));
-    border: 1px solid var(--gold-d);
-    color: var(--gold);
-    font-family: 'Cinzel', serif;
-    font-size: 14px;
-    letter-spacing: 2px;
-    cursor: pointer;
-    clip-path: polygon(8px 0, 100% 0, calc(100% - 8px) 100%, 0 100%);
-    transition: background 0.2s, border-color 0.2s;
-    text-decoration: none;
-    text-align: center;
-  }
-  .btn-go:hover:not(:disabled) {
-    background: linear-gradient(180deg, rgba(200,169,110,0.28), rgba(200,169,110,0.10));
-    border-color: var(--gold);
-  }
-  .btn-go:disabled {
-    opacity: 0.35;
-    cursor: not-allowed;
-  }
-
-  .no-save-note {
-    font-size: 14px;
-    color: var(--txt-d);
-    text-align: center;
-    font-style: italic;
-    margin-top: 16px;
-  }
-
-  #iframe-container { display: none; }
-
-  .lang-switcher {
-    position: absolute;
-    top: 12px;
-    right: 16px;
-    display: flex;
-    gap: 6px;
-    align-items: center;
-    z-index: 2;
-  }
-  .lang-btn {
-    background: none;
-    border: none;
-    padding: 0;
-    cursor: pointer;
-    opacity: 0.35;
-    transition: opacity 0.15s, transform 0.15s;
-    display: flex;
-    align-items: center;
-    border-radius: 2px;
-    overflow: hidden;
-  }
-  .lang-btn:hover { opacity: 0.7; }
-  .lang-btn.active { opacity: 1; }
-  .lang-btn svg { display: block; width: 28px; height: 19px; }
-</style>
-  <!-- Google tag (gtag.js) -->
+<!-- Google tag (gtag.js) (сохранен из оригинального файла) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-E8HXKG8KD0"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
@@ -190,142 +17,56 @@
 
   gtag('config', 'G-E8HXKG8KD0');
 </script>
-  
+
+<style>
+  body {
+    background: #0d0b08;
+    color: #d4c9b0;
+    font-family: Georgia, serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    text-align: center;
+    padding: 20px;
+  }
+  .msg {
+    margin-bottom: 20px;
+    font-size: 18px;
+  }
+  a.btn {
+    display: inline-block;
+    padding: 12px 24px;
+    background: #141210;
+    border: 1px solid #8a6d3b;
+    color: #c8a96e;
+    text-decoration: none;
+    font-family: sans-serif;
+    letter-spacing: 1px;
+    transition: all 0.2s;
+  }
+  a.btn:hover {
+    background: #2a2418;
+    border-color: #c8a96e;
+  }
+</style>
 </head>
 <body>
 
-<div class="card">
+  <div class="msg">Игра переехала по новому адресу. Перенаправление...</div>
+  <a class="btn" href="https://cartographer-idle.vercel.app/">ПЕРЕЙТИ В ИГРУ</a>
 
-  <div class="lang-switcher">
-    <!-- Флаг России -->
-    <button class="lang-btn active" id="btn-ru" onclick="setLang('ru')" title="Русский">
-      <svg viewBox="0 0 28 19" xmlns="http://www.w3.org/2000/svg">
-        <rect width="28" height="19" fill="#fff"/>
-        <rect y="6.33" width="28" height="6.34" fill="#0039A6"/>
-        <rect y="12.67" width="28" height="6.33" fill="#D52B1E"/>
-      </svg>
-    </button>
-    <!-- Флаг Великобритании -->
-    <button class="lang-btn" id="btn-en" onclick="setLang('en')" title="English">
-      <svg viewBox="0 0 28 19" xmlns="http://www.w3.org/2000/svg">
-        <rect width="28" height="19" fill="#012169"/>
-        <!-- Диагонали белые -->
-        <line x1="0" y1="0" x2="28" y2="19" stroke="#fff" stroke-width="3.8"/>
-        <line x1="28" y1="0" x2="0" y2="19" stroke="#fff" stroke-width="3.8"/>
-        <!-- Диагонали красные -->
-        <line x1="0" y1="0" x2="28" y2="19" stroke="#C8102E" stroke-width="2.2"/>
-        <line x1="28" y1="0" x2="0" y2="19" stroke="#C8102E" stroke-width="2.2"/>
-        <!-- Крест белый -->
-        <rect x="11.2" y="0" width="5.6" height="19" fill="#fff"/>
-        <rect y="7.6" width="28" height="3.8" fill="#fff"/>
-        <!-- Крест красный -->
-        <rect x="12.2" y="0" width="3.6" height="19" fill="#C8102E"/>
-        <rect y="8.1" width="28" height="2.8" fill="#C8102E"/>
-      </svg>
-    </button>
-  </div>
+  <script>
+    // Резервный редирект через JavaScript
+    window.location.replace("https://cartographer-idle.vercel.app/");
+  </script>
 
-  <div class="title" id="t-title">⚔ КАРТОХОДЕЦ ПЕРЕЕХАЛ</div>
-  <div class="subtitle" id="t-subtitle">Игра доступна по новому адресу</div>
-
-  <div id="save-section" style="display:none">
-    <div class="save-label" id="t-save-label">КОД ВАШЕГО СОХРАНЕНИЯ</div>
-    <textarea class="save-box" id="save-code" readonly></textarea>
-    <div class="copy-hint" id="t-copy-hint">Если что-то пошло не так — скопируйте код и вставьте в игре через «Импорт сохранения»</div>
-  </div>
-
-  <button class="btn-go" id="btn-transfer" style="display:none">💾 <span id="t-btn-transfer">ПЕРЕНЕСТИ СОХРАНЕНИЕ</span></button>
-  <button class="btn-go" id="btn-go" style="margin-top:10px">⚔ <span id="t-btn-go">ПЕРЕЙТИ В ИГРУ</span></button>
-</div>
-
-<script>
-const NEW_DOMAIN = 'https://cartographer-idle.vercel.app';
-const SAVE_KEY = 'kartahodec_save';
-const SETTINGS_KEYS = ['kalguur_lang', 'kalguur_volume', 'kalguur_fontOffset'];
-
-// ── Переводы ─────────────────────────────────────────────
-const T = {
-  ru: {
-    title:       '⚔ КАРТОХОДЕЦ ПЕРЕЕХАЛ',
-    subtitle:    'Игра доступна по новому адресу',
-    saveLabel:   'КОД ВАШЕГО СОХРАНЕНИЯ',
-    copyHint:    'Если что-то пошло не так — скопируйте код и вставьте в игре через «Импорт сохранения»',
-    btnTransfer: 'ПЕРЕНЕСТИ СОХРАНЕНИЕ',
-    btnGo:       'ПЕРЕЙТИ В ИГРУ',
-  },
-  en: {
-    title:       '⚔ CARTOGRAPHER HAS MOVED',
-    subtitle:    'The game is available at a new address',
-    saveLabel:   'YOUR SAVE CODE',
-    copyHint:    'If something went wrong — copy the code and paste it in the game via "Import Save"',
-    btnTransfer: 'TRANSFER SAVE',
-    btnGo:       'GO TO GAME',
-  },
-};
-
-let _lang = 'ru';
-
-function setLang(lang) {
-  _lang = lang;
-  document.getElementById('btn-ru').classList.toggle('active', lang === 'ru');
-  document.getElementById('btn-en').classList.toggle('active', lang === 'en');
-  const s = T[lang];
-  document.getElementById('t-title').textContent       = s.title;
-  document.getElementById('t-subtitle').textContent    = s.subtitle;
-  document.getElementById('t-save-label').textContent  = s.saveLabel;
-  document.getElementById('t-copy-hint').textContent   = s.copyHint;
-  document.getElementById('t-btn-transfer').textContent = s.btnTransfer;
-  document.getElementById('t-btn-go').textContent      = s.btnGo;
-}
-
-// ── Обфускация ───────────────────────────────────────────
-const _SAVE_KEY_XOR = [75,97,108,103,117,117,114,95,50,48,50,52,95,115,97,118,101];
-function _obfuscate(str) {
-  const bytes = new TextEncoder().encode(str);
-  const out = new Uint8Array(bytes.length);
-  for (let i = 0; i < bytes.length; i++) out[i] = bytes[i] ^ _SAVE_KEY_XOR[i % _SAVE_KEY_XOR.length];
-  let bin = '';
-  for (let i = 0; i < out.length; i++) bin += String.fromCharCode(out[i]);
-  return btoa(bin);
-}
-
-function getRawSave() {
-  const raw = localStorage.getItem(SAVE_KEY);
-  if (!raw || raw === 'reset') return null;
-  try {
-    const obj = JSON.parse(raw);
-    delete obj._icons;
-    return JSON.stringify(obj);
-  } catch(e) { return null; }
-}
-
-function getSettings() {
-  const s = {};
-  SETTINGS_KEYS.forEach(k => { const v = localStorage.getItem(k); if (v !== null) s[k] = v; });
-  return s;
-}
-
-// ── Init ────────────────────────────────────────────────
-const rawSave = getRawSave();
-const btnGo = document.getElementById('btn-go');
-const btnTransfer = document.getElementById('btn-transfer');
-
-btnGo.onclick = () => { window.location.href = NEW_DOMAIN; };
-
-if (rawSave) {
-  const section = document.getElementById('save-section');
-  const ta = document.getElementById('save-code');
-  try { ta.value = _obfuscate(rawSave); } catch(e) { ta.value = rawSave; }
-  section.style.display = 'block';
-  btnTransfer.style.display = 'block';
-
-  btnTransfer.onclick = () => {
-    const settings = getSettings();
-    const payload = rawSave + '|' + JSON.stringify(settings);
-    const hash = '#kalguur:' + encodeURIComponent(payload);
-    window.location.href = NEW_DOMAIN + '/' + hash;
-  };
-}
-</script>
 </body>
-</html>
+</html>"""
+
+with open("index.html", "w", encoding="utf-8") as f:
+    f.write(html_content)
+
+print("File generated successfully.")
