@@ -1,3 +1,3 @@
-Старый адрес https://reiinf.github.io/Kalguur/
+Старый адрес https://reiinf.github.io/Kalguur
 
-Игра переехала на https://cartographer-idle.vercel.app/
+Игра переехала на https://cartographer-idle.vercel.app
